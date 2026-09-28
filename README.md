@@ -1,8 +1,12 @@
-# NorthStar Distribution Intelligence
+# Datrixon
+
+**ERP Analytics & Operational Intelligence**
+
+Datrixon is an end-to-end analytics engineering portfolio project that models how ERP data from a distribution business becomes decision-ready analytics. Datrixon is the platform; the distributor is fictional. The implementation uses synthetic data, without live ERP connectivity or enterprise authentication.
 
 [Live application](https://jithendra-data.github.io/northstar-distribution-intelligence/) · [Project & Architecture](https://jithendra-data.github.io/northstar-distribution-intelligence/#project-story) · [Actions](https://github.com/Jithendra-data/northstar-distribution-intelligence/actions)
 
-NorthStar helps a fictional distribution leadership team investigate margin movement, stock exposure, overdue purchasing, inactive customers, and service gaps. All records are synthetic. No real customer outcome, recovered revenue, or ROI is claimed.
+Datrixon helps a fictional distribution leadership team investigate margin movement, stock exposure, overdue purchasing, inactive customers, and service gaps. All records are synthetic. No real customer outcome, recovered revenue, or ROI is claimed.
 
 ## What runs today
 

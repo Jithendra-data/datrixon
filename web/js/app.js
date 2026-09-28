@@ -48,7 +48,7 @@ function setupFilters(data,k){
   document.querySelector('#margin').textContent=document.querySelector('#gm-kpi').textContent=margin===null?'—':`${margin.toFixed(1)}%`;
   document.querySelector('#yoy').textContent=period.changes.Revenue===null?'—':`${period.changes.Revenue>=0?'+':''}${period.changes.Revenue.toFixed(1)}%`;
   document.querySelector('.period').textContent=`${from} — ${to}`;drawCharts(trend);renderMetricContext(trend,from,to,region.value);polishKpis(data,trend,from,to,region.value);renderPeriodBadges(period);
-  document.dispatchEvent(new CustomEvent('northstar:filters',{detail:{from,to,region:region.value}}));
+  document.dispatchEvent(new CustomEvent('datrixon:filters',{detail:{from,to,region:region.value}}));
  }
  dates.addEventListener('change',apply);region.addEventListener('change',apply);apply();
 }
@@ -134,7 +134,7 @@ function finishLoading(){
 function hydrateShell(){
  const links=[...document.querySelectorAll('.sidebar nav a[href^="#"]')];
  const sections=links.map(a=>document.querySelector(a.getAttribute('href'))).filter(Boolean);
- const setActive=id=>links.forEach(a=>{const active=a.getAttribute('href')===`#${id}`;a.classList.toggle('active',active);if(active)a.setAttribute('aria-current','location');else a.removeAttribute('aria-current');if(active)document.querySelector('.crumb').textContent=`NorthStar / ${a.textContent.slice(1).trim()}`});
+ const setActive=id=>links.forEach(a=>{const active=a.getAttribute('href')===`#${id}`;a.classList.toggle('active',active);if(active)a.setAttribute('aria-current','location');else a.removeAttribute('aria-current');if(active)document.querySelector('.crumb').textContent=`Datrixon / ${a.textContent.slice(1).trim()}`});
  const nav=document.querySelector('.sidebar nav');nav.appendChild(nav.querySelector('[href="#project-story"]'));
  nav.querySelector('[href="#sales"]').insertAdjacentHTML('beforebegin','<div class="nav-group">ANALYTICS</div>');
  nav.querySelector('[href="#quality"]').insertAdjacentHTML('beforebegin','<div class="nav-group">ENGINEERING</div>');
@@ -164,7 +164,7 @@ function renderTables(data){
    box.querySelector('input').addEventListener('input',e=>{const q=e.target.value.toLowerCase();filtered=allRows.filter(row=>Object.values(row).some(v=>String(v??'').toLowerCase().includes(q)));page=0;draw()});
    box.querySelector('.previous').addEventListener('click',()=>{page--;draw()});box.querySelector('.next').addEventListener('click',()=>{page++;draw()});
    box.querySelectorAll('th').forEach(th=>th.querySelector('button').addEventListener('click',()=>{const c=columns[Number(th.dataset.col)][0],asc=th.dataset.direction!=='asc';box.querySelectorAll('th').forEach(header=>header.setAttribute('aria-sort','none'));th.setAttribute('aria-sort',asc?'ascending':'descending');th.dataset.direction=asc?'asc':'desc';filtered=[...filtered].sort((a,b)=>{const cmp=String(a[c]??'').localeCompare(String(b[c]??''),undefined,{numeric:true});return asc?cmp:-cmp});draw()}));
-   box.querySelector('.csv-button').addEventListener('click',()=>{const csv=[columns.map(c=>'"'+c[1].replaceAll('"','""')+'"').join(','),...filtered.map(row=>columns.map(c=>'"'+String(row[c[0]]??'').replaceAll('"','""')+'"').join(','))].join('\r\n');const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));a.download=`northstar-detail-${index+1}.csv`;a.click();URL.revokeObjectURL(a.href)});
+   box.querySelector('.csv-button').addEventListener('click',()=>{const csv=[columns.map(c=>'"'+c[1].replaceAll('"','""')+'"').join(','),...filtered.map(row=>columns.map(c=>'"'+String(row[c[0]]??'').replaceAll('"','""')+'"').join(','))].join('\r\n');const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));a.download=`datrixon-detail-${index+1}.csv`;a.click();URL.revokeObjectURL(a.href)});
    draw();
  });
 }
@@ -175,7 +175,7 @@ function drawCharts(rows){
  const base={animation:!prefersReducedMotion,animationDuration:300,aria:{enabled:true},tooltip:{trigger:'axis',backgroundColor:'#173549',borderWidth:0,textStyle:{color:'#fff'}},grid:{left:12,right:18,top:20,bottom:42,containLabel:true},xAxis:{type:'category',data:months,axisLabel:{color:'#596b7a',fontSize:11},axisLine:{lineStyle:{color:'#e7edef'}},axisTick:{show:false}},yAxis:{type:'value',axisLabel:{color:'#596b7a',fontSize:11,formatter:v=>`$${integer(v)}`},splitLine:{lineStyle:{color:'#eef2f3',type:'dashed'}}}};
  trend.setOption({...base,legend:{bottom:0,textStyle:{fontSize:10,color:'#71828b'}},series:[{name:'Revenue',type:'line',smooth:true,data:revenues,symbol:'none',lineStyle:{width:2.5,color:'#2b9b8c'},areaStyle:{color:'rgba(43,155,140,.10)'}},{name:'Gross profit',type:'line',smooth:true,data:profits,symbol:'none',lineStyle:{width:2,color:'#5487dc'}}]},true);
  margin.setOption({animation:!prefersReducedMotion,animationDuration:300,aria:{enabled:true},tooltip:{...base.tooltip,valueFormatter:value=>`${Number(value).toFixed(2)}%`},grid:{left:12,right:16,top:18,bottom:35,containLabel:true},xAxis:{type:'category',data:months,axisLabel:{color:'#596b7a',fontSize:11},axisLine:{lineStyle:{color:'#e7edef'}},axisTick:{show:false}},yAxis:{type:'value',axisLabel:{color:'#596b7a',fontSize:11,formatter:'{value}%'},splitLine:{lineStyle:{color:'#eef2f3',type:'dashed'}}},series:[{name:'Gross margin',type:'line',smooth:true,data:margins,symbol:'none',lineStyle:{width:2.5,color:'#d5a844'},areaStyle:{color:'rgba(213,168,68,.12)'}}]},true);
- if(!window.__northstarResizeBound){window.addEventListener('resize',()=>{echarts.getInstanceByDom(document.querySelector('#trend'))?.resize();echarts.getInstanceByDom(document.querySelector('#margin-chart'))?.resize()});window.__northstarResizeBound=true}
+ if(!window.__datrixonResizeBound){window.addEventListener('resize',()=>{echarts.getInstanceByDom(document.querySelector('#trend'))?.resize();echarts.getInstanceByDom(document.querySelector('#margin-chart'))?.resize()});window.__datrixonResizeBound=true}
 }
 renderQuality({});
 renderLineage({});

@@ -2,7 +2,7 @@
   "pipeline_metadata": {
     "dataset_type": "synthetic",
     "random_seed": null,
-    "refreshed_at_utc": "2026-09-25T04:00:41.498167+00:00",
+    "refreshed_at_utc": "2026-09-28T03:44:46.720606+00:00",
     "contract_version": 2,
     "data_through": "2025-12-31",
     "valuation_policy": "Signed ending quantity times current product unit cost. Negative positions included in net value and disclosed separately; not a financial inventory valuation.",
@@ -20,9 +20,9 @@
     },
     "timings": {
       "generation_seconds": 0.001,
-      "validation_model_seconds": 64.265,
-      "export_reconcile_seconds": 6.902,
-      "total_seconds": 71.168
+      "validation_model_seconds": 69.891,
+      "export_reconcile_seconds": 6.998,
+      "total_seconds": 76.89
     },
     "peak_python_allocations_mb": 223.06,
     "python_version": "3.12.14",
@@ -51075,7 +51075,7 @@
         "PassedRecords": 59387,
         "PassRate": 1.0,
         "Status": "PASS",
-        "RunDate": "2026-09-24",
+        "RunDate": "2026-09-27",
         "Severity": "BLOCKING",
         "ExceptionReason": ""
       },
@@ -51087,7 +51087,7 @@
         "PassedRecords": 75000,
         "PassRate": 1.0,
         "Status": "PASS",
-        "RunDate": "2026-09-24",
+        "RunDate": "2026-09-27",
         "Severity": "BLOCKING",
         "ExceptionReason": ""
       },
@@ -51099,7 +51099,7 @@
         "PassedRecords": 10000,
         "PassRate": 1.0,
         "Status": "PASS",
-        "RunDate": "2026-09-24",
+        "RunDate": "2026-09-27",
         "Severity": "BLOCKING",
         "ExceptionReason": ""
       },
@@ -51111,7 +51111,7 @@
         "PassedRecords": 170916,
         "PassRate": 1.0,
         "Status": "PASS",
-        "RunDate": "2026-09-24",
+        "RunDate": "2026-09-27",
         "Severity": "BLOCKING",
         "ExceptionReason": ""
       },
@@ -51123,7 +51123,7 @@
         "PassedRecords": 59387,
         "PassRate": 1.0,
         "Status": "PASS",
-        "RunDate": "2026-09-24",
+        "RunDate": "2026-09-27",
         "Severity": "BLOCKING",
         "ExceptionReason": ""
       },
@@ -51135,7 +51135,7 @@
         "PassedRecords": 215797,
         "PassRate": 1.0,
         "Status": "PASS",
-        "RunDate": "2026-09-24",
+        "RunDate": "2026-09-27",
         "Severity": "BLOCKING",
         "ExceptionReason": ""
       },
@@ -51147,7 +51147,7 @@
         "PassedRecords": 59387,
         "PassRate": 1.0,
         "Status": "PASS",
-        "RunDate": "2026-09-24",
+        "RunDate": "2026-09-27",
         "Severity": "BLOCKING",
         "ExceptionReason": ""
       },
@@ -51159,7 +51159,7 @@
         "PassedRecords": 170916,
         "PassRate": 1.0,
         "Status": "PASS",
-        "RunDate": "2026-09-24",
+        "RunDate": "2026-09-27",
         "Severity": "BLOCKING",
         "ExceptionReason": ""
       },
@@ -51171,7 +51171,7 @@
         "PassedRecords": 39605,
         "PassRate": 1.0,
         "Status": "PASS",
-        "RunDate": "2026-09-24",
+        "RunDate": "2026-09-27",
         "Severity": "BLOCKING",
         "ExceptionReason": ""
       },
@@ -51183,7 +51183,7 @@
         "PassedRecords": 10000,
         "PassRate": 1.0,
         "Status": "PASS",
-        "RunDate": "2026-09-24",
+        "RunDate": "2026-09-27",
         "Severity": "BLOCKING",
         "ExceptionReason": ""
       },
@@ -51195,7 +51195,7 @@
         "PassedRecords": 39605,
         "PassRate": 1.0,
         "Status": "PASS",
-        "RunDate": "2026-09-24",
+        "RunDate": "2026-09-27",
         "Severity": "BLOCKING",
         "ExceptionReason": ""
       },
@@ -51207,7 +51207,7 @@
         "PassedRecords": 170916,
         "PassRate": 1.0,
         "Status": "PASS",
-        "RunDate": "2026-09-24",
+        "RunDate": "2026-09-27",
         "Severity": "BLOCKING",
         "ExceptionReason": ""
       },
@@ -51219,7 +51219,7 @@
         "PassedRecords": 2000,
         "PassRate": 1.0,
         "Status": "PASS",
-        "RunDate": "2026-09-24",
+        "RunDate": "2026-09-27",
         "Severity": "BLOCKING",
         "ExceptionReason": ""
       },
@@ -51231,7 +51231,7 @@
         "PassedRecords": 59387,
         "PassRate": 1.0,
         "Status": "PASS",
-        "RunDate": "2026-09-24",
+        "RunDate": "2026-09-27",
         "Severity": "BLOCKING",
         "ExceptionReason": ""
       },
@@ -51243,7 +51243,7 @@
         "PassedRecords": 75000,
         "PassRate": 1.0,
         "Status": "PASS",
-        "RunDate": "2026-09-24",
+        "RunDate": "2026-09-27",
         "Severity": "BLOCKING",
         "ExceptionReason": ""
       },
@@ -51255,7 +51255,7 @@
         "PassedRecords": 10000,
         "PassRate": 1.0,
         "Status": "PASS",
-        "RunDate": "2026-09-24",
+        "RunDate": "2026-09-27",
         "Severity": "BLOCKING",
         "ExceptionReason": ""
       },
@@ -51267,7 +51267,7 @@
         "PassedRecords": 218183,
         "PassRate": 1.0,
         "Status": "PASS",
-        "RunDate": "2026-09-24",
+        "RunDate": "2026-09-27",
         "Severity": "BLOCKING",
         "ExceptionReason": ""
       },
@@ -51279,7 +51279,7 @@
         "PassedRecords": 4643,
         "PassRate": 1.0,
         "Status": "PASS",
-        "RunDate": "2026-09-24",
+        "RunDate": "2026-09-27",
         "Severity": "BLOCKING",
         "ExceptionReason": ""
       },
@@ -51291,7 +51291,7 @@
         "PassedRecords": 218183,
         "PassRate": 1.0,
         "Status": "PASS",
-        "RunDate": "2026-09-24",
+        "RunDate": "2026-09-27",
         "Severity": "BLOCKING",
         "ExceptionReason": ""
       },
@@ -51303,7 +51303,7 @@
         "PassedRecords": 6052,
         "PassRate": 0.7565,
         "Status": "FAIL",
-        "RunDate": "2026-09-24",
+        "RunDate": "2026-09-27",
         "Severity": "EXPECTED_SCENARIO",
         "ExceptionReason": "Generated stock-shortage scenario; not accepted for real ERP data."
       }

@@ -2,7 +2,7 @@
 
 ## Problem and owner
 
-A distribution planning lead needs to identify stock with no recent movement, while procurement reviews overdue inbound commitments and finance challenges the valuation. NorthStar provides a repeatable evidence path using synthetic records. No operational intervention or realized savings is claimed.
+A distribution planning lead needs to identify stock with no recent movement, while procurement reviews overdue inbound commitments and finance challenges the valuation. Datrixon provides a repeatable evidence path using synthetic records. No operational intervention or realized savings is claimed.
 
 ## Reproduce the observation
 

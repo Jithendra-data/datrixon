@@ -1,4 +1,4 @@
-"""Create reproducible, wholly fictional NorthStar master records."""
+"""Create reproducible, wholly fictional Datrixon master records."""
 from __future__ import annotations
 
 import numpy as np

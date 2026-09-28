@@ -1,7 +1,7 @@
 # Business Requirements
 
 ## Company and purpose
-NorthStar Distribution is a fictional US wholesale distributor serving roughly 5,000 trade customers from Denver, Dallas, Chicago, and Atlanta. This portfolio system demonstrates how synthetic ERP transactions can become trusted operational and executive insight. No real employer, customer, vendor, or transaction data is used.
+The demonstration business is a fictional US wholesale distributor serving roughly 5,000 trade customers from Denver, Dallas, Chicago, and Atlanta. This portfolio system demonstrates how synthetic ERP transactions can become trusted operational and executive insight. No real employer, customer, vendor, or transaction data is used.
 
 ## Stakeholders and decisions
 | Stakeholder | Decisions supported |

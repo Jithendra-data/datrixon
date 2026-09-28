@@ -14,7 +14,7 @@ function setupProjectPage(){
   document.querySelectorAll('#overview > .architecture-teaser').forEach(teaser=>teaser.hidden=domain);
   const mobile=document.querySelector('#mobile-nav');if(mobile)mobile.value=isProject?'#project-story':domain?location.hash:'#overview';
   document.querySelectorAll('.sidebar nav a').forEach(a=>{const active=isProject?a.hash==='#project-story':a.hash===(location.hash||'#overview');a.classList.toggle('active',active);if(active)a.setAttribute('aria-current','location');else a.removeAttribute('aria-current')});
-  document.querySelector('.crumb').textContent=isProject?'NorthStar / Project & Architecture':'NorthStar / Executive overview';
+  document.querySelector('.crumb').textContent=isProject?'Datrixon / Project & Architecture':'Datrixon / Executive overview';
   requestAnimationFrame(()=>{const target=document.querySelector(projectHashes.includes(location.hash)?location.hash:location.hash&&/^#[a-z-]+$/.test(location.hash)?location.hash:'#overview');if(!location.hash||location.hash==='#overview')window.scrollTo({top:0,behavior:'instant'});else target?.scrollIntoView({behavior:'instant',block:'start'});if(!isProject)window.dispatchEvent(new Event('resize'))});
  };
  window.addEventListener('hashchange',sync);sync();
@@ -70,7 +70,7 @@ function renderLineage(data){
  ['Star Schema','Dimensions & facts','Conformed dimensions and transaction-grain facts define the analytical model. The hosted refresh loads an enforced SQLite reference warehouse. SQL Server scripts are a separate proposed deployment design.','sql/sqlite/warehouse.sql'],
  ['Analytics Marts','Business measures','Monthly sales run through the SQLite MonthlySales view. Operational analytics consume normalized staging CSVs. The analytics builder runs once per refresh.','etl/build_analytics.py'],
  ['Quality Controls','Checks & reconciliation','Mandatory source checks, enforced warehouse keys, and five independent reconciliations block publication on failure. See Data Quality for this run’s results and the synthetic negative-stock exception.','validation'],
- ['dashboard.json','Published data contract','The export packages KPI values, monthly series, business findings, quality results, and detail rows into a single JSON file consumed by NorthStar.','web/data/dashboard.json'],
+ ['dashboard.json','Published data contract','The export packages KPI values, monthly series, business findings, quality results, and detail rows into a single JSON file consumed by Datrixon.','web/data/dashboard.json'],
  ['Dashboard','Published intelligence','The exporter writes dashboard.json. GitHub Pages serves the static application, which reads the published export for KPIs, charts, signals, and detail tables.','etl/export_dashboard_data.py']
  ];
  const old=document.querySelector('#architecture .flowline');const box=document.createElement('div');box.className='lineage';
