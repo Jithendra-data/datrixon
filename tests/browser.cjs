@@ -6,6 +6,16 @@ const root=path.resolve('web');const server=http.createServer((req,res)=>{const 
  // Exercise the public application's graceful CDN fallback deterministically.
  await page.route('**/*',route=>route.request().url().startsWith(url)?route.continue():route.abort());
  await page.goto(url);await page.waitForSelector('.trust-reconciliation',{state:'attached'});await page.waitForSelector('body:not(.is-loading)');
+ const payload=JSON.parse(fs.readFileSync(path.join(root,'data/dashboard.json'),'utf8'));
+ for(const [key,coverage] of Object.entries(payload.extract_coverage)){
+  const table=page.locator(`[data-extract="${key}"]`);
+  assert.equal(await table.count(),1,`Table identity ${key}`);
+  assert((await table.locator('.coverage-note').textContent()).includes(coverage.selection),`Coverage ${key}`);
+ }
+ await page.locator('.signal-card[data-focus^="V"]').click();
+ assert.equal(await page.locator('[data-extract="vendor_performance"] input').inputValue(),payload.business_findings.supplier_deterioration.VendorID);
+ assert.match(await page.locator('.period').textContent(),/Purchasing snapshot/);
+ await page.locator('.sidebar a[href="#overview"]').click();
  assert.equal(await page.locator('.signal-card').count(),5);assert.equal(await page.locator('.kpi-sparkline').count(),8);
  await page.selectOption('#date-from','2024-11');await page.selectOption('#date-to','2025-02');assert.notEqual(await page.locator('#yoy').textContent(),'—');const revenue=await page.locator('#revenue').textContent();await page.selectOption('#date-from','2025-12');assert.equal(await page.locator('#revenue').textContent(),revenue);assert.match(await page.locator('#filter-error').textContent(),/last valid/);
  await page.locator('.sidebar a[href="#quality"]').click();assert(!(await page.locator('.trust-reconciliation tbody tr').filter({hasText:'Units'}).textContent()).includes('$'));

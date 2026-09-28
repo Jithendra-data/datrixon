@@ -22,6 +22,7 @@ async function loadDashboard(){
     renderFindings(data.business_findings||{});
     renderTrust(data);
     renderDecisionEvidence(data);
+    document.querySelector(".period").dataset.asof=run.data_through;window.dispatchEvent(new Event("hashchange"));
     finishLoading();
   }catch(error){
    document.querySelector('.hero-status b').textContent='Data unavailable';
@@ -47,7 +48,7 @@ function setupFilters(data,k){
   document.querySelector('#revenue').textContent=trend.length?money(current.Revenue):'—';document.querySelector('#profit').textContent=trend.length?money(current.GrossProfit):'—';document.querySelector('#orders').textContent=trend.length?integer(current.Orders):'—';
   document.querySelector('#margin').textContent=document.querySelector('#gm-kpi').textContent=margin===null?'—':`${margin.toFixed(1)}%`;
   document.querySelector('#yoy').textContent=period.changes.Revenue===null?'—':`${period.changes.Revenue>=0?'+':''}${period.changes.Revenue.toFixed(1)}%`;
-  document.querySelector('.period').textContent=`${from} — ${to}`;drawCharts(trend);renderMetricContext(trend,from,to,region.value);polishKpis(data,trend,from,to,region.value);renderPeriodBadges(period);
+  document.querySelector('.period').textContent=`${from} — ${to}`;document.querySelector('.period').dataset.financial=`${from} — ${to}`;drawCharts(trend);renderMetricContext(trend,from,to,region.value);polishKpis(data,trend,from,to,region.value);renderPeriodBadges(period);
   document.dispatchEvent(new CustomEvent('datrixon:filters',{detail:{from,to,region:region.value}}));
  }
  dates.addEventListener('change',apply);region.addEventListener('change',apply);apply();
@@ -73,8 +74,8 @@ function renderFindings(f){
  const cards=[
   ['SUPPLIER RELIABILITY',`${v[years[0]]??'—'} → ${v[years.at(-1)]??'—'} days`,`Vendor V0001 actual receipt lead time by year`],
   ['WAREHOUSE SERVICE',`${(f.warehouse_average_ship_days||{}).ATL??'—'} days`,`Atlanta average order-to-ship time`],
-  ['INVENTORY EXPOSURE',`${integer(f.critical_stockout_sku_warehouse_rows)} critical rows`,`Dead inventory at ${money(f.dead_inventory_value)}`],
-  ['CUSTOMER RETENTION',`${integer(f.valuable_customers_inactive_over_60_days)} accounts`,`Over $25K lifetime revenue and 60+ days inactive`],
+  ['INVENTORY EXPOSURE',`${integer(f.critical_stockout_sku_warehouse_rows)} critical rows`,`Inventory with no shipments in 90 days at ${money(f.dead_inventory_value)}`],
+  ['CUSTOMER RETENTION',`${integer(f.valuable_customers_inactive_over_60_days)} accounts`,`Over $25K historical invoiced revenue and 60+ days inactive`],
   ['DISCOUNT & MARGIN',`${((last.discount_rate||0)*100).toFixed(1)}% discount`,`Snacks margin ${((first.gross_margin||0)*100).toFixed(1)}% → ${((last.gross_margin||0)*100).toFixed(1)}%`],
   ['PRODUCT QUALITY',`${((f.health_2025_return_amount_rate||0)*100).toFixed(1)}% returns`,`Health return amount as a share of 2025 revenue`]
  ];
@@ -147,18 +148,18 @@ function hydrateShell(){
 }
 function renderTables(data){
  const specs=[
-  ['#sales','Category revenue and margin',data.sales_by_category,[['CategoryName','Category'],['Revenue','Revenue','money'],['GrossProfit','Gross profit','money'],['GrossMarginPct','Gross margin','percent'],['Units','Units','number']]],
-  ['#customers','Customer value and recency',data.customer_performance,[['CustomerName','Customer'],['Region','Region'],['CustomerGroup','Group'],['LifetimeRevenue','Lifetime revenue','money'],['LastPurchaseDate','Last purchase'],['DaysInactive','Days inactive','number'],['Segment','Segment']]],
-  ['#inventory','SKU availability and stock risk',data.inventory_detail,[['SKU','SKU'],['ProductName','Product'],['CategoryName','Category'],['WarehouseID','Warehouse'],['AvailableQty','Available qty','number'],['Sales30Day','30-day sales','number'],['Sales90Day','90-day sales','number'],['DaysOnHand','Days on hand','number'],['InboundQty','Inbound','number'],['RiskLevel','Risk']]],
-  ['#purchasing','Outstanding purchase commitments',data.open_purchase_orders,[['PONumber','PO'],['VendorName','Vendor'],['ExpectedDeliveryDate','Expected'],['DaysLate','Days late','number'],['RemainingQuantity','Remaining qty','number'],['RemainingValue','Remaining value','money']]],
-  ['#purchasing','Vendor delivery and fill',data.vendor_performance,[['VendorID','Vendor ID'],['POCount','PO count','number'],['OrderedQuantity','Ordered qty','number'],['ReceivedQuantity','Received qty','number'],['FillRate','Fill rate','percent'],['POValue','PO value','money']]],
-  ['#operations','Warehouse service performance',data.warehouse_performance,[['WarehouseID','Warehouse'],['AvgOrderToShipDays','Avg ship days','number'],['ShippedOrders','Orders shipped','number'],['Backorders','Backorders','number']]],
-  ['#operations','Customer return reasons',data.returns_by_reason,[['ReturnReason','Reason'],['Returns','Return lines','number'],['ReturnAmount','Return amount','money']]],
-  ['#sales','Top invoiced sales lines',data.sales_detail,[['InvoiceDate','Invoice date'],['CustomerID','Customer'],['Region','Region'],['SKU','SKU'],['ProductName','Product'],['CategoryName','Category'],['Channel','Channel'],['Quantity','Units','number'],['Revenue','Revenue','money'],['DiscountAmount','Discount','money'],['GrossProfit','Gross profit','money']]]
+  ['#sales','Category revenue and margin', 'sales_by_category', [['CategoryName','Category'],['Revenue','Revenue','money'],['GrossProfit','Gross profit','money'],['GrossMarginPct','Gross margin','percent'],['Units','Units','number']]],
+  ['#customers','Customer value and recency', 'customer_performance', [['CustomerName','Customer'],['Region','Region'],['CustomerGroup','Group'],['LifetimeRevenue','Historical invoiced revenue','money'],['LastPurchaseDate','Last purchase'],['DaysInactive','Days inactive','number'],['Segment','Segment']]],
+  ['#inventory','SKU availability and stock risk', 'inventory_detail', [['SKU','SKU'],['ProductName','Product'],['CategoryName','Category'],['WarehouseID','Warehouse'],['AvailableQty','Available qty','number'],['Sales30Day','30-day sales','number'],['Sales90Day','90-day sales','number'],['DaysOnHand','Days on hand','number'],['InboundQty','Inbound','number'],['RiskLevel','Risk']]],
+  ['#purchasing','Outstanding purchase commitments', 'open_purchase_orders', [['PONumber','PO'],['VendorName','Vendor'],['ExpectedDeliveryDate','Expected'],['DaysLate','Days late','number'],['RemainingQuantity','Remaining qty','number'],['RemainingValue','Remaining value','money']]],
+  ['#purchasing','Vendor delivery and fill', 'vendor_performance', [['VendorID','Vendor ID'],['POCount','PO count','number'],['OrderedQuantity','Ordered qty','number'],['ReceivedQuantity','Received qty','number'],['FillRate','Quantity fill rate','percent'],['POValue','PO value','money']]],
+  ['#operations','Warehouse service performance', 'warehouse_performance', [['WarehouseID','Warehouse'],['AvgOrderToShipDays','Avg ship days','number'],['ShippedOrders','Orders shipped','number'],['Backorders','Backorders','number']]],
+  ['#operations','Customer return reasons', 'returns_by_reason', [['ReturnReason','Reason'],['Returns','Return lines','number'],['ReturnAmount','Return amount','money']]],
+  ['#sales','Top invoiced sales lines', 'sales_detail', [['InvoiceDate','Invoice date'],['CustomerID','Customer'],['Region','Region'],['SKU','SKU'],['ProductName','Product'],['CategoryName','Category'],['Channel','Channel'],['Quantity','Units','number'],['Revenue','Revenue','money'],['DiscountAmount','Discount','money'],['GrossProfit','Gross profit','money']]]
  ];
- specs.forEach(([selector,title,rows,columns],index)=>{
-   const section=document.querySelector(selector); if(!section||!Array.isArray(rows)||!rows.length)return;
-   const box=document.createElement('article');box.className='data-table-card';box.innerHTML=`<div class="table-head"><h3>${h(title)}</h3><div><input type="search" placeholder="Search rows…" aria-label="Search ${h(title)}"><button type="button" class="csv-button">Download CSV</button></div></div><div class="table-scroll"><table><thead><tr>${columns.map((c,i)=>`<th data-col="${i}" scope="col" aria-sort="none"><button class="sort-button" type="button">${h(c[1])} <span aria-hidden="true">↕</span></button></th>`).join('')}</tr></thead><tbody></tbody></table></div><div class="table-pager"><button type="button" class="previous">Previous</button><small></small><button type="button" class="next">Next</button></div>`;
+ specs.forEach(([selector,title,datasetKey,columns],index)=>{
+   const rows=data[datasetKey];const section=document.querySelector(selector); if(!section||!Array.isArray(rows)||!rows.length)return;
+   const box=document.createElement('article');box.className='data-table-card';box.dataset.extract=datasetKey;box.innerHTML=`<div class="table-head"><h3>${h(title)}</h3><div><input type="search" placeholder="Search rows…" aria-label="Search ${h(title)}"><button type="button" class="csv-button">Download CSV</button></div></div><div class="table-scroll"><table><thead><tr>${columns.map((c,i)=>`<th data-col="${i}" scope="col" aria-sort="none"><button class="sort-button" type="button">${h(c[1])} <span aria-hidden="true">↕</span></button></th>`).join('')}</tr></thead><tbody></tbody></table></div><div class="table-pager"><button type="button" class="previous">Previous</button><small></small><button type="button" class="next">Next</button></div>`;
    section.appendChild(box); let page=0, allRows=[...rows], filtered=allRows;const size=40,tbody=box.querySelector('tbody'),status=box.querySelector('.table-pager small');
    function draw(){const pages=Math.max(1,Math.ceil(filtered.length/size));page=Math.min(page,pages-1);tbody.innerHTML=filtered.slice(page*size,(page+1)*size).map(row=>`<tr>${columns.map(c=>{let v=row[c[0]];if(c[2]==='money')v=money(Number(v));else if(c[2]==='percent')v=`${(Number(v)*100).toFixed(1)}%`;else if(c[2]==='number'&&v!=null)v=integer(Number(v));return `<td>${h(v==null?'—':v)}</td>`}).join('')}</tr>`).join('');if(!filtered.length)tbody.innerHTML=`<tr><td class="table-empty" colspan="${columns.length}">No matching records. Try another search.</td></tr>`;status.textContent=`${filtered.length? page*size+1:0}–${Math.min((page+1)*size,filtered.length)} of ${filtered.length}`;box.querySelector('.previous').disabled=page===0;box.querySelector('.next').disabled=page>=pages-1;}
    box.querySelector('input').addEventListener('input',e=>{const q=e.target.value.toLowerCase();filtered=allRows.filter(row=>Object.values(row).some(v=>String(v??'').toLowerCase().includes(q)));page=0;draw()});

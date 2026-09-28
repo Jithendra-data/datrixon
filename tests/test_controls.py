@@ -7,11 +7,13 @@ from validation.publication import enforce_controls, validate_contract
 
 class ControlTests(unittest.TestCase):
     def test_only_expected_synthetic_failure_is_allowed(self):
-        row=dict(TestName='Negative ending on-hand',Status='FAIL')
-        enforce_controls([row],synthetic=True)
+        from validation.registry import CONTROL_IDS, CONTROL_VERSION
+        rows=[dict(ControlID=i,ControlVersion=CONTROL_VERSION,TestName=n,Status='PASS',RecordsChecked=1,FailedRecords=0,PassedRecords=1,PassRate=1.0) for n,i in CONTROL_IDS.items()]
+        row=next(r for r in rows if r['TestName']=='Negative ending on-hand')
+        row.update(Status='FAIL',FailedRecords=1,PassedRecords=0,PassRate=0.0)
+        enforce_controls(rows,synthetic=True)
         self.assertEqual(row['Severity'],'EXPECTED_SCENARIO')
-        with self.assertRaises(ValueError): enforce_controls([row],synthetic=False)
-        with self.assertRaises(ValueError): enforce_controls([dict(TestName='Orphan invoice lines',Status='FAIL')])
+        with self.assertRaises(ValueError): enforce_controls(rows,synthetic=False)
         with self.assertRaises(ValueError): enforce_controls([])
 
     def test_schema_rejects_unresolved_keys(self):

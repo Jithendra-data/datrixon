@@ -17,7 +17,9 @@
 | Overdue commitment | Open value where ExpectedDeliveryDate precedes business cutoff | Aging buckets: 0, 1–30, 31–90, 91+ days |
 | On-time shipment rate | ActualShipDate <= RequestedShipDate among shipped orders | Not delivery OTIF; excludes unshipped orders |
 | Vendor fill rate | Received / ordered quantity | Not on-time-in-full; receipts span periods |
-| Inactive valuable customers | Lifetime revenue >= $25K and >60 days since last invoice | Lifetime revenue is not current revenue at risk; recent 90-day revenue is separately exported |
+| Inactive valuable customers | Lifetime revenue >= $25K and >60 days since last invoice | Historical invoiced revenue is not customer lifetime value or current revenue at risk; recent 90-day revenue is separately exported |
 | Top-10 concentration | Top 10 customers' lifetime revenue / total | Full dataset; positive synthetic invoices |
 
 Reconciliation uses exact totals: USD tolerance 0.01, units tolerance 0.000001. Currency formatting is never applied to units. SQLite REAL and pandas float calculations use explicit tolerance; production finance requires an approved decimal policy. Detail extracts disclose caps and do not necessarily sum to full-dataset KPI totals.
+
+Customer labels: Inactive >180 days, At Risk >90 days, otherwise Active. These are recency rules, not verified churn. Inventory with no shipments in trailing 90 days is a review candidate, not proven obsolescence.

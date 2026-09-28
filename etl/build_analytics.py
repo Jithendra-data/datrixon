@@ -22,7 +22,7 @@ def build(input_dir: Path=PROCESSED_DIR, output_dir: Path=PROCESSED_DIR, warehou
     customer=sales.groupby("CustomerID",as_index=False).agg(LifetimeRevenue=("Revenue","sum"),GrossProfit=("GrossProfit","sum"),LastPurchaseDate=("InvoiceDate","max"),Orders=("InvoiceID","nunique"))
     customer=customer.merge(dimc[["CustomerID","CustomerName","CustomerGroup","Region","SalesRepID"]],on="CustomerID",how="left")
     customer["DaysInactive"]=(sales.InvoiceDate.max()-pd.to_datetime(customer.LastPurchaseDate)).dt.days
-    customer["Segment"]=customer.DaysInactive.map(lambda d:"Lost" if d>180 else "At Risk" if d>90 else "Active")
+    customer["Segment"]=customer.DaysInactive.map(lambda d:"Inactive >180 days" if d>180 else "At Risk" if d>90 else "Active")
     products=pd.read_csv(input_dir/"Product.csv")
     product=sales.groupby("ProductID",as_index=False).agg(Revenue=("Revenue","sum"),Units=("Quantity","sum"),GrossProfit=("GrossProfit","sum"))
     product=product.merge(products[["ProductID","SKU","ProductName","CategoryName","VendorID","UnitCost"]],on="ProductID",how="right").fillna({"Revenue":0,"Units":0,"GrossProfit":0})

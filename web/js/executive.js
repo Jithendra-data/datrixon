@@ -8,6 +8,11 @@ function setupProjectPage(){
   const isProject=projectHashes.includes(location.hash);
   project.hidden=!isProject;overview.hidden=isProject;
   document.querySelector('.period').hidden=isProject;
+  const scope={inventory:'Inventory snapshot',quality:'Publication controls',customers:'All available customer history',sales:'All available sales history',purchasing:'Purchasing snapshot and receipt history',operations:'All available operations history'};
+  const period=document.querySelector('.period');
+  if(!period.dataset.financial)period.dataset.financial=period.textContent;
+  if(scope[location.hash.slice(1)])period.textContent=scope[location.hash.slice(1)]+' · through '+(period.dataset.asof||'2025-12-31');
+  else period.textContent=period.dataset.financial;
   const domain=['#sales','#customers','#inventory','#purchasing','#operations','#quality'].includes(location.hash);
   document.querySelector('.executive-home').hidden=domain;
   document.querySelectorAll('#overview > .placeholder-section').forEach(section=>section.hidden=location.hash!==`#${section.id}`);
@@ -47,11 +52,11 @@ function renderExecutiveSignals(data){
  const f=data.business_findings||{},k=data.executive_kpis||{},candidates=[];
  const add=(score,title,value,detail,target)=>{if(Number.isFinite(score))candidates.push({score,title,value,detail,target})};
  const exposure=Number(f.dead_inventory_value),stock=Number(f.critical_stockout_sku_warehouse_rows);
- if(exposure>0||stock>0)add(80+Math.min(20,exposure/Math.max(1,k.inventory_value)*20),'Inventory exposure',money(exposure)+' dead inventory',`${integer(stock)} critical SKU / warehouse positions require review.`,'inventory');
+ if(exposure>0||stock>0)add(80+Math.min(20,exposure/Math.max(1,k.inventory_value)*20),'Inventory exposure',money(exposure)+' inventory with no shipments in 90 days',`${integer(stock)} critical SKU / warehouse positions require review.`,'inventory');
  const supplier=f.supplier_deterioration;
  if(supplier)add(supplier.ChangeDays>0?75+Math.min(20,supplier.ChangeDays):25,'Supplier lead time',`${supplier.ChangeDays>=0?'+':''}${supplier.ChangeDays.toFixed(1)} days`,`${supplier.VendorID}: ${supplier.FromDays.toFixed(1)} days in ${supplier.FromYear} → ${supplier.ToDays.toFixed(1)} in ${supplier.ToYear}. Largest deterioration among vendors with both years.`,'purchasing');
  const count=Number(f.valuable_customers_inactive_over_60_days);
- if(count>0)add(70+Math.min(10,count/10),'Customer retention',`${integer(count)} high-value accounts`,'Each exceeds $25K lifetime revenue and has been inactive for over 60 days.','customers');
+ if(count>0)add(70+Math.min(10,count/10),'Customer retention',`${integer(count)} high-value accounts`,'Each exceeds $25K historical invoiced revenue and has been inactive for over 60 days.','customers');
  const warehouses=Object.entries(f.warehouse_average_ship_days||{}).filter(([,v])=>Number.isFinite(v)).sort((a,b)=>b[1]-a[1]);
  if(warehouses.length>1){const slow=warehouses[0],fast=warehouses.at(-1);add(55+Math.min(20,(slow[1]-fast[1])*5),'Warehouse service',`${slow[0]} · ${slow[1].toFixed(1)} days`,`${(slow[1]-fast[1]).toFixed(1)} days slower than ${fast[0]} on average order-to-ship time.`,'operations')}
  const trend=data.sales_trend||[],a=trend.at(-2),b=trend.at(-1);

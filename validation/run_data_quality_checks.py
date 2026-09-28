@@ -6,13 +6,15 @@ from pathlib import Path
 import pandas as pd
 from utils.config import RAW_DIR
 from utils.helpers import write_csv
+from validation.registry import CONTROL_IDS, CONTROL_VERSION
+from validation.lifecycle import lifecycle_checks
 
 def validate(source: Path=RAW_DIR) -> pd.DataFrame:
     def read(name): return pd.read_csv(source/f"{name}.csv")
     checks=[]
     def add(name, frame, failures, domain):
         checked=len(frame); failed=int(failures.sum()) if hasattr(failures,"sum") else int(failures)
-        checks.append({"TestName":name,"Domain":domain,"RecordsChecked":checked,"FailedRecords":failed,"PassedRecords":checked-failed,"PassRate":(checked-failed)/checked if checked else 1.0,"Status":"PASS" if failed==0 else "FAIL","RunDate":date.today().isoformat()})
+        checks.append({"ControlID":CONTROL_IDS[name],"ControlVersion":CONTROL_VERSION,"TestName":name,"Domain":domain,"RecordsChecked":checked,"FailedRecords":failed,"PassedRecords":checked-failed,"PassRate":(checked-failed)/checked if checked else 1.0,"Status":"PASS" if failed==0 else "FAIL","RunDate":date.today().isoformat()})
     for name,key in [("InvoiceHeader","InvoiceID"),("SalesOrderHeader","SalesOrderID"),("PurchaseOrderHeader","PONumber")]:
         f=read(name); add(f"Duplicate {key}",f,f[key].duplicated(keep=False),"Transactions")
     ih,il=read("InvoiceHeader"),read("InvoiceLine")
@@ -31,16 +33,15 @@ def validate(source: Path=RAW_DIR) -> pd.DataFrame:
     add("Missing or nonpositive product cost",p,p.UnitCost.isna()|(p.UnitCost<=0),"Product")
     for table,columns in [("InvoiceHeader",["InvoiceDate"]),("SalesOrderHeader",["OrderDate"]),("PurchaseOrderHeader",["CreatedDate","ExpectedDeliveryDate"]),("InventoryTransaction",["TransactionDate"]),("CustomerReturn",["ReturnDate"])]:
         f=read(table)
-        if len(f):
-            invalid=pd.Series(False,index=f.index)
-            for column in columns:
-                if column in f: invalid |= pd.to_datetime(f[column],errors="coerce").isna()
-            add(f"Invalid {table} dates",f,invalid,"Dates")
+        invalid=pd.Series(False,index=f.index)
+        for column in columns:
+            invalid |= pd.to_datetime(f[column],errors="coerce").isna()
+        add(f"Invalid {table} dates",f,invalid,"Dates")
     tx=read("InventoryTransaction")
-    if len(tx):
-        add("Invalid inventory warehouse",tx,~tx.WarehouseID.isin(w.WarehouseID),"Inventory")
-        balances=tx.groupby(["ProductID","WarehouseID"],as_index=False).Quantity.sum().rename(columns={"Quantity":"EndingOnHand"})
-        add("Negative ending on-hand",balances,balances.EndingOnHand<0,"Inventory")
+    add("Invalid inventory warehouse",tx,~tx.WarehouseID.isin(w.WarehouseID),"Inventory")
+    balances=tx.groupby(["ProductID","WarehouseID"],as_index=False).Quantity.sum().rename(columns={"Quantity":"EndingOnHand"})
+    add("Negative ending on-hand",balances,balances.EndingOnHand<0,"Inventory")
+    lifecycle_checks(read, add)
     return pd.DataFrame(checks)
 
 def main():

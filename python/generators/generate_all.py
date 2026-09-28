@@ -59,17 +59,19 @@ def build_transactions(m: dict[str, pd.DataFrame], orders_n: int, pos_n: int) ->
             gp = round(revenue - cost*qty, 2)
             row={"SalesOrderID":order_id,"LineNumber":ln,"ProductID":p.ProductID,"Quantity":qty,"UnitPrice":price,"DiscountPercent":round(discount,4),"DiscountAmount":discount_amount,"LineRevenue":revenue,"UnitCost":round(cost,2),"LineCOGS":round(cost*qty,2),"GrossProfit":gp}
             lines.append(row); order_rows.append((row,p))
+        if status in ["Shipped", "Invoiced"]:
+            for row,p in order_rows:
+                invtx.append({"InventoryTransactionID":f"IT{len(invtx)+1:08}","ProductID":p.ProductID,"WarehouseID":wh.WarehouseID,"TransactionDate":min(end,day+pd.Timedelta(days=ship_days)),"TransactionType":"Sales Shipment","Quantity":-row["Quantity"],"ReferenceNumber":order_id,"UnitCost":row["UnitCost"]})
         if status == "Invoiced":
             invoice_id=f"INV{n:07}"; invoice_date=min(end,day+pd.Timedelta(days=ship_days)); invoice_headers.append({"InvoiceID":invoice_id,"SalesOrderID":order_id,"CustomerID":customer.CustomerID,"InvoiceDate":invoice_date,"InvoiceStatus":"Posted"})
             for row,p in order_rows:
                 invoice_lines.append({"InvoiceID":invoice_id,"LineNumber":row["LineNumber"],"SalesOrderID":order_id,"ProductID":row["ProductID"],"Quantity":row["Quantity"],"UnitPrice":row["UnitPrice"],"DiscountAmount":row["DiscountAmount"],"Revenue":row["LineRevenue"],"UnitCost":row["UnitCost"],"COGS":row["LineCOGS"],"GrossProfit":row["GrossProfit"]})
-                invtx.append({"InventoryTransactionID":f"IT{len(invtx)+1:08}","ProductID":p.ProductID,"WarehouseID":wh.WarehouseID,"TransactionDate":invoice_date,"TransactionType":"Sales Shipment","Quantity":-row["Quantity"],"ReferenceNumber":order_id,"UnitCost":row["UnitCost"]})
                 return_prob=.18 if p.CategoryName=="Health" and day>=pd.Timestamp("2025-01-01") else .025
                 if rng.random()<return_prob:
                     return_id=f"RT{len(returns)+1:07}"; returned=max(1,int(row["Quantity"]*rng.uniform(.2,.7)))
                     amount=round(row["UnitPrice"]*returned*(1-row["DiscountPercent"]),2)
                     reason=rng.choice(["Quality Issue","Damaged","Shipping Damage","Wrong Product","Customer Changed Mind","Short Dated","Other"])
-                    return_date=min(end,day+pd.Timedelta(days=int(rng.integers(4,35))))
+                    return_date=min(end,invoice_date+pd.Timedelta(days=int(rng.integers(1,35))))
                     returns.append({"ReturnID":return_id,"SalesOrderID":order_id,"InvoiceID":invoice_id,"CustomerID":customer.CustomerID,"ProductID":p.ProductID,"ReturnDate":return_date,"ReturnQuantity":returned,"ReturnReason":reason,"ReturnAmount":amount})
                     invtx.append({"InventoryTransactionID":f"IT{len(invtx)+1:08}","ProductID":p.ProductID,"WarehouseID":wh.WarehouseID,"TransactionDate":return_date,"TransactionType":"Customer Return","Quantity":returned,"ReferenceNumber":return_id,"UnitCost":row["UnitCost"]})
     po_headers=[]; po_lines=[]; receipts=[]

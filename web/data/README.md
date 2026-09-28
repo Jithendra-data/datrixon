@@ -1,4 +1,3 @@
-# Dashboard data exports
+# Published Datrixon data
 
-Run `python -m etl.export_dashboard_data` after generating source extracts. The command writes `dashboard.json` here. The static app reads this file using a relative fetch, so use a local static web server (for example, `python -m http.server 8000 --directory web`) instead of opening the HTML as `file://`.
-
+Run `python -m etl.run_pipeline` to generate, validate, model, reconcile and publish. Use `--skip-generation` only with compatible validated source files. The standalone exporter intentionally refuses publication. Serve `web/` over HTTP. The browser receives synthetic data only.

@@ -1,5 +1,6 @@
 """Bounded investigation extracts and measured dataset coverage."""
 import pandas as pd
+from validation.registry import CONTROL_VERSION, CONTRACT_VERSION
 
 def add_evidence(payload, stock, po, customers, sales, orders, receipts, source):
     f=payload['business_findings']
@@ -31,4 +32,4 @@ def add_evidence(payload, stock, po, customers, sales, orders, receipts, source)
     payload['investigations']={key:{'total':len(frame),'exported':min(500,len(frame)),'rule':rule,'rows':records(frame.head(500)[cols])} for key,(frame,cols,rule) in definitions.items()}
     specs=[('sales_by_category',len(payload['sales_by_category']),'All categories'),('customer_performance',len(customers),'Top 500 customers by lifetime revenue'),('inventory_detail',len(stock),'Top 500 positions by risk then days on hand'),('open_purchase_orders',int((po.RemainingQuantity>0).sum()),'First 500 open PO lines by expected date'),('vendor_performance',len(payload['vendor_performance']),'All vendors'),('warehouse_performance',len(payload['warehouse_performance']),'All warehouses'),('returns_by_reason',len(payload['returns_by_reason']),'All return reasons'),('sales_detail',len(sales),'Top 1,500 invoice lines by revenue')]
     payload['extract_coverage']={key:{'eligible':total,'exported':len(payload[key]),'selection':rule,'scope':'All dates and regions; search and download cover this extract only'} for key,total,rule in specs}
-    payload['pipeline_metadata'].update(contract_version=2,data_through=str(orders.OrderDate.max().date()),valuation_policy='Signed ending quantity times current product unit cost. Negative positions included in net value and disclosed separately; not a financial inventory valuation.')
+    payload['pipeline_metadata'].update(contract_version=CONTRACT_VERSION,control_version=CONTROL_VERSION,data_through=str(orders.OrderDate.max().date()),valuation_policy='Signed ending quantity times current product unit cost. Negative positions included in net value and disclosed separately; not a financial inventory valuation.')
