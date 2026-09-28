@@ -42,10 +42,16 @@ The synthetic returns source has one row per ReturnID; no line number exists. Th
 
 ## Boundaries
 
-The SQLite database is a build artifact, never exposed as a browser database API. Only synthetic JSON is public. No authentication, confidential-data authorization, CDC, or enterprise SLA is claimed. See engineering/security_and_scale.md for the private-deployment design.
+The SQLite database is a build artifact, never exposed as a browser database API. The website serves synthetic JSON. GitHub Actions also uploads the synthetic warehouse, manifests and diagnostics as reviewable artifacts; exclusion from Git does not make those artifacts private. No authentication, confidential-data authorization, CDC, or enterprise SLA is claimed. See the [security and scale plan](../engineering/security_and_scale.md) for the private-deployment design.
 
 ## Receipt relationship and retained evidence
 
 The four core dimensional facts are supplemented by `PurchaseReceiptEvent`, a child event table keyed by ReceiptID and referencing FactPurchasing(PONumber, LineNumber). It permits multiple partial receipts per purchase line. FactReturns references its original invoice line. FactSales retains status, COGS and discount; inventory retains movement type, source reference and unit cost; purchasing retains ordered, received and remaining quantities and expected date.
 
 Canonical views: MonthlySales, CustomerSales, VendorQuantity, InventoryBalance. Shared operational functions live in etl/operational.py. Shared as-of date and thresholds live in utils/config.py and utils/business_rules.py. Sources beyond the configured cutoff fail validation rather than silently mixing periods.
+
+## Application information architecture
+
+Executive Overview presents the business purpose, reporting interval, four primary financial KPIs, ranked signals, two charts, optional snapshot cards, operating exposure, a trust summary and a compact architecture teaser. Analytics domains use separate hash views. Data Quality contains controls and independent reconciliation. Project & Architecture contains the model, implementation decisions, value assumptions, run evidence and contribution disclosure.
+
+The frontend uses native components, shared visual tokens, restrained GSAP transitions, reduced-motion support, keyboard sorting, responsive tables and a mobile section chooser. Project documentation remains accessible when dashboard data cannot be loaded. Browser regression coverage is maintained in `tests/browser.cjs`.

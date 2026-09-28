@@ -3,12 +3,25 @@ __pycache__/
 .venv/
 venv/
 .env
+.env.*
+!.env.example
+# Local credentials and diagnostic bundles must not be committed.
+*.pem
+*.key
+*.p12
+*.pfx
+id_rsa
+id_ed25519
+*.log
+*.zip
+*.tar
+*.tar.gz
+*.tgz
 .DS_Store
 Thumbs.db
 data/raw/*.csv
 data/generated/*.csv
 data/processed/*.csv
-!data/sample/**
 
 
 data/processed/*.sqlite

@@ -1,24 +1,26 @@
-# Review implementation map
+# Implementation evidence and limitations
 
-| Review concern | Implementation / evidence |
+This guide maps implemented capabilities to supporting code and documentation. Current run results are published in Data Quality and the run manifest; CI records regression outcomes.
+
+| Capability | Supporting implementation / evidence |
 |---|---|
-| Architecture honesty | Executing diagram, SQLite loader, separate T-SQL design, capability matrix |
-| Period correctness | Pure metrics module and Node regression tests; invalid range preserves prior valid state |
-| Gate failures | Explicit severity, mandatory reconciliation, atomic candidate publication, reusable CI dependency |
-| Reconciliation trust | Independent SQLite queries, exact units, two variances, provenance and tolerances |
-| Extract coverage | Eligible/exported counts, selection rules, displayed-extract download labels |
-| Decisions | Affected-record queues, owner/action guidance, expanded observation disclosure |
-| Business value | Assumption-driven opportunity model, worked investigation, no invented ROI |
-| Engineering depth | PK/FK warehouse, idempotent full-build smoke test, failure tests, run manifests |
-| ERP integration | Tested standalone mock versioned invoice adapter and mapping/security contract |
-| Personal contribution | Explicit project ownership and AI-assisted implementation disclosure |
-| Mobile and hierarchy | Four primary KPIs, signals before optional snapshots, section chooser, domain views |
-| Documentation repetition | Canonical architecture/operations/case study; no stale copied scenario totals |
+| Dimensional warehouse | Executed SQLite schema and loader with primary/foreign keys; separate proposed T-SQL design |
+| Financial comparisons | Selected-month comparisons, prior-period coverage and invalid-range handling in the metrics module and JavaScript tests |
+| Publication controls | Versioned mandatory registry, explicit severity, summary/detail consistency and validated candidate replacement |
+| Reconciliation | Independent raw-source totals, SQLite queries and published measures with explicit units and tolerances |
+| Source correctness | Scenario-calendar lifecycle checks, ROUND_HALF_UP arithmetic, source-key integrity and receipt/return relationships |
+| Reporting scope | Explicit dataset-bound tables, route scopes, eligible/exported counts and displayed-extract downloads |
+| Investigation workflows | Affected-record queues, decision-owner guidance and full-population summaries |
+| Shared business rules | Configurable cutoff, canonical SQL views and shared operational transformations |
+| Recovery evidence | Stage-specific diagnostics, matched successful run bundles and tests that preserve prior publication on failure |
+| Reproducibility | Generation configuration, seed, source hashes, build identity and repeated full-build checks |
+| Mock ERP changes | Standalone tested versioned invoice adapter; not connected to a real ERP or the main synthetic runner |
+| Responsive application | Domain views, reduced-motion support, keyboard sorting and browser regressions |
 
-External evidence still required: actual ERP credentials and source-owner acceptance, corporate metric targets, actual labor baselines and realized outcomes, author employment history, SSO/authorization deployment, production CDC and scale/availability benchmarks. These are explicitly described as unimplemented or unmeasured; they cannot truthfully be filled with portfolio claims.
+## Scope and limitations
 
-## Datrixon correctness release
+The project uses synthetic distribution records and a public static application. It does not demonstrate live ERP connectivity, enterprise authentication, production CDC, financial certification or measured commercial outcomes. SQLite is a portable reference warehouse; SQL Server scripts are a separate deployment design.
 
-Implemented: explicit dataset-bound table metadata; versioned mandatory control registry; scenario-calendar lifecycle checks; ROUND_HALF_UP line arithmetic; stable receipt-line and return-line relationships; shared cutoff/rules; SQL customer/vendor/balance marts; full-population decision summaries; matched successful run bundles and stage-specific failure diagnostics. Regression suites cover these behaviors and publication preservation. Test outcomes and current control counts belong to CI and the published run rather than copied marketing totals.
+Before a real deployment, source owners would need to approve extraction contracts and metric definitions, establish financial and operational baselines, implement access controls and incremental ingestion, and measure recovery and performance objectives. The [Enterprise Roadmap](enterprise_roadmap.md) documents this future work separately from implemented capabilities.
 
-[Future Enterprise Capability](enterprise_roadmap.md) remains documentation, not implementation. The repository/Pages slug is retained deliberately; [rename instructions](rename.md) explain the optional migration without assuming Pages redirects.
+Project ownership and AI-assisted implementation are disclosed in the [README](../../README.md#ownership). The [case study](../../case-study/case_study.md) describes the supported decisions and the business value that a real pilot would need to measure.
