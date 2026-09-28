@@ -19,7 +19,7 @@ async function loadDashboard(){
     renderQualityResults(data.data_quality||{});
     renderTables(data);
     renderExecutiveSignals(data);
-    renderFindings(data.business_findings||{});
+    renderFindings(data.business_findings||{},data.metric_rules||{});
     renderTrust(data);
     renderDecisionEvidence(data);
     renderDomainSummaries(data);
@@ -68,15 +68,15 @@ function renderMetricContext(rows,from,to,region){
  document.querySelector('#trend-summary').textContent=`${rows.length} monthly observations · ${region==='all'?'All regions':region} · ${from} to ${to}`;
  document.querySelector('#margin-summary').textContent=last?`Latest month · ${last.YearMonth} · ${(last.Revenue?last.GrossProfit/last.Revenue*100:0).toFixed(1)}% gross margin`:'No observations in this selection';
 }
-function renderFindings(f){
+function renderFindings(f,rules={}){
  const el=document.createElement('section'); el.className='finding-grid';
  const v=f.vendor_one_average_actual_lead_days_by_year||{}, years=Object.keys(v).sort(), snacks=f.snacks_discount_and_margin_by_year||{}, sy=Object.keys(snacks).sort();
  const first=snacks[sy[0]]||{},last=snacks[sy.at(-1)]||{};
  const cards=[
   ['SUPPLIER RELIABILITY',`${v[years[0]]??'—'} → ${v[years.at(-1)]??'—'} days`,`Vendor V0001 actual receipt lead time by year`],
   ['WAREHOUSE SERVICE',`${(f.warehouse_average_ship_days||{}).ATL??'—'} days`,`Atlanta average order-to-ship time`],
-  ['INVENTORY EXPOSURE',`${integer(f.critical_stockout_sku_warehouse_rows)} critical rows`,`Inventory with no shipments in 90 days at ${money(f.dead_inventory_value)}`],
-  ['CUSTOMER RETENTION',`${integer(f.valuable_customers_inactive_over_60_days)} accounts`,`Over $25K historical invoiced revenue and 60+ days inactive`],
+  ['INVENTORY EXPOSURE',`${integer(f.critical_stockout_sku_warehouse_rows)} critical rows`,`Inventory with no shipments in ${rules.movement_window_days||90} days at ${money(f.dead_inventory_value)}`],
+  ['CUSTOMER RETENTION',`${integer(f.valuable_customers_inactive_over_60_days)} accounts`,`At least ${money(rules.valuable_customer_revenue||25000)} historical invoiced revenue and over ${rules.inactive_days||60} days inactive`],
   ['DISCOUNT & MARGIN',`${((last.discount_rate||0)*100).toFixed(1)}% discount`,`Snacks margin ${((first.gross_margin||0)*100).toFixed(1)}% → ${((last.gross_margin||0)*100).toFixed(1)}%`],
   ['PRODUCT QUALITY',`${((f.health_2025_return_amount_rate||0)*100).toFixed(1)}% returns`,`Health return amount as a share of 2025 revenue`]
  ];
@@ -140,7 +140,7 @@ function hydrateShell(){
  const nav=document.querySelector('.sidebar nav');nav.appendChild(nav.querySelector('[href="#project-story"]'));
  nav.querySelector('[href="#sales"]').insertAdjacentHTML('beforebegin','<div class="nav-group">ANALYTICS</div>');
  nav.querySelector('[href="#quality"]').insertAdjacentHTML('beforebegin','<div class="nav-group">ENGINEERING</div>');
- setActive(['#architecture','#documentation','#implementation','#run-evidence','#contribution','#value-model'].includes(location.hash)?'project-story':location.hash.slice(1)||'overview');
+ setActive(['#architecture','#documentation','#implementation','#run-evidence','#contribution','#value-model','#enterprise-roadmap'].includes(location.hash)?'project-story':location.hash.slice(1)||'overview');
  links.forEach(a=>a.addEventListener('click',()=>setActive(a.getAttribute('href').slice(1))));
  let queued=false;
  const updateNavigation=()=>{queued=false;const current=sections.filter(section=>section.getClientRects().length&&section.getBoundingClientRect().top<=130).sort((a,b)=>b.getBoundingClientRect().top-a.getBoundingClientRect().top)[0];setActive(current?.id||'overview')};
@@ -151,7 +151,7 @@ function renderTables(data,customSpecs=null){
  const specs=customSpecs||[
   ['#sales','Category revenue and margin', 'sales_by_category', [['CategoryName','Category'],['Revenue','Revenue','money'],['GrossProfit','Gross profit','money'],['GrossMarginPct','Gross margin','percent'],['Units','Units','number']]],
   ['#customers','Customer value and recency', 'customer_performance', [['CustomerName','Customer'],['Region','Region'],['CustomerGroup','Group'],['LifetimeRevenue','Historical invoiced revenue','money'],['LastPurchaseDate','Last purchase'],['DaysInactive','Days inactive','number'],['Segment','Segment']]],
-  ['#inventory','SKU availability and stock risk', 'inventory_detail', [['SKU','SKU'],['ProductName','Product'],['CategoryName','Category'],['WarehouseID','Warehouse'],['AvailableQty','Available qty','number'],['Sales30Day','30-day sales','number'],['Sales90Day','90-day sales','number'],['DaysOnHand','Days on hand','number'],['InboundQty','Inbound','number'],['RiskLevel','Risk']]],
+  ['#inventory','SKU availability and stock risk', 'inventory_detail', [['SKU','SKU'],['ProductName','Product'],['CategoryName','Category'],['WarehouseID','Warehouse'],['AvailableQty','Ledger on-hand','number'],['Sales30Day','30-day shipments','number'],['Sales90Day',`${data.metric_rules?.movement_window_days||90}-day shipments`,'number'],['DaysOnHand','Days on hand','number'],['InboundQty','Inbound','number'],['RiskLevel','Risk']]],
   ['#purchasing','Outstanding purchase commitments', 'open_purchase_orders', [['PONumber','PO'],['VendorName','Vendor'],['ExpectedDeliveryDate','Expected'],['DaysLate','Days late','number'],['RemainingQuantity','Remaining qty','number'],['RemainingValue','Remaining value','money']]],
   ['#purchasing','Vendor delivery and fill', 'vendor_performance', [['VendorID','Vendor ID'],['VendorName','Vendor'],['ReceiptEvents','Receipt events','number'],['MeanLeadDays','Mean lead days','number'],['POCount','PO count','number'],['OrderedQuantity','Ordered qty','number'],['ReceivedQuantity','Received qty','number'],['FillRate','Quantity fill rate','percent'],['POValue','PO value','money']]],
   ['#operations','Warehouse service performance', 'warehouse_performance', [['WarehouseID','Warehouse'],['AvgOrderToShipDays','Mean ship days','number'],['MedianShipDays','Median ship days','number'],['P90ShipDays','P90 ship days','number'],['OnTimeOrders','On-time orders','number'],['OnTimeRate','On-time share','percent'],['ShippedOrders','Orders shipped','number'],['Backorders','Backorders','number']]],

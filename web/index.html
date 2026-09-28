@@ -17,8 +17,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/styles.css?v=datrixon-20260927-0">
-    <link rel="stylesheet" href="css/enterprise.css?v=datrixon-20260927-0">
+    <link rel="stylesheet" href="css/styles.css?v=datrixon-20260927-final">
+    <link rel="stylesheet" href="css/enterprise.css?v=datrixon-20260927-final">
     <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
   </head>
   <body class="is-loading">
@@ -158,15 +158,15 @@
             <div class="story-intro">
               <span class="eyebrow">PUBLIC PROJECT OVERVIEW</span>
               <h2 id="project-story-title">How Datrixon turns distribution records into operating decisions.</h2>
-              <p>Decision owners are finance, inventory planning, procurement, and sales operations. The implemented pipeline validates synthetic source records, normalizes staging CSVs, loads an enforced SQLite dimensional warehouse, computes SQL/Python analytics, reconciles five measures, and publishes only an approved dataset. Real ERP connectors and a hosted SQL Server deployment are not implemented.</p>
+              <p>Distribution teams can have detailed ERP transactions without a shared view of margin, stock exposure, customer inactivity, purchasing, and service. Datrixon demonstrates a repeatable path from those records to decisions for finance, inventory planning, procurement, and sales operations.</p><p> The implemented pipeline validates synthetic source records, normalizes staging CSVs, loads an enforced SQLite dimensional warehouse, computes SQL/Python analytics, reconciles five measures, and publishes only an approved dataset. Real ERP connectors and a hosted SQL Server deployment are not implemented.</p>
             </div>
               <div class="hero-actions" aria-label="Project resources">
                 <a class="primary-action" href="https://github.com/Jithendra-data/northstar-distribution-intelligence" target="_blank" rel="noreferrer">View GitHub repo</a>
                 <a href="https://github.com/Jithendra-data/northstar-distribution-intelligence/actions/workflows/refresh-data.yml" target="_blank" rel="noreferrer">Run refresh workflow</a>
                 <a href="https://github.com/Jithendra-data/northstar-distribution-intelligence/blob/main/case-study/case_study.md" target="_blank" rel="noreferrer">Read case study</a>
               </div>
-            <nav class="project-tabs" aria-label="Project sections"><a href="#project-story">Business case</a><a href="#architecture">Architecture</a><a href="#implementation">Implementation</a><a href="#run-evidence">Results</a><a href="#contribution">Contribution</a><a href="#documentation">Documentation</a></nav>
-            <section class="capability-matrix"><h3>Implemented, designed, and planned</h3><p><b>Implemented:</b> synthetic generation, validated staging, SQLite dimensional loading, SQL sales, customer, vendor and balance marts, Python operational aggregates, publication gates, reproducible manifests, regression tests, static BI.</p><p><b>Designed:</b> SQL Server DDL and enterprise integration/security contracts.</p><p><b>Planned:</b> real ERP connectivity, SSO, row-level permissions, SCD Type 2, production CDC, and a private warehouse service.</p></section>
+            <nav class="project-tabs" aria-label="Project sections"><a href="#project-story">Business case</a><a href="#architecture">Architecture</a><a href="#implementation">Implementation</a><a href="#run-evidence">Results</a><a href="#contribution">Contribution</a><a href="#enterprise-roadmap">Enterprise roadmap</a><a href="#documentation">Documentation</a></nav>
+            <section class="capability-matrix"><h3>Implemented, simulated, and future capabilities</h3><p><b>Implemented:</b> synthetic generation, validated staging, SQLite dimensional loading, SQL sales, customer, vendor and balance marts, Python operational aggregates, publication gates, reproducible manifests, regression tests, static BI.</p><p><b>Demonstrated / Simulated:</b> fictional distribution transactions and a standalone mock change adapter. SQL Server DDL is a separate deployment design.</p><p><b>Future Enterprise Capability:</b> real ERP connectivity, SSO, row-level permissions, SCD Type 2, production CDC, and a private warehouse service.</p></section>
             <div class="portfolio-grid">
               <article class="portfolio-card tech-card">
                 <span>TECH STACK</span>
@@ -210,15 +210,16 @@
             <section id="implementation" class="project-evidence"><h2>Implementation decisions and operating limits</h2><div class="doc-links"><a href="https://github.com/Jithendra-data/northstar-distribution-intelligence/blob/main/documentation/engineering/decisions.md">Technical decisions and recovery</a><a href="https://github.com/Jithendra-data/northstar-distribution-intelligence/blob/main/documentation/engineering/integration_contract.md">Mock ERP integration contract</a><a href="https://github.com/Jithendra-data/northstar-distribution-intelligence/blob/main/documentation/engineering/security_and_scale.md">Private-deployment security and scale</a><a href="https://github.com/Jithendra-data/northstar-distribution-intelligence/tree/main/tests">Executable regression evidence</a></div><p>The public site contains synthetic data only. SQLite is a portable reference implementation, not a multi-user enterprise warehouse. Full rebuilds are deliberate at this scale; incremental CDC and historical master data require additional implementation.</p></section>
             <section id="run-evidence" class="project-evidence"><h3>Published-run evidence</h3><p>Load the dataset to see measured runtime, row counts, dependencies, and input hashes.</p></section>
             <section id="value-model" class="project-evidence"><h2>Potential value to validate in a pilot</h2><p>These assumptions model opportunities; they are not measured savings. Baseline labor, intervention cost, recovery feasibility, and sustained outcomes require a real pilot.</p><div class="value-inputs"><label>Disposition candidate share (%)<input id="assumption-stock" type="number" min="0" max="100" value="10"></label><label>Annual carrying-cost assumption (%)<input id="assumption-carry" type="number" min="0" max="100" value="20"></label><label>Attainable margin change (percentage points)<input id="assumption-margin" type="number" min="0" max="10" step="0.1" value="0.5"></label></div><p id="value-output" aria-live="polite">Load the dataset to calculate the illustrative opportunity.</p><p>Reporting effort saved = baseline preparation hours − assisted preparation hours. Net benefit = verified benefits − implementation and operating costs. No ROI percentage is claimed.</p></section>
+            <section id="enterprise-roadmap" class="project-evidence"><span class="eyebrow">FUTURE ENTERPRISE CAPABILITY</span><h2>What a real enterprise deployment would require</h2><p>The current application uses synthetic data, full rebuilds, SQLite, and public static delivery. Real ERP connectivity, private identity, incremental ingestion, and production service objectives require separate implementation and acceptance.</p><div class="portfolio-grid"><article class="portfolio-card"><h3>Connect and govern</h3><p>Source-specific adapters for approved ERP APIs or exports; legal-entity and master-data mappings; committed watermarks, replay, late changes and tombstones; Finance-approved metric definitions.</p></article><article class="portfolio-card"><h3>Secure and operate</h3><p>Corporate SSO, service identities, server-side authorization, managed secrets, access logs, accountable alerts, restore drills, and measured service targets.</p></article></div><p>Move to a managed warehouse and authenticated API when confidentiality, concurrency, query scope, or measured performance justify it. These are future requirements, not current features.</p><a href="https://github.com/Jithendra-data/northstar-distribution-intelligence/blob/main/documentation/engineering/enterprise_roadmap.md">Read the Enterprise Roadmap and pilot acceptance criteria →</a></section>
             <section id="contribution" class="project-evidence"><h2>Project ownership and contribution</h2><p><b>Project owner: Anumala Jithendra.</b> This portfolio was developed iteratively with AI-assisted implementation. Product direction, review requests, and acceptance criteria are documented in the project evolution. The repository is the evidence for implemented functionality; it is not a claim of unaided authorship or professional deployment experience.</p><p>Technical discussion topics: period-comparison correctness, staging lineage, enforced dimensional keys, independent reconciliation, publication failures, bounded browser extracts, and the trade-offs of a static public demonstration.</p><a href="https://github.com/Jithendra-data/northstar-distribution-intelligence/commits/main/">Review implementation history →</a></section>
           </section>
       </main>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/gsap.min.js"></script>
-    <script src="js/metrics.js?v=datrixon-20260927-0"></script>
-    <script src="js/reliability.js?v=datrixon-20260927-0"></script>
-    <script src="js/executive.js?v=datrixon-20260927-0"></script>
-    <script src="js/decisions.js?v=datrixon-20260927-2"></script>
-    <script src="js/app.js?v=datrixon-20260927-0"></script>
+    <script src="js/metrics.js?v=datrixon-20260927-final"></script>
+    <script src="js/reliability.js?v=datrixon-20260927-final"></script>
+    <script src="js/executive.js?v=datrixon-20260927-final"></script>
+    <script src="js/decisions.js?v=datrixon-20260927-final"></script>
+    <script src="js/app.js?v=datrixon-20260927-final"></script>
   </body>
 </html>

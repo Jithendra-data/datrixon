@@ -2,7 +2,7 @@
   "pipeline_metadata": {
     "dataset_type": "synthetic",
     "random_seed": 73041,
-    "refreshed_at_utc": "2026-09-28T04:11:05.576792+00:00",
+    "refreshed_at_utc": "2026-09-28T04:20:59.132684+00:00",
     "contract_version": 4,
     "control_version": 2,
     "data_through": "2025-12-31",
@@ -18,8 +18,8 @@
     },
     "business_as_of_date": "2025-12-31",
     "dataset_id": "d1819524dae751fb0208aa58f7e0b3a1e6ca88b068d5fcdcb8afe1714531bcee",
-    "build_id": "15f60a6066624359af199571d4b0a4a4",
-    "publication_timestamp": "2026-09-28T04:11:08.777049+00:00",
+    "build_id": "af0de03846e445ccb7e5619241624b83",
+    "publication_timestamp": "2026-09-28T04:21:03.537019+00:00",
     "expected_exceptions": [
       "Negative ending on-hand"
     ],
@@ -31,10 +31,10 @@
       "FactReturns": 4643
     },
     "timings": {
-      "generation_seconds": 0.084,
-      "validation_model_seconds": 97.796,
-      "export_reconcile_seconds": 9.851,
-      "total_seconds": 107.732
+      "generation_seconds": 0.364,
+      "validation_model_seconds": 104.308,
+      "export_reconcile_seconds": 12.813,
+      "total_seconds": 117.485
     },
     "peak_python_allocations_mb": 300.5,
     "python_version": "3.12.14",
@@ -59,7 +59,7 @@
       "Vendor.csv": "fdc9a1667ac5706fb0fed9fc65cac1b499018c40f77a9ed256121499a7cefb5e",
       "Warehouse.csv": "42cdc7b642d7c58f0071975dac44b7325fb7fa773dafa4f0a1f9cbc1dcbc5992"
     },
-    "commit": "eae3ab8c5a3424c68f1fb91673499c5b18f358ca",
+    "commit": "8e6c3a92697a9aaa4facecea0a6a3e9903c5d49e",
     "working_tree_dirty": true,
     "workflow_run": null,
     "deployment_identity": "Recorded separately by GitHub Pages deployment"

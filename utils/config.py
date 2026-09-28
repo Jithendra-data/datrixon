@@ -18,6 +18,6 @@ from datetime import date
 if not date.fromisoformat(START_DATE) <= date.fromisoformat(AS_OF_DATE) <= date(2035,12,31):
     raise ValueError("Business as-of date must be within scenario/date-dimension range")
 END_DATE = AS_OF_DATE
-# Set NORTHSTAR_RANDOM_SEED for a new, traceable synthetic scenario. Keeping a
+# Set DATRIXON_RANDOM_SEED for a new, traceable synthetic scenario. Keeping a
 # default preserves reproducibility for local development.
 RANDOM_SEED = int(os.getenv("DATRIXON_RANDOM_SEED", os.getenv("NORTHSTAR_RANDOM_SEED", "73041")))

@@ -12,11 +12,11 @@ Datrixon helps a fictional distribution leadership team investigate margin movem
 
 Synthetic ERP CSV → mandatory source validation → normalized staging CSV → enforced SQLite reference warehouse → SQL sales/customer/vendor/balance marts + shared Python operational analytics → independent source/warehouse/dashboard reconciliation → approved JSON → static browser application.
 
-Four SQLite facts and six dimensions are actually populated by `etl/warehouse.py`. `sql/sqlite/warehouse.sql` is executed. The T-SQL directories are a separate SQL Server deployment design, not an active SQL Server service. Receipt timing and movement-window calculations read staging directly; the architecture diagram shows that branch.
+Four SQLite facts, six dimensions, and a purchase-receipt child table are actually populated by `etl/warehouse.py`. `sql/sqlite/warehouse.sql` is executed. The T-SQL directories are a separate SQL Server deployment design, not an active SQL Server service. Receipt timing and movement-window calculations read staging directly; the architecture diagram shows that branch.
 
-| Implemented | Designed | Not implemented |
+| Implemented | Demonstrated / Simulated | Future Enterprise Capability |
 |---|---|---|
-| Source controls, normalized staging, SQLite facts, SQL/Python aggregates, five reconciliations, fail-closed publication, hashes and timings, unit/integration/browser tests | SQL Server DDL, private deployment security, ERP source contract | Real ERP connection, SSO/RLS, production CDC, SCD Type 2, multi-user warehouse, validated business ROI |
+| Source controls, normalized staging, SQLite facts, SQL/Python aggregates, five reconciliations, fail-closed publication, hashes and timings, unit/integration/browser tests | Synthetic ERP scenario; standalone tested mock change adapter; separate SQL Server design | Real ERP connection, SSO/RLS, production CDC, SCD Type 2, multi-user warehouse, validated business ROI |
 
 ## Run and verify
 
@@ -25,7 +25,7 @@ python -m pip install -r requirements.txt
 python -m etl.run_pipeline
 python -m unittest discover -s tests -p 'test_*.py' -v
 python -m tests.smoke_pipeline
-node --test tests/metrics.test.cjs
+node --test tests/metrics.test.cjs tests/decisions.test.cjs
 pnpm install --frozen-lockfile
 pnpm exec playwright install chromium
 pnpm test:browser
@@ -49,6 +49,7 @@ Overview financial filters compare the exact selected interval to that interval 
 - [Executing architecture and model](documentation/architecture/architecture.md)
 - [Decisions, limitations, recovery](documentation/engineering/decisions.md)
 - [Mock ERP integration contract](documentation/engineering/integration_contract.md)
+- [Enterprise Roadmap and acceptance criteria](documentation/engineering/enterprise_roadmap.md)
 - [Security and scale plan](documentation/engineering/security_and_scale.md)
 - [Business investigation and methodology](case-study/case_study.md)
 - [Metric definitions](documentation/kpi_dictionary/kpi_dictionary.md)
@@ -66,3 +67,7 @@ MIT licensed. See LICENSE.
 [Release screenshots](screenshots/README.md) show executive analytics, sales, controls, architecture, and an investigation. Domain summaries are calculated from full source populations; financial comparisons follow the selected overview period.
 
 Configuration: `DATRIXON_RANDOM_SEED` (legacy `NORTHSTAR_RANDOM_SEED` supported), `DATRIXON_AS_OF_DATE` (default 2025-12-31). The latter controls business time, not the deployment clock. Validation requires the current versioned control registry.
+
+## Final verification commands
+
+`pnpm test` runs both JavaScript suites. `DATRIXON_BASE_URL` optionally points the browser regression at the deployed Pages URL; `DATRIXON_ALLOW_CDN=1` additionally verifies the normal ECharts path. Without that flag, the browser suite deliberately blocks CDNs to verify fallback charts. All major views are checked at desktop, tablet and 390px widths. These checks are regression evidence, not a security or accessibility certification.

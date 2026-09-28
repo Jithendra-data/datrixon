@@ -8,7 +8,7 @@ A distribution planning lead needs to identify stock with no recent movement, wh
 
 Run the pipeline, open Executive Signals, select Inventory exposure, and inspect the dedicated affected-position extract. The predicate is positive AvailableQty and zero Sales90Day, valued as AvailableQty × current Product.UnitCost. The displayed queue is capped at 500 rows; its eligible population and selection rule are disclosed. The full-dataset amount is calculated before capping.
 
-Compare positive inventory, the negative-stock adjustment, and net inventory. Do not infer that negative positions are a subset of a velocity-based Critical category: the two predicates can overlap differently, especially when velocity is zero.
+Compare positive inventory, the negative-stock adjustment, and net inventory. Negative balances have their own ledger category; they are not evidence of physically available stock or low-coverage demand.
 
 ## Alternative explanations
 
@@ -27,3 +27,9 @@ Use the live Project & Architecture Results section or `web/data/dashboard.json`
 ## Modeled opportunity, not outcome
 
 The interactive value model asks for disposition share, annual carrying-cost rate, and attainable margin points. It clearly separates annual carrying-cost opportunity from margin opportunity on the selected full historical dataset. They have different time bases and are not added into ROI. Real implementation cost, labor baseline, feasibility, and sustained benefits remain to validate.
+
+## Implemented solution, trust and future scope
+
+Synthetic ERP records pass mandatory source checks, normalized Python staging, an enforced SQL dimensional model, canonical SQL/Python analytics, independent reconciliation and a publication gate before reaching Datrixon. Failed candidates retain the last approved public JSON. Full-history exposure and snapshot measures remain separate from selected-period financial comparisons.
+
+The source is synthetic; delivery is static and unauthenticated. No live ERP connection, measured business savings or enterprise SLA exists. The [Enterprise Roadmap](../documentation/engineering/enterprise_roadmap.md) defines the future adapters, incremental ingestion, private security, monitoring and recovery work required for a real pilot.

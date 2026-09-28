@@ -18,12 +18,13 @@ const server=http.createServer((req,res)=>{
  for(const route of ['overview','sales','quality','architecture','inventory']){
   await page.goto(`${url}/#${route}`);await page.waitForSelector('body:not(.is-loading)');
   await page.evaluate(()=>document.fonts.ready);if(route==='overview')await page.evaluate(()=>window.scrollTo(0,0));
-  if(route==='inventory')await page.locator('#investigation-inventory summary').click();
+  if(route==='inventory'){await page.locator('#investigation-inventory summary').click();await page.locator('#investigation-inventory').evaluate(el=>el.scrollIntoView({block:'start'}));}
   if(route==='architecture')await page.locator('[data-stage="3"]').click();
   await page.screenshot({animations:'disabled',path:`screenshots/datrixon-${route}.png`});
+  if(route==='quality'){await page.locator('.trust-reconciliation').evaluate(el=>el.scrollIntoView({block:'start'}));await page.screenshot({animations:'disabled',path:'screenshots/datrixon-reconciliation.png'});}
  }
  await page.setViewportSize({width:390,height:844});await page.goto(url);await page.waitForSelector('body:not(.is-loading)');await page.screenshot({animations:'disabled',path:'screenshots/datrixon-mobile.png'});
  await page.setViewportSize({width:1200,height:630});await page.goto(url+'/assets/preview.svg');await page.screenshot({animations:'disabled',path:'web/assets/preview.png'});
- console.log('Captured six Datrixon views and stable social preview');
+ console.log('Captured seven Datrixon views and stable social preview');
  }finally{await browser.close();server.close()}
 })().catch(e=>{console.error(e);server.close();process.exitCode=1});

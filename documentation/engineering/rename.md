@@ -9,7 +9,7 @@ Datrixon is the analytics product. The synthetic distribution business is fictio
 - `NorthStarAnalytics` in proposed T-SQL: existing database identifier; not a deployed product title.
 - Workflow concurrency/artifact identifiers: retained to avoid splitting concurrent refresh groups and breaking historical artifact references.
 - `NS-` product SKUs: synthetic source identifiers, not application branding.
-- Historical commits and older screenshots: historical evidence. Current documentation will link refreshed screenshots.
+- Historical commits: historical evidence. Old screenshots are retired from the current tree; documentation links reviewed Datrixon captures.
 
 ## Optional repository migration
 

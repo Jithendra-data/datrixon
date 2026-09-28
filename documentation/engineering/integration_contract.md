@@ -26,3 +26,7 @@ Master data: customer, product, warehouse, vendor and legal entity require assig
 Finance approval: reconcile header/line totals, credit notes, tax/freight treatment, currency, posting statuses, and source batch totals. Synthetic gross profit uses generated costs and is not a general-ledger integration. Vendor fill rate is not OTIF; receipt quantity alone cannot establish on-time-in-full at an agreed delivery grain.
 
 Credential plan: secret manager, least-privilege read-only extraction identity, rotation, and environment separation. No real ERP credentials or endpoints are included. Acceptance requires source-owner signoff plus repeat/recovery and reconciliation tests against a representative authorized extract.
+
+## Production adapter preparation
+
+See the [Enterprise Roadmap](enterprise_roadmap.md) for source-family discovery, incremental batch lifecycle, identity, recovery and pilot exit criteria. These are Future Enterprise Capabilities.

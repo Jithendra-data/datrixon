@@ -1,5 +1,7 @@
 # Private deployment and enterprise-scale design
 
+**Future Enterprise Capability:** production controls below are proposals. The [Enterprise Roadmap](enterprise_roadmap.md) consolidates adapter, incremental, security, monitoring, recovery and scale acceptance requirements.
+
 ## Public boundary
 
 The current static site contains synthetic records. It is intentionally unauthenticated. The reference database and raw extracts are not deployed with `web/`. Publishing confidential data to this deployment is unsupported.

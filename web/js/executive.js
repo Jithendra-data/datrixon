@@ -2,7 +2,7 @@
 function setupProjectPage(){
  const project=document.querySelector('#project-story'),overview=document.querySelector('#overview');
  project.insertBefore(document.querySelector('#architecture'),document.querySelector('#implementation'));project.append(document.querySelector('#documentation'));
- const projectHashes=['#project-story','#architecture','#documentation','#implementation','#run-evidence','#contribution','#value-model'];
+ const projectHashes=['#project-story','#architecture','#documentation','#implementation','#run-evidence','#contribution','#value-model','#enterprise-roadmap'];
  const mobile=document.querySelector('#mobile-nav');mobile.innerHTML=[...document.querySelectorAll('.sidebar nav a')].map(a=>`<option value="${a.hash}">${a.textContent.slice(1).trim()}</option>`).join('');mobile.addEventListener('change',()=>location.hash=mobile.value);
  const sync=()=>{
   const isProject=projectHashes.includes(location.hash);
@@ -19,7 +19,7 @@ function setupProjectPage(){
   document.querySelectorAll('#overview > .architecture-teaser').forEach(teaser=>teaser.hidden=domain);
   const mobile=document.querySelector('#mobile-nav');if(mobile)mobile.value=isProject?'#project-story':domain?location.hash:'#overview';
   document.querySelectorAll('.sidebar nav a').forEach(a=>{const active=isProject?a.hash==='#project-story':a.hash===(location.hash||'#overview');a.classList.toggle('active',active);if(active)a.setAttribute('aria-current','location');else a.removeAttribute('aria-current')});
-  document.querySelector('.crumb').textContent=isProject?'Datrixon / Project & Architecture':'Datrixon / Executive overview';
+  const activeLink=document.querySelector('.sidebar nav a.active');document.querySelector('.crumb').textContent='Datrixon / '+(isProject?'Project & Architecture':activeLink?.textContent.slice(1).trim()||'Executive overview');
   requestAnimationFrame(()=>{const target=document.querySelector(projectHashes.includes(location.hash)?location.hash:location.hash&&/^#[a-z-]+$/.test(location.hash)?location.hash:'#overview');if(!location.hash||location.hash==='#overview')window.scrollTo({top:0,behavior:'instant'});else target?.scrollIntoView({behavior:'instant',block:'start'});if(!isProject)window.dispatchEvent(new Event('resize'))});
  };
  window.addEventListener('hashchange',sync);sync();
@@ -71,7 +71,7 @@ function renderLineage(data){
  const stages=[
  ['ERP','Synthetic source systems','Seeded generation creates fictional customers, products, orders, invoices, purchase orders, inventory movements, and returns.','python/generators'],
  ['Raw','Original extracts','CSV extracts preserve the generated source records before cleaning.','data/raw'],
- ['Staging','Standardized records','Python cleaning standardizes the raw files into processed data; SQL staging scripts document the warehouse implementation.','etl/clean_data.py'],
+ ['Staging','Standardized records','Python cleaning standardizes raw CSVs into staging. Source checks run before cleaning. T-SQL staging scripts are a separate deployment design.','etl/clean_data.py'],
  ['Star Schema','Dimensions & facts','Conformed dimensions and transaction-grain facts define the analytical model. The hosted refresh loads an enforced SQLite reference warehouse. SQL Server scripts are a separate proposed deployment design.','sql/sqlite/warehouse.sql'],
  ['Analytics Marts','Business measures','Sales, customer, vendor and inventory-balance marts execute in SQLite. Receipt timing and movement windows use normalized staging and shared rules. The analytics builder runs once per refresh.','etl/build_analytics.py'],
  ['Quality Controls','Checks & reconciliation','Mandatory source checks, enforced warehouse keys, and five independent reconciliations block publication on failure. See Data Quality for this run’s results and the synthetic negative-stock exception.','validation'],
@@ -89,5 +89,5 @@ function starSchemaDetail(){
  const root='https://github.com/Jithendra-data/northstar-distribution-intelligence/blob/main/sql/';
  const facts=[['FactSales','One posted invoice line'],['FactInventory','One signed inventory movement'],['FactPurchasing','One purchase order line'],['FactReturns','One return record']];
  const dimensions=['DimDate','DimCustomer','DimProduct','DimVendor','DimSalesRep','DimWarehouse'];
- return `<div class="schema-branch"><div class="schema-hub">Star Schema <span>Transaction facts + descriptive dimensions</span></div><div class="schema-columns"><section><h4>FACTS</h4>${facts.map(([name,grain])=>`<a href="${root}05_facts/facts.sql" target="_blank" rel="noreferrer"><b>dw.${name}</b><small>${grain}</small></a>`).join('')}</section><section><h4>DIMENSIONS</h4>${dimensions.map(name=>`<a href="${root}04_dimensions/dimensions.sql" target="_blank" rel="noreferrer"><b>dw.${name}</b></a>`).join('')}</section></div><div class="schema-destination">↓ Analytics Marts</div><p>The SQLite reference model enforces natural-key references. The linked T-SQL model is a separate design with surrogate keys; no SQL Server service is deployed.</p></div>`;
+ return `<div class="schema-branch"><div class="schema-hub">Star Schema <span>Transaction facts + descriptive dimensions</span></div><div class="schema-columns"><section><h4>FACTS</h4>${facts.map(([name,grain])=>`<a href="${root}05_facts/facts.sql" target="_blank" rel="noreferrer"><b>dw.${name}</b><small>${grain}</small></a>`).join('')}</section><section><h4>DIMENSIONS</h4>${dimensions.map(name=>`<a href="${root}04_dimensions/dimensions.sql" target="_blank" rel="noreferrer"><b>dw.${name}</b></a>`).join('')}</section></div><div class="schema-destination">↓ Analytics Marts</div><p>The SQLite reference model enforces natural-key references and includes PurchaseReceiptEvent, a child table linking multiple partial receipts to each purchase line. The linked T-SQL model is a separate design with surrogate keys; no SQL Server service is deployed.</p></div>`;
 }
