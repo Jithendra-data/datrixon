@@ -26,7 +26,7 @@ jobs:
       - name: Unit and reporting regression tests
         run: |
           python -m unittest discover -s tests -p 'test_*.py' -v
-          node --test tests/metrics.test.cjs
+          node --test tests/metrics.test.cjs tests/decisions.test.cjs
       - name: Isolated pipeline and replay integration
         run: python -m tests.smoke_pipeline
       - name: Validate published dataset
@@ -39,3 +39,4 @@ jobs:
           node --check web/js/executive.js
           node --check web/js/metrics.js
           node --check web/js/reliability.js
+          node --check web/js/decisions.js

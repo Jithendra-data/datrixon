@@ -1,13 +1,13 @@
 {
   "pipeline_metadata": {
     "dataset_type": "synthetic",
-    "random_seed": 73041,
-    "refreshed_at_utc": "2026-09-28T03:52:07.423583+00:00",
+    "random_seed": null,
+    "refreshed_at_utc": "2026-09-28T03:56:19.796897+00:00",
     "contract_version": 3,
     "control_version": 1,
     "data_through": "2025-12-31",
     "valuation_policy": "Signed ending quantity times current product unit cost. Negative positions included in net value and disclosed separately; not a financial inventory valuation.",
-    "generation_mode": "generated",
+    "generation_mode": "reused raw files; seed unknown",
     "publication_status": "APPROVED",
     "expected_exceptions": [
       "Negative ending on-hand"
@@ -20,12 +20,12 @@
       "FactReturns": 4643
     },
     "timings": {
-      "generation_seconds": 163.725,
-      "validation_model_seconds": 81.718,
-      "export_reconcile_seconds": 8.827,
-      "total_seconds": 254.269
+      "generation_seconds": 0.0,
+      "validation_model_seconds": 76.582,
+      "export_reconcile_seconds": 7.464,
+      "total_seconds": 84.046
     },
-    "peak_python_allocations_mb": 273.99,
+    "peak_python_allocations_mb": 274.04,
     "python_version": "3.12.14",
     "dependencies": {
       "pandas": "2.3.3",
@@ -40092,7 +40092,12 @@
       "OrderedQuantity": 5394,
       "ReceivedQuantity": 4094,
       "POValue": 167381.46,
-      "FillRate": 0.7589914720059325
+      "FillRate": 0.7589914720059325,
+      "VendorName": "Ibarra-Roberts Supply",
+      "ReceiptEvents": 212.0,
+      "MeanLeadDays": 15.63679245283019,
+      "MedianLeadDays": 16.0,
+      "P90LeadDays": 22.0
     },
     {
       "VendorID": "V0002",
@@ -40100,7 +40105,12 @@
       "OrderedQuantity": 5312,
       "ReceivedQuantity": 4268,
       "POValue": 153681.1,
-      "FillRate": 0.8034638554216867
+      "FillRate": 0.8034638554216867,
+      "VendorName": "Vang, Johnson and Mendoza Supply",
+      "ReceiptEvents": 213.0,
+      "MeanLeadDays": 12.72300469483568,
+      "MedianLeadDays": 13.0,
+      "P90LeadDays": 16.0
     },
     {
       "VendorID": "V0003",
@@ -40108,7 +40118,12 @@
       "OrderedQuantity": 6973,
       "ReceivedQuantity": 5989,
       "POValue": 208099.45,
-      "FillRate": 0.8588842678904345
+      "FillRate": 0.8588842678904345,
+      "VendorName": "Becker and Sons Supply",
+      "ReceiptEvents": 293.0,
+      "MeanLeadDays": 13.293515358361775,
+      "MedianLeadDays": 13.0,
+      "P90LeadDays": 17.0
     },
     {
       "VendorID": "V0004",
@@ -40116,7 +40131,12 @@
       "OrderedQuantity": 6108,
       "ReceivedQuantity": 5067,
       "POValue": 186146.41,
-      "FillRate": 0.8295677799607073
+      "FillRate": 0.8295677799607073,
+      "VendorName": "Moyer PLC Supply",
+      "ReceiptEvents": 243.0,
+      "MeanLeadDays": 10.62551440329218,
+      "MedianLeadDays": 11.0,
+      "P90LeadDays": 14.0
     },
     {
       "VendorID": "V0005",
@@ -40124,7 +40144,12 @@
       "OrderedQuantity": 6604,
       "ReceivedQuantity": 5561,
       "POValue": 198463.71,
-      "FillRate": 0.8420654149000606
+      "FillRate": 0.8420654149000606,
+      "VendorName": "Scott PLC Supply",
+      "ReceiptEvents": 268.0,
+      "MeanLeadDays": 11.514925373134329,
+      "MedianLeadDays": 11.0,
+      "P90LeadDays": 15.0
     },
     {
       "VendorID": "V0006",
@@ -40132,7 +40157,12 @@
       "OrderedQuantity": 5824,
       "ReceivedQuantity": 4716,
       "POValue": 158575.2,
-      "FillRate": 0.8097527472527473
+      "FillRate": 0.8097527472527473,
+      "VendorName": "Novak, Gentry and Davidson Supply",
+      "ReceiptEvents": 228.0,
+      "MeanLeadDays": 13.307017543859649,
+      "MedianLeadDays": 13.0,
+      "P90LeadDays": 16.0
     },
     {
       "VendorID": "V0007",
@@ -40140,7 +40170,12 @@
       "OrderedQuantity": 5013,
       "ReceivedQuantity": 4116,
       "POValue": 156592.54,
-      "FillRate": 0.8210652304009575
+      "FillRate": 0.8210652304009575,
+      "VendorName": "Barnett-Arias Supply",
+      "ReceiptEvents": 200.0,
+      "MeanLeadDays": 10.43,
+      "MedianLeadDays": 10.0,
+      "P90LeadDays": 14.0
     },
     {
       "VendorID": "V0008",
@@ -40148,7 +40183,12 @@
       "OrderedQuantity": 4901,
       "ReceivedQuantity": 3828,
       "POValue": 146823.84,
-      "FillRate": 0.7810650887573964
+      "FillRate": 0.7810650887573964,
+      "VendorName": "Moss-Pollard Supply",
+      "ReceiptEvents": 198.0,
+      "MeanLeadDays": 10.232323232323232,
+      "MedianLeadDays": 10.0,
+      "P90LeadDays": 14.0
     },
     {
       "VendorID": "V0009",
@@ -40156,7 +40196,12 @@
       "OrderedQuantity": 5552,
       "ReceivedQuantity": 4577,
       "POValue": 157478.24,
-      "FillRate": 0.8243876080691642
+      "FillRate": 0.8243876080691642,
+      "VendorName": "Gonzalez, Simmons and Nichols Supply",
+      "ReceiptEvents": 226.0,
+      "MeanLeadDays": 13.561946902654867,
+      "MedianLeadDays": 13.5,
+      "P90LeadDays": 17.0
     },
     {
       "VendorID": "V0010",
@@ -40164,7 +40209,12 @@
       "OrderedQuantity": 6829,
       "ReceivedQuantity": 5881,
       "POValue": 208696.93,
-      "FillRate": 0.861180260653097
+      "FillRate": 0.861180260653097,
+      "VendorName": "Wilson Ltd Supply",
+      "ReceiptEvents": 274.0,
+      "MeanLeadDays": 6.653284671532846,
+      "MedianLeadDays": 7.0,
+      "P90LeadDays": 10.0
     },
     {
       "VendorID": "V0011",
@@ -40172,7 +40222,12 @@
       "OrderedQuantity": 4651,
       "ReceivedQuantity": 3856,
       "POValue": 137111.37,
-      "FillRate": 0.8290690174156096
+      "FillRate": 0.8290690174156096,
+      "VendorName": "Bates-Conrad Supply",
+      "ReceiptEvents": 199.0,
+      "MeanLeadDays": 12.206030150753769,
+      "MedianLeadDays": 12.0,
+      "P90LeadDays": 15.0
     },
     {
       "VendorID": "V0012",
@@ -40180,7 +40235,12 @@
       "OrderedQuantity": 5965,
       "ReceivedQuantity": 4922,
       "POValue": 162458.0,
-      "FillRate": 0.8251466890192791
+      "FillRate": 0.8251466890192791,
+      "VendorName": "Moss-Schultz Supply",
+      "ReceiptEvents": 237.0,
+      "MeanLeadDays": 12.232067510548523,
+      "MedianLeadDays": 12.0,
+      "P90LeadDays": 15.0
     },
     {
       "VendorID": "V0013",
@@ -40188,7 +40248,12 @@
       "OrderedQuantity": 6337,
       "ReceivedQuantity": 5205,
       "POValue": 191986.26,
-      "FillRate": 0.821366577244753
+      "FillRate": 0.821366577244753,
+      "VendorName": "Henderson, Cobb and Schmidt Supply",
+      "ReceiptEvents": 258.0,
+      "MeanLeadDays": 9.209302325581396,
+      "MedianLeadDays": 9.0,
+      "P90LeadDays": 12.0
     },
     {
       "VendorID": "V0014",
@@ -40196,7 +40261,12 @@
       "OrderedQuantity": 5691,
       "ReceivedQuantity": 4644,
       "POValue": 167754.36,
-      "FillRate": 0.816025303110174
+      "FillRate": 0.816025303110174,
+      "VendorName": "Phillips-Leon Supply",
+      "ReceiptEvents": 235.0,
+      "MeanLeadDays": 9.54468085106383,
+      "MedianLeadDays": 10.0,
+      "P90LeadDays": 12.599999999999994
     },
     {
       "VendorID": "V0015",
@@ -40204,7 +40274,12 @@
       "OrderedQuantity": 5385,
       "ReceivedQuantity": 4467,
       "POValue": 151172.31,
-      "FillRate": 0.8295264623955432
+      "FillRate": 0.8295264623955432,
+      "VendorName": "Johnson-Phillips Supply",
+      "ReceiptEvents": 214.0,
+      "MeanLeadDays": 11.560747663551401,
+      "MedianLeadDays": 12.0,
+      "P90LeadDays": 15.0
     },
     {
       "VendorID": "V0016",
@@ -40212,7 +40287,12 @@
       "OrderedQuantity": 6123,
       "ReceivedQuantity": 5263,
       "POValue": 177155.4,
-      "FillRate": 0.8595459741956557
+      "FillRate": 0.8595459741956557,
+      "VendorName": "Mcdonald LLC Supply",
+      "ReceiptEvents": 247.0,
+      "MeanLeadDays": 10.554655870445345,
+      "MedianLeadDays": 11.0,
+      "P90LeadDays": 14.0
     },
     {
       "VendorID": "V0017",
@@ -40220,7 +40300,12 @@
       "OrderedQuantity": 6017,
       "ReceivedQuantity": 4657,
       "POValue": 196103.75,
-      "FillRate": 0.7739737410669769
+      "FillRate": 0.7739737410669769,
+      "VendorName": "Gray-Bowers Supply",
+      "ReceiptEvents": 244.0,
+      "MeanLeadDays": 9.368852459016393,
+      "MedianLeadDays": 9.0,
+      "P90LeadDays": 12.0
     },
     {
       "VendorID": "V0018",
@@ -40228,7 +40313,12 @@
       "OrderedQuantity": 5331,
       "ReceivedQuantity": 4653,
       "POValue": 168345.47,
-      "FillRate": 0.8728193584693303
+      "FillRate": 0.8728193584693303,
+      "VendorName": "Mason, Schmidt and Lee Supply",
+      "ReceiptEvents": 224.0,
+      "MeanLeadDays": 9.455357142857142,
+      "MedianLeadDays": 9.0,
+      "P90LeadDays": 12.0
     },
     {
       "VendorID": "V0019",
@@ -40236,7 +40326,12 @@
       "OrderedQuantity": 4975,
       "ReceivedQuantity": 4123,
       "POValue": 149739.48,
-      "FillRate": 0.8287437185929648
+      "FillRate": 0.8287437185929648,
+      "VendorName": "Richardson-Bradley Supply",
+      "ReceiptEvents": 207.0,
+      "MeanLeadDays": 8.584541062801932,
+      "MedianLeadDays": 9.0,
+      "P90LeadDays": 12.0
     },
     {
       "VendorID": "V0020",
@@ -40244,7 +40339,12 @@
       "OrderedQuantity": 5032,
       "ReceivedQuantity": 4151,
       "POValue": 150171.55,
-      "FillRate": 0.8249205087440381
+      "FillRate": 0.8249205087440381,
+      "VendorName": "Stewart, Wise and Freeman Supply",
+      "ReceiptEvents": 211.0,
+      "MeanLeadDays": 13.303317535545023,
+      "MedianLeadDays": 13.0,
+      "P90LeadDays": 16.0
     },
     {
       "VendorID": "V0021",
@@ -40252,7 +40352,12 @@
       "OrderedQuantity": 6511,
       "ReceivedQuantity": 5433,
       "POValue": 211008.54,
-      "FillRate": 0.8344340347104899
+      "FillRate": 0.8344340347104899,
+      "VendorName": "Kramer-Boyle Supply",
+      "ReceiptEvents": 264.0,
+      "MeanLeadDays": 13.469696969696969,
+      "MedianLeadDays": 13.0,
+      "P90LeadDays": 17.0
     },
     {
       "VendorID": "V0022",
@@ -40260,7 +40365,12 @@
       "OrderedQuantity": 5075,
       "ReceivedQuantity": 4272,
       "POValue": 146132.01,
-      "FillRate": 0.8417733990147783
+      "FillRate": 0.8417733990147783,
+      "VendorName": "Russell-Murphy Supply",
+      "ReceiptEvents": 211.0,
+      "MeanLeadDays": 15.672985781990521,
+      "MedianLeadDays": 16.0,
+      "P90LeadDays": 19.0
     },
     {
       "VendorID": "V0023",
@@ -40268,7 +40378,12 @@
       "OrderedQuantity": 6165,
       "ReceivedQuantity": 5015,
       "POValue": 186847.33,
-      "FillRate": 0.813463098134631
+      "FillRate": 0.813463098134631,
+      "VendorName": "Shaw Ltd Supply",
+      "ReceiptEvents": 250.0,
+      "MeanLeadDays": 12.348,
+      "MedianLeadDays": 12.0,
+      "P90LeadDays": 16.0
     },
     {
       "VendorID": "V0024",
@@ -40276,7 +40391,12 @@
       "OrderedQuantity": 5011,
       "ReceivedQuantity": 4072,
       "POValue": 153927.69,
-      "FillRate": 0.8126122530433048
+      "FillRate": 0.8126122530433048,
+      "VendorName": "Smith, Jackson and Contreras Supply",
+      "ReceiptEvents": 219.0,
+      "MeanLeadDays": 9.278538812785389,
+      "MedianLeadDays": 9.0,
+      "P90LeadDays": 13.0
     },
     {
       "VendorID": "V0025",
@@ -40284,7 +40404,12 @@
       "OrderedQuantity": 6533,
       "ReceivedQuantity": 5453,
       "POValue": 204928.88,
-      "FillRate": 0.8346854431348538
+      "FillRate": 0.8346854431348538,
+      "VendorName": "Sutton Ltd Supply",
+      "ReceiptEvents": 273.0,
+      "MeanLeadDays": 12.619047619047619,
+      "MedianLeadDays": 13.0,
+      "P90LeadDays": 16.0
     },
     {
       "VendorID": "V0026",
@@ -40292,7 +40417,12 @@
       "OrderedQuantity": 6022,
       "ReceivedQuantity": 4901,
       "POValue": 173312.02,
-      "FillRate": 0.8138492195283958
+      "FillRate": 0.8138492195283958,
+      "VendorName": "Bautista-Fox Supply",
+      "ReceiptEvents": 232.0,
+      "MeanLeadDays": 7.142241379310345,
+      "MedianLeadDays": 7.0,
+      "P90LeadDays": 10.0
     },
     {
       "VendorID": "V0027",
@@ -40300,7 +40430,12 @@
       "OrderedQuantity": 6207,
       "ReceivedQuantity": 5078,
       "POValue": 185344.37,
-      "FillRate": 0.8181085870791043
+      "FillRate": 0.8181085870791043,
+      "VendorName": "Ruiz, Lopez and Roman Supply",
+      "ReceiptEvents": 250.0,
+      "MeanLeadDays": 6.532,
+      "MedianLeadDays": 6.0,
+      "P90LeadDays": 10.0
     },
     {
       "VendorID": "V0028",
@@ -40308,7 +40443,12 @@
       "OrderedQuantity": 4678,
       "ReceivedQuantity": 4025,
       "POValue": 143141.44,
-      "FillRate": 0.8604104318084651
+      "FillRate": 0.8604104318084651,
+      "VendorName": "Wilkins-Santos Supply",
+      "ReceiptEvents": 197.0,
+      "MeanLeadDays": 15.705583756345177,
+      "MedianLeadDays": 16.0,
+      "P90LeadDays": 19.0
     },
     {
       "VendorID": "V0029",
@@ -40316,7 +40456,12 @@
       "OrderedQuantity": 5582,
       "ReceivedQuantity": 4530,
       "POValue": 167953.13,
-      "FillRate": 0.8115370834826228
+      "FillRate": 0.8115370834826228,
+      "VendorName": "Jimenez Group Supply",
+      "ReceiptEvents": 220.0,
+      "MeanLeadDays": 8.463636363636363,
+      "MedianLeadDays": 8.0,
+      "P90LeadDays": 12.0
     },
     {
       "VendorID": "V0030",
@@ -40324,7 +40469,12 @@
       "OrderedQuantity": 5858,
       "ReceivedQuantity": 4843,
       "POValue": 171445.6,
-      "FillRate": 0.8267326732673267
+      "FillRate": 0.8267326732673267,
+      "VendorName": "Williams, Chavez and Perez Supply",
+      "ReceiptEvents": 234.0,
+      "MeanLeadDays": 7.6068376068376065,
+      "MedianLeadDays": 8.0,
+      "P90LeadDays": 11.0
     },
     {
       "VendorID": "V0031",
@@ -40332,7 +40482,12 @@
       "OrderedQuantity": 4452,
       "ReceivedQuantity": 3607,
       "POValue": 126946.81,
-      "FillRate": 0.8101976639712489
+      "FillRate": 0.8101976639712489,
+      "VendorName": "Lyons-Olson Supply",
+      "ReceiptEvents": 188.0,
+      "MeanLeadDays": 13.25,
+      "MedianLeadDays": 13.0,
+      "P90LeadDays": 16.30000000000001
     },
     {
       "VendorID": "V0032",
@@ -40340,7 +40495,12 @@
       "OrderedQuantity": 6016,
       "ReceivedQuantity": 4922,
       "POValue": 178981.56,
-      "FillRate": 0.8181515957446809
+      "FillRate": 0.8181515957446809,
+      "VendorName": "Mckay LLC Supply",
+      "ReceiptEvents": 239.0,
+      "MeanLeadDays": 7.615062761506276,
+      "MedianLeadDays": 8.0,
+      "P90LeadDays": 11.0
     },
     {
       "VendorID": "V0033",
@@ -40348,7 +40508,12 @@
       "OrderedQuantity": 5746,
       "ReceivedQuantity": 4784,
       "POValue": 179638.93,
-      "FillRate": 0.832579185520362
+      "FillRate": 0.832579185520362,
+      "VendorName": "Jacobs and Sons Supply",
+      "ReceiptEvents": 232.0,
+      "MeanLeadDays": 7.620689655172414,
+      "MedianLeadDays": 8.0,
+      "P90LeadDays": 11.0
     },
     {
       "VendorID": "V0034",
@@ -40356,7 +40521,12 @@
       "OrderedQuantity": 4551,
       "ReceivedQuantity": 3759,
       "POValue": 133191.42,
-      "FillRate": 0.8259723137771918
+      "FillRate": 0.8259723137771918,
+      "VendorName": "Nichols-Schmidt Supply",
+      "ReceiptEvents": 188.0,
+      "MeanLeadDays": 6.531914893617022,
+      "MedianLeadDays": 6.0,
+      "P90LeadDays": 10.0
     },
     {
       "VendorID": "V0035",
@@ -40364,7 +40534,12 @@
       "OrderedQuantity": 4496,
       "ReceivedQuantity": 3591,
       "POValue": 138227.51,
-      "FillRate": 0.7987099644128114
+      "FillRate": 0.7987099644128114,
+      "VendorName": "Johnson, Bennett and Beck Supply",
+      "ReceiptEvents": 189.0,
+      "MeanLeadDays": 13.338624338624339,
+      "MedianLeadDays": 13.0,
+      "P90LeadDays": 16.0
     },
     {
       "VendorID": "V0036",
@@ -40372,7 +40547,12 @@
       "OrderedQuantity": 5123,
       "ReceivedQuantity": 3976,
       "POValue": 147574.72,
-      "FillRate": 0.7761077493656061
+      "FillRate": 0.7761077493656061,
+      "VendorName": "Bates Group Supply",
+      "ReceiptEvents": 201.0,
+      "MeanLeadDays": 14.432835820895523,
+      "MedianLeadDays": 14.0,
+      "P90LeadDays": 18.0
     },
     {
       "VendorID": "V0037",
@@ -40380,7 +40560,12 @@
       "OrderedQuantity": 5497,
       "ReceivedQuantity": 4330,
       "POValue": 158256.62,
-      "FillRate": 0.7877023831180644
+      "FillRate": 0.7877023831180644,
+      "VendorName": "Smith-Richards Supply",
+      "ReceiptEvents": 217.0,
+      "MeanLeadDays": 13.211981566820276,
+      "MedianLeadDays": 13.0,
+      "P90LeadDays": 17.0
     },
     {
       "VendorID": "V0038",
@@ -40388,7 +40573,12 @@
       "OrderedQuantity": 5539,
       "ReceivedQuantity": 4496,
       "POValue": 160706.56,
-      "FillRate": 0.8116988626105796
+      "FillRate": 0.8116988626105796,
+      "VendorName": "Garcia, Flynn and Tucker Supply",
+      "ReceiptEvents": 223.0,
+      "MeanLeadDays": 12.488789237668161,
+      "MedianLeadDays": 12.0,
+      "P90LeadDays": 16.0
     },
     {
       "VendorID": "V0039",
@@ -40396,7 +40586,12 @@
       "OrderedQuantity": 6846,
       "ReceivedQuantity": 5818,
       "POValue": 194713.78,
-      "FillRate": 0.8498393222319602
+      "FillRate": 0.8498393222319602,
+      "VendorName": "Wells, Grant and Conway Supply",
+      "ReceiptEvents": 281.0,
+      "MeanLeadDays": 9.427046263345195,
+      "MedianLeadDays": 9.0,
+      "P90LeadDays": 13.0
     },
     {
       "VendorID": "V0040",
@@ -40404,7 +40599,12 @@
       "OrderedQuantity": 5724,
       "ReceivedQuantity": 4634,
       "POValue": 173630.81,
-      "FillRate": 0.8095737246680643
+      "FillRate": 0.8095737246680643,
+      "VendorName": "Clements, Cook and Robinson Supply",
+      "ReceiptEvents": 237.0,
+      "MeanLeadDays": 8.451476793248945,
+      "MedianLeadDays": 8.0,
+      "P90LeadDays": 12.0
     },
     {
       "VendorID": "V0041",
@@ -40412,7 +40612,12 @@
       "OrderedQuantity": 5779,
       "ReceivedQuantity": 4627,
       "POValue": 168530.05,
-      "FillRate": 0.800657553209898
+      "FillRate": 0.800657553209898,
+      "VendorName": "Hall and Sons Supply",
+      "ReceiptEvents": 224.0,
+      "MeanLeadDays": 14.553571428571429,
+      "MedianLeadDays": 14.0,
+      "P90LeadDays": 18.0
     },
     {
       "VendorID": "V0042",
@@ -40420,7 +40625,12 @@
       "OrderedQuantity": 6106,
       "ReceivedQuantity": 4926,
       "POValue": 191506.87,
-      "FillRate": 0.8067474615132656
+      "FillRate": 0.8067474615132656,
+      "VendorName": "Murphy and Sons Supply",
+      "ReceiptEvents": 251.0,
+      "MeanLeadDays": 7.394422310756972,
+      "MedianLeadDays": 7.0,
+      "P90LeadDays": 11.0
     },
     {
       "VendorID": "V0043",
@@ -40428,7 +40638,12 @@
       "OrderedQuantity": 5313,
       "ReceivedQuantity": 4167,
       "POValue": 160784.37,
-      "FillRate": 0.7843026538678712
+      "FillRate": 0.7843026538678712,
+      "VendorName": "Ward and Sons Supply",
+      "ReceiptEvents": 202.0,
+      "MeanLeadDays": 12.608910891089108,
+      "MedianLeadDays": 13.0,
+      "P90LeadDays": 16.0
     },
     {
       "VendorID": "V0044",
@@ -40436,7 +40651,12 @@
       "OrderedQuantity": 5287,
       "ReceivedQuantity": 4096,
       "POValue": 162379.58,
-      "FillRate": 0.7747304709665217
+      "FillRate": 0.7747304709665217,
+      "VendorName": "Warren, Gould and Brock Supply",
+      "ReceiptEvents": 203.0,
+      "MeanLeadDays": 6.827586206896552,
+      "MedianLeadDays": 7.0,
+      "P90LeadDays": 10.0
     },
     {
       "VendorID": "V0045",
@@ -40444,7 +40664,12 @@
       "OrderedQuantity": 5771,
       "ReceivedQuantity": 4435,
       "POValue": 169082.74,
-      "FillRate": 0.76849766071738
+      "FillRate": 0.76849766071738,
+      "VendorName": "Perry, Garcia and Wilson Supply",
+      "ReceiptEvents": 227.0,
+      "MeanLeadDays": 15.48898678414097,
+      "MedianLeadDays": 15.0,
+      "P90LeadDays": 19.0
     },
     {
       "VendorID": "V0046",
@@ -40452,7 +40677,12 @@
       "OrderedQuantity": 4884,
       "ReceivedQuantity": 4059,
       "POValue": 149555.49,
-      "FillRate": 0.831081081081081
+      "FillRate": 0.831081081081081,
+      "VendorName": "Jackson, Ortiz and Diaz Supply",
+      "ReceiptEvents": 203.0,
+      "MeanLeadDays": 9.729064039408867,
+      "MedianLeadDays": 10.0,
+      "P90LeadDays": 13.0
     },
     {
       "VendorID": "V0047",
@@ -40460,7 +40690,12 @@
       "OrderedQuantity": 4776,
       "ReceivedQuantity": 3859,
       "POValue": 142282.28,
-      "FillRate": 0.807998324958124
+      "FillRate": 0.807998324958124,
+      "VendorName": "Martinez and Sons Supply",
+      "ReceiptEvents": 194.0,
+      "MeanLeadDays": 15.345360824742269,
+      "MedianLeadDays": 15.0,
+      "P90LeadDays": 18.700000000000017
     },
     {
       "VendorID": "V0048",
@@ -40468,7 +40703,12 @@
       "OrderedQuantity": 5934,
       "ReceivedQuantity": 4824,
       "POValue": 177216.84,
-      "FillRate": 0.8129423660262892
+      "FillRate": 0.8129423660262892,
+      "VendorName": "Walker-Nielsen Supply",
+      "ReceiptEvents": 243.0,
+      "MeanLeadDays": 11.510288065843621,
+      "MedianLeadDays": 12.0,
+      "P90LeadDays": 15.0
     },
     {
       "VendorID": "V0049",
@@ -40476,7 +40716,12 @@
       "OrderedQuantity": 5585,
       "ReceivedQuantity": 4497,
       "POValue": 162124.71,
-      "FillRate": 0.8051924798567591
+      "FillRate": 0.8051924798567591,
+      "VendorName": "Thompson LLC Supply",
+      "ReceiptEvents": 222.0,
+      "MeanLeadDays": 9.5,
+      "MedianLeadDays": 10.0,
+      "P90LeadDays": 13.0
     },
     {
       "VendorID": "V0050",
@@ -40484,7 +40729,12 @@
       "OrderedQuantity": 6375,
       "ReceivedQuantity": 5335,
       "POValue": 186308.17,
-      "FillRate": 0.8368627450980393
+      "FillRate": 0.8368627450980393,
+      "VendorName": "Rice LLC Supply",
+      "ReceiptEvents": 273.0,
+      "MeanLeadDays": 12.6007326007326,
+      "MedianLeadDays": 13.0,
+      "P90LeadDays": 16.0
     },
     {
       "VendorID": "V0051",
@@ -40492,7 +40742,12 @@
       "OrderedQuantity": 6411,
       "ReceivedQuantity": 5161,
       "POValue": 190676.95,
-      "FillRate": 0.8050226173763844
+      "FillRate": 0.8050226173763844,
+      "VendorName": "Roach Group Supply",
+      "ReceiptEvents": 254.0,
+      "MeanLeadDays": 14.228346456692913,
+      "MedianLeadDays": 14.0,
+      "P90LeadDays": 17.700000000000017
     },
     {
       "VendorID": "V0052",
@@ -40500,7 +40755,12 @@
       "OrderedQuantity": 4719,
       "ReceivedQuantity": 3709,
       "POValue": 141340.78,
-      "FillRate": 0.7859716041534224
+      "FillRate": 0.7859716041534224,
+      "VendorName": "Potter Group Supply",
+      "ReceiptEvents": 188.0,
+      "MeanLeadDays": 11.654255319148936,
+      "MedianLeadDays": 12.0,
+      "P90LeadDays": 15.0
     },
     {
       "VendorID": "V0053",
@@ -40508,7 +40768,12 @@
       "OrderedQuantity": 5348,
       "ReceivedQuantity": 4373,
       "POValue": 157169.31,
-      "FillRate": 0.8176888556469708
+      "FillRate": 0.8176888556469708,
+      "VendorName": "Krause LLC Supply",
+      "ReceiptEvents": 213.0,
+      "MeanLeadDays": 15.12206572769953,
+      "MedianLeadDays": 15.0,
+      "P90LeadDays": 19.0
     },
     {
       "VendorID": "V0054",
@@ -40516,7 +40781,12 @@
       "OrderedQuantity": 5294,
       "ReceivedQuantity": 4339,
       "POValue": 165370.27,
-      "FillRate": 0.8196071023800529
+      "FillRate": 0.8196071023800529,
+      "VendorName": "Brown Ltd Supply",
+      "ReceiptEvents": 221.0,
+      "MeanLeadDays": 11.42081447963801,
+      "MedianLeadDays": 12.0,
+      "P90LeadDays": 15.0
     },
     {
       "VendorID": "V0055",
@@ -40524,7 +40794,12 @@
       "OrderedQuantity": 6042,
       "ReceivedQuantity": 5038,
       "POValue": 176605.55,
-      "FillRate": 0.8338298576630255
+      "FillRate": 0.8338298576630255,
+      "VendorName": "Cooper-Bates Supply",
+      "ReceiptEvents": 248.0,
+      "MeanLeadDays": 8.64516129032258,
+      "MedianLeadDays": 9.0,
+      "P90LeadDays": 12.0
     },
     {
       "VendorID": "V0056",
@@ -40532,7 +40807,12 @@
       "OrderedQuantity": 4473,
       "ReceivedQuantity": 3774,
       "POValue": 131188.88,
-      "FillRate": 0.8437290409121395
+      "FillRate": 0.8437290409121395,
+      "VendorName": "Peterson-Benjamin Supply",
+      "ReceiptEvents": 189.0,
+      "MeanLeadDays": 11.62962962962963,
+      "MedianLeadDays": 12.0,
+      "P90LeadDays": 15.0
     },
     {
       "VendorID": "V0057",
@@ -40540,7 +40820,12 @@
       "OrderedQuantity": 7231,
       "ReceivedQuantity": 5559,
       "POValue": 211979.34,
-      "FillRate": 0.7687733370211589
+      "FillRate": 0.7687733370211589,
+      "VendorName": "Hartman, Mendez and Rodriguez Supply",
+      "ReceiptEvents": 281.0,
+      "MeanLeadDays": 6.4163701067615655,
+      "MedianLeadDays": 6.0,
+      "P90LeadDays": 10.0
     },
     {
       "VendorID": "V0058",
@@ -40548,7 +40833,12 @@
       "OrderedQuantity": 6631,
       "ReceivedQuantity": 5633,
       "POValue": 196584.83,
-      "FillRate": 0.8494947971648319
+      "FillRate": 0.8494947971648319,
+      "VendorName": "Curry LLC Supply",
+      "ReceiptEvents": 279.0,
+      "MeanLeadDays": 12.483870967741936,
+      "MedianLeadDays": 13.0,
+      "P90LeadDays": 16.0
     },
     {
       "VendorID": "V0059",
@@ -40556,7 +40846,12 @@
       "OrderedQuantity": 4503,
       "ReceivedQuantity": 3785,
       "POValue": 139391.59,
-      "FillRate": 0.8405507439484788
+      "FillRate": 0.8405507439484788,
+      "VendorName": "Gross-Schultz Supply",
+      "ReceiptEvents": 185.0,
+      "MeanLeadDays": 10.562162162162162,
+      "MedianLeadDays": 10.0,
+      "P90LeadDays": 14.0
     },
     {
       "VendorID": "V0060",
@@ -40564,7 +40859,12 @@
       "OrderedQuantity": 4761,
       "ReceivedQuantity": 4148,
       "POValue": 139390.05,
-      "FillRate": 0.8712455366519639
+      "FillRate": 0.8712455366519639,
+      "VendorName": "Griffin, Pittman and Riley Supply",
+      "ReceiptEvents": 206.0,
+      "MeanLeadDays": 6.383495145631068,
+      "MedianLeadDays": 7.0,
+      "P90LeadDays": 10.0
     },
     {
       "VendorID": "V0061",
@@ -40572,7 +40872,12 @@
       "OrderedQuantity": 6484,
       "ReceivedQuantity": 5255,
       "POValue": 187243.06,
-      "FillRate": 0.8104565083281925
+      "FillRate": 0.8104565083281925,
+      "VendorName": "Crawford Group Supply",
+      "ReceiptEvents": 258.0,
+      "MeanLeadDays": 15.542635658914728,
+      "MedianLeadDays": 16.0,
+      "P90LeadDays": 19.0
     },
     {
       "VendorID": "V0062",
@@ -40580,7 +40885,12 @@
       "OrderedQuantity": 5487,
       "ReceivedQuantity": 4528,
       "POValue": 162036.48,
-      "FillRate": 0.8252232549662839
+      "FillRate": 0.8252232549662839,
+      "VendorName": "Mendez LLC Supply",
+      "ReceiptEvents": 219.0,
+      "MeanLeadDays": 8.744292237442922,
+      "MedianLeadDays": 9.0,
+      "P90LeadDays": 12.0
     },
     {
       "VendorID": "V0063",
@@ -40588,7 +40898,12 @@
       "OrderedQuantity": 4686,
       "ReceivedQuantity": 3753,
       "POValue": 137486.82,
-      "FillRate": 0.8008962868117798
+      "FillRate": 0.8008962868117798,
+      "VendorName": "Davis Group Supply",
+      "ReceiptEvents": 180.0,
+      "MeanLeadDays": 10.272222222222222,
+      "MedianLeadDays": 10.0,
+      "P90LeadDays": 14.0
     },
     {
       "VendorID": "V0064",
@@ -40596,7 +40911,12 @@
       "OrderedQuantity": 7255,
       "ReceivedQuantity": 5961,
       "POValue": 221310.73,
-      "FillRate": 0.8216402481047553
+      "FillRate": 0.8216402481047553,
+      "VendorName": "Reed-Mccullough Supply",
+      "ReceiptEvents": 291.0,
+      "MeanLeadDays": 7.443298969072165,
+      "MedianLeadDays": 8.0,
+      "P90LeadDays": 11.0
     },
     {
       "VendorID": "V0065",
@@ -40604,7 +40924,12 @@
       "OrderedQuantity": 5075,
       "ReceivedQuantity": 4384,
       "POValue": 155716.41,
-      "FillRate": 0.8638423645320197
+      "FillRate": 0.8638423645320197,
+      "VendorName": "Johnson, Santiago and Moore Supply",
+      "ReceiptEvents": 206.0,
+      "MeanLeadDays": 7.70873786407767,
+      "MedianLeadDays": 8.0,
+      "P90LeadDays": 11.0
     },
     {
       "VendorID": "V0066",
@@ -40612,7 +40937,12 @@
       "OrderedQuantity": 5715,
       "ReceivedQuantity": 4944,
       "POValue": 166838.63,
-      "FillRate": 0.8650918635170604
+      "FillRate": 0.8650918635170604,
+      "VendorName": "Lindsey-Gibson Supply",
+      "ReceiptEvents": 244.0,
+      "MeanLeadDays": 15.381147540983607,
+      "MedianLeadDays": 15.5,
+      "P90LeadDays": 19.0
     },
     {
       "VendorID": "V0067",
@@ -40620,7 +40950,12 @@
       "OrderedQuantity": 4917,
       "ReceivedQuantity": 3794,
       "POValue": 135490.82,
-      "FillRate": 0.7716087044946105
+      "FillRate": 0.7716087044946105,
+      "VendorName": "Randolph-Johnson Supply",
+      "ReceiptEvents": 190.0,
+      "MeanLeadDays": 7.594736842105263,
+      "MedianLeadDays": 7.0,
+      "P90LeadDays": 10.0
     },
     {
       "VendorID": "V0068",
@@ -40628,7 +40963,12 @@
       "OrderedQuantity": 5718,
       "ReceivedQuantity": 4617,
       "POValue": 166415.77,
-      "FillRate": 0.8074501573976915
+      "FillRate": 0.8074501573976915,
+      "VendorName": "Braun-Cooper Supply",
+      "ReceiptEvents": 226.0,
+      "MeanLeadDays": 12.58849557522124,
+      "MedianLeadDays": 13.0,
+      "P90LeadDays": 16.0
     },
     {
       "VendorID": "V0069",
@@ -40636,7 +40976,12 @@
       "OrderedQuantity": 5538,
       "ReceivedQuantity": 4707,
       "POValue": 175900.0,
-      "FillRate": 0.8499458288190682
+      "FillRate": 0.8499458288190682,
+      "VendorName": "Chambers, Sims and James Supply",
+      "ReceiptEvents": 229.0,
+      "MeanLeadDays": 9.519650655021834,
+      "MedianLeadDays": 10.0,
+      "P90LeadDays": 13.0
     },
     {
       "VendorID": "V0070",
@@ -40644,7 +40989,12 @@
       "OrderedQuantity": 6511,
       "ReceivedQuantity": 5275,
       "POValue": 192201.87,
-      "FillRate": 0.8101674090001536
+      "FillRate": 0.8101674090001536,
+      "VendorName": "Perez-Donovan Supply",
+      "ReceiptEvents": 253.0,
+      "MeanLeadDays": 12.73913043478261,
+      "MedianLeadDays": 13.0,
+      "P90LeadDays": 16.0
     },
     {
       "VendorID": "V0071",
@@ -40652,7 +41002,12 @@
       "OrderedQuantity": 6853,
       "ReceivedQuantity": 5295,
       "POValue": 208031.16,
-      "FillRate": 0.7726543119801547
+      "FillRate": 0.7726543119801547,
+      "VendorName": "Jones, Brown and Villanueva Supply",
+      "ReceiptEvents": 267.0,
+      "MeanLeadDays": 14.614232209737828,
+      "MedianLeadDays": 15.0,
+      "P90LeadDays": 18.0
     },
     {
       "VendorID": "V0072",
@@ -40660,7 +41015,12 @@
       "OrderedQuantity": 5363,
       "ReceivedQuantity": 4539,
       "POValue": 160218.84,
-      "FillRate": 0.8463546522468768
+      "FillRate": 0.8463546522468768,
+      "VendorName": "Conrad-Willis Supply",
+      "ReceiptEvents": 224.0,
+      "MeanLeadDays": 11.316964285714286,
+      "MedianLeadDays": 11.0,
+      "P90LeadDays": 15.0
     },
     {
       "VendorID": "V0073",
@@ -40668,7 +41028,12 @@
       "OrderedQuantity": 6500,
       "ReceivedQuantity": 5419,
       "POValue": 190711.36000000002,
-      "FillRate": 0.8336923076923077
+      "FillRate": 0.8336923076923077,
+      "VendorName": "Rivers LLC Supply",
+      "ReceiptEvents": 275.0,
+      "MeanLeadDays": 14.294545454545455,
+      "MedianLeadDays": 14.0,
+      "P90LeadDays": 18.0
     },
     {
       "VendorID": "V0074",
@@ -40676,7 +41041,12 @@
       "OrderedQuantity": 5629,
       "ReceivedQuantity": 4528,
       "POValue": 160632.86000000002,
-      "FillRate": 0.8044057559069107
+      "FillRate": 0.8044057559069107,
+      "VendorName": "Benson-Bradley Supply",
+      "ReceiptEvents": 223.0,
+      "MeanLeadDays": 8.345291479820627,
+      "MedianLeadDays": 8.0,
+      "P90LeadDays": 12.0
     },
     {
       "VendorID": "V0075",
@@ -40684,7 +41054,12 @@
       "OrderedQuantity": 6628,
       "ReceivedQuantity": 5077,
       "POValue": 200071.28,
-      "FillRate": 0.765992757996379
+      "FillRate": 0.765992757996379,
+      "VendorName": "Henderson Group Supply",
+      "ReceiptEvents": 261.0,
+      "MeanLeadDays": 8.421455938697317,
+      "MedianLeadDays": 8.0,
+      "P90LeadDays": 12.0
     },
     {
       "VendorID": "V0076",
@@ -40692,7 +41067,12 @@
       "OrderedQuantity": 5012,
       "ReceivedQuantity": 4018,
       "POValue": 145204.32,
-      "FillRate": 0.8016759776536313
+      "FillRate": 0.8016759776536313,
+      "VendorName": "Cooke, Jimenez and Griffin Supply",
+      "ReceiptEvents": 194.0,
+      "MeanLeadDays": 10.381443298969073,
+      "MedianLeadDays": 10.0,
+      "P90LeadDays": 14.0
     },
     {
       "VendorID": "V0077",
@@ -40700,7 +41080,12 @@
       "OrderedQuantity": 6028,
       "ReceivedQuantity": 4724,
       "POValue": 177926.77,
-      "FillRate": 0.7836761778367618
+      "FillRate": 0.7836761778367618,
+      "VendorName": "Stout-Parker Supply",
+      "ReceiptEvents": 243.0,
+      "MeanLeadDays": 12.349794238683128,
+      "MedianLeadDays": 12.0,
+      "P90LeadDays": 16.0
     },
     {
       "VendorID": "V0078",
@@ -40708,7 +41093,12 @@
       "OrderedQuantity": 6581,
       "ReceivedQuantity": 5576,
       "POValue": 196906.89,
-      "FillRate": 0.8472876462543686
+      "FillRate": 0.8472876462543686,
+      "VendorName": "Ramirez LLC Supply",
+      "ReceiptEvents": 262.0,
+      "MeanLeadDays": 6.473282442748092,
+      "MedianLeadDays": 6.5,
+      "P90LeadDays": 10.0
     },
     {
       "VendorID": "V0079",
@@ -40716,7 +41106,12 @@
       "OrderedQuantity": 5798,
       "ReceivedQuantity": 4887,
       "POValue": 169526.83,
-      "FillRate": 0.8428768540876164
+      "FillRate": 0.8428768540876164,
+      "VendorName": "Smith PLC Supply",
+      "ReceiptEvents": 240.0,
+      "MeanLeadDays": 8.458333333333334,
+      "MedianLeadDays": 8.5,
+      "P90LeadDays": 12.0
     },
     {
       "VendorID": "V0080",
@@ -40724,7 +41119,12 @@
       "OrderedQuantity": 5730,
       "ReceivedQuantity": 4568,
       "POValue": 174173.7,
-      "FillRate": 0.7972076788830715
+      "FillRate": 0.7972076788830715,
+      "VendorName": "Myers, Fleming and Blevins Supply",
+      "ReceiptEvents": 227.0,
+      "MeanLeadDays": 13.405286343612335,
+      "MedianLeadDays": 13.0,
+      "P90LeadDays": 17.0
     },
     {
       "VendorID": "V0081",
@@ -40732,7 +41132,12 @@
       "OrderedQuantity": 6057,
       "ReceivedQuantity": 4796,
       "POValue": 181926.34,
-      "FillRate": 0.7918111276209344
+      "FillRate": 0.7918111276209344,
+      "VendorName": "Harding LLC Supply",
+      "ReceiptEvents": 235.0,
+      "MeanLeadDays": 7.3446808510638295,
+      "MedianLeadDays": 7.0,
+      "P90LeadDays": 10.0
     },
     {
       "VendorID": "V0082",
@@ -40740,7 +41145,12 @@
       "OrderedQuantity": 5731,
       "ReceivedQuantity": 4714,
       "POValue": 162116.04,
-      "FillRate": 0.8225440586285117
+      "FillRate": 0.8225440586285117,
+      "VendorName": "Williams, Miller and Melendez Supply",
+      "ReceiptEvents": 240.0,
+      "MeanLeadDays": 8.495833333333334,
+      "MedianLeadDays": 8.0,
+      "P90LeadDays": 12.0
     },
     {
       "VendorID": "V0083",
@@ -40748,7 +41158,12 @@
       "OrderedQuantity": 6437,
       "ReceivedQuantity": 5300,
       "POValue": 203030.33,
-      "FillRate": 0.8233649215473047
+      "FillRate": 0.8233649215473047,
+      "VendorName": "Brown, Wood and Butler Supply",
+      "ReceiptEvents": 252.0,
+      "MeanLeadDays": 14.607142857142858,
+      "MedianLeadDays": 15.0,
+      "P90LeadDays": 18.0
     },
     {
       "VendorID": "V0084",
@@ -40756,7 +41171,12 @@
       "OrderedQuantity": 5756,
       "ReceivedQuantity": 4600,
       "POValue": 169375.14,
-      "FillRate": 0.7991660875608061
+      "FillRate": 0.7991660875608061,
+      "VendorName": "King LLC Supply",
+      "ReceiptEvents": 226.0,
+      "MeanLeadDays": 9.424778761061948,
+      "MedianLeadDays": 9.0,
+      "P90LeadDays": 13.0
     },
     {
       "VendorID": "V0085",
@@ -40764,7 +41184,12 @@
       "OrderedQuantity": 5026,
       "ReceivedQuantity": 4091,
       "POValue": 144701.02,
-      "FillRate": 0.8139673696776761
+      "FillRate": 0.8139673696776761,
+      "VendorName": "Rodgers and Sons Supply",
+      "ReceiptEvents": 207.0,
+      "MeanLeadDays": 12.53623188405797,
+      "MedianLeadDays": 12.0,
+      "P90LeadDays": 16.0
     },
     {
       "VendorID": "V0086",
@@ -40772,7 +41197,12 @@
       "OrderedQuantity": 4502,
       "ReceivedQuantity": 3767,
       "POValue": 128457.27,
-      "FillRate": 0.8367392270102176
+      "FillRate": 0.8367392270102176,
+      "VendorName": "Holmes, Hoffman and Ford Supply",
+      "ReceiptEvents": 201.0,
+      "MeanLeadDays": 10.487562189054726,
+      "MedianLeadDays": 11.0,
+      "P90LeadDays": 13.0
     },
     {
       "VendorID": "V0087",
@@ -40780,7 +41210,12 @@
       "OrderedQuantity": 4352,
       "ReceivedQuantity": 3631,
       "POValue": 135437.67,
-      "FillRate": 0.8343290441176471
+      "FillRate": 0.8343290441176471,
+      "VendorName": "Brown-Gonzalez Supply",
+      "ReceiptEvents": 187.0,
+      "MeanLeadDays": 10.775401069518717,
+      "MedianLeadDays": 11.0,
+      "P90LeadDays": 14.0
     },
     {
       "VendorID": "V0088",
@@ -40788,7 +41223,12 @@
       "OrderedQuantity": 4738,
       "ReceivedQuantity": 3666,
       "POValue": 142457.2,
-      "FillRate": 0.7737441958632334
+      "FillRate": 0.7737441958632334,
+      "VendorName": "Murphy and Sons Supply",
+      "ReceiptEvents": 193.0,
+      "MeanLeadDays": 8.461139896373057,
+      "MedianLeadDays": 9.0,
+      "P90LeadDays": 12.0
     },
     {
       "VendorID": "V0089",
@@ -40796,7 +41236,12 @@
       "OrderedQuantity": 7528,
       "ReceivedQuantity": 6085,
       "POValue": 218648.87,
-      "FillRate": 0.8083156216790648
+      "FillRate": 0.8083156216790648,
+      "VendorName": "Santana Group Supply",
+      "ReceiptEvents": 280.0,
+      "MeanLeadDays": 12.717857142857143,
+      "MedianLeadDays": 13.0,
+      "P90LeadDays": 16.0
     },
     {
       "VendorID": "V0090",
@@ -40804,7 +41249,12 @@
       "OrderedQuantity": 6554,
       "ReceivedQuantity": 5058,
       "POValue": 190578.58,
-      "FillRate": 0.7717424473603905
+      "FillRate": 0.7717424473603905,
+      "VendorName": "Brown and Sons Supply",
+      "ReceiptEvents": 257.0,
+      "MeanLeadDays": 6.5680933852140075,
+      "MedianLeadDays": 7.0,
+      "P90LeadDays": 10.0
     },
     {
       "VendorID": "V0091",
@@ -40812,7 +41262,12 @@
       "OrderedQuantity": 5083,
       "ReceivedQuantity": 4458,
       "POValue": 158436.23,
-      "FillRate": 0.8770411174503246
+      "FillRate": 0.8770411174503246,
+      "VendorName": "Gutierrez-Cunningham Supply",
+      "ReceiptEvents": 212.0,
+      "MeanLeadDays": 13.650943396226415,
+      "MedianLeadDays": 14.0,
+      "P90LeadDays": 17.0
     },
     {
       "VendorID": "V0092",
@@ -40820,7 +41275,12 @@
       "OrderedQuantity": 5160,
       "ReceivedQuantity": 4237,
       "POValue": 161934.16,
-      "FillRate": 0.8211240310077519
+      "FillRate": 0.8211240310077519,
+      "VendorName": "Morrison PLC Supply",
+      "ReceiptEvents": 212.0,
+      "MeanLeadDays": 9.518867924528301,
+      "MedianLeadDays": 10.0,
+      "P90LeadDays": 13.0
     },
     {
       "VendorID": "V0093",
@@ -40828,7 +41288,12 @@
       "OrderedQuantity": 7075,
       "ReceivedQuantity": 5894,
       "POValue": 217047.96,
-      "FillRate": 0.8330742049469965
+      "FillRate": 0.8330742049469965,
+      "VendorName": "Brooks-Taylor Supply",
+      "ReceiptEvents": 285.0,
+      "MeanLeadDays": 6.578947368421052,
+      "MedianLeadDays": 7.0,
+      "P90LeadDays": 10.0
     },
     {
       "VendorID": "V0094",
@@ -40836,7 +41301,12 @@
       "OrderedQuantity": 5317,
       "ReceivedQuantity": 4222,
       "POValue": 159045.55,
-      "FillRate": 0.7940567989467745
+      "FillRate": 0.7940567989467745,
+      "VendorName": "Taylor, Austin and Rivera Supply",
+      "ReceiptEvents": 209.0,
+      "MeanLeadDays": 15.14354066985646,
+      "MedianLeadDays": 15.0,
+      "P90LeadDays": 19.0
     },
     {
       "VendorID": "V0095",
@@ -40844,7 +41314,12 @@
       "OrderedQuantity": 4521,
       "ReceivedQuantity": 3710,
       "POValue": 139420.95,
-      "FillRate": 0.8206149082061491
+      "FillRate": 0.8206149082061491,
+      "VendorName": "Flores Group Supply",
+      "ReceiptEvents": 188.0,
+      "MeanLeadDays": 14.388297872340425,
+      "MedianLeadDays": 14.0,
+      "P90LeadDays": 18.0
     },
     {
       "VendorID": "V0096",
@@ -40852,7 +41327,12 @@
       "OrderedQuantity": 5324,
       "ReceivedQuantity": 4631,
       "POValue": 157942.89,
-      "FillRate": 0.8698347107438017
+      "FillRate": 0.8698347107438017,
+      "VendorName": "Peterson, Daniels and Smith Supply",
+      "ReceiptEvents": 228.0,
+      "MeanLeadDays": 10.614035087719298,
+      "MedianLeadDays": 11.0,
+      "P90LeadDays": 14.0
     },
     {
       "VendorID": "V0097",
@@ -40860,7 +41340,12 @@
       "OrderedQuantity": 5505,
       "ReceivedQuantity": 4609,
       "POValue": 163985.72,
-      "FillRate": 0.8372388737511354
+      "FillRate": 0.8372388737511354,
+      "VendorName": "Adams and Sons Supply",
+      "ReceiptEvents": 238.0,
+      "MeanLeadDays": 15.710084033613445,
+      "MedianLeadDays": 16.0,
+      "P90LeadDays": 18.0
     },
     {
       "VendorID": "V0098",
@@ -40868,7 +41353,12 @@
       "OrderedQuantity": 5737,
       "ReceivedQuantity": 4722,
       "POValue": 173332.02,
-      "FillRate": 0.8230782639009936
+      "FillRate": 0.8230782639009936,
+      "VendorName": "Chaney-Wilson Supply",
+      "ReceiptEvents": 238.0,
+      "MeanLeadDays": 12.764705882352942,
+      "MedianLeadDays": 13.0,
+      "P90LeadDays": 16.0
     },
     {
       "VendorID": "V0099",
@@ -40876,7 +41366,12 @@
       "OrderedQuantity": 5399,
       "ReceivedQuantity": 4560,
       "POValue": 157016.46,
-      "FillRate": 0.8446008520096314
+      "FillRate": 0.8446008520096314,
+      "VendorName": "Miller, Fisher and Cook Supply",
+      "ReceiptEvents": 222.0,
+      "MeanLeadDays": 10.373873873873874,
+      "MedianLeadDays": 10.0,
+      "P90LeadDays": 14.0
     },
     {
       "VendorID": "V0100",
@@ -40884,7 +41379,12 @@
       "OrderedQuantity": 6967,
       "ReceivedQuantity": 5685,
       "POValue": 207632.38,
-      "FillRate": 0.8159896655662409
+      "FillRate": 0.8159896655662409,
+      "VendorName": "Brown, Anderson and Jackson Supply",
+      "ReceiptEvents": 285.0,
+      "MeanLeadDays": 9.68421052631579,
+      "MedianLeadDays": 10.0,
+      "P90LeadDays": 13.0
     },
     {
       "VendorID": "V0101",
@@ -40892,7 +41392,12 @@
       "OrderedQuantity": 4806,
       "ReceivedQuantity": 4071,
       "POValue": 146423.06,
-      "FillRate": 0.8470661672908864
+      "FillRate": 0.8470661672908864,
+      "VendorName": "Greene, Aguilar and Ward Supply",
+      "ReceiptEvents": 200.0,
+      "MeanLeadDays": 7.565,
+      "MedianLeadDays": 8.0,
+      "P90LeadDays": 10.0
     },
     {
       "VendorID": "V0102",
@@ -40900,7 +41405,12 @@
       "OrderedQuantity": 5068,
       "ReceivedQuantity": 4110,
       "POValue": 149749.28,
-      "FillRate": 0.8109707971586425
+      "FillRate": 0.8109707971586425,
+      "VendorName": "Ball-Long Supply",
+      "ReceiptEvents": 203.0,
+      "MeanLeadDays": 10.073891625615763,
+      "MedianLeadDays": 10.0,
+      "P90LeadDays": 13.800000000000011
     },
     {
       "VendorID": "V0103",
@@ -40908,7 +41418,12 @@
       "OrderedQuantity": 5304,
       "ReceivedQuantity": 4257,
       "POValue": 154740.65,
-      "FillRate": 0.8026018099547512
+      "FillRate": 0.8026018099547512,
+      "VendorName": "Williams-Mueller Supply",
+      "ReceiptEvents": 205.0,
+      "MeanLeadDays": 10.580487804878048,
+      "MedianLeadDays": 11.0,
+      "P90LeadDays": 13.0
     },
     {
       "VendorID": "V0104",
@@ -40916,7 +41431,12 @@
       "OrderedQuantity": 5527,
       "ReceivedQuantity": 4474,
       "POValue": 156209.55,
-      "FillRate": 0.8094807309571196
+      "FillRate": 0.8094807309571196,
+      "VendorName": "Perez-Scott Supply",
+      "ReceiptEvents": 225.0,
+      "MeanLeadDays": 8.64,
+      "MedianLeadDays": 9.0,
+      "P90LeadDays": 12.0
     },
     {
       "VendorID": "V0105",
@@ -40924,7 +41444,12 @@
       "OrderedQuantity": 4773,
       "ReceivedQuantity": 3906,
       "POValue": 145555.65,
-      "FillRate": 0.8183532369578881
+      "FillRate": 0.8183532369578881,
+      "VendorName": "Scott, Dean and Mendoza Supply",
+      "ReceiptEvents": 183.0,
+      "MeanLeadDays": 6.420765027322404,
+      "MedianLeadDays": 6.0,
+      "P90LeadDays": 10.0
     },
     {
       "VendorID": "V0106",
@@ -40932,7 +41457,12 @@
       "OrderedQuantity": 5668,
       "ReceivedQuantity": 4510,
       "POValue": 178329.54,
-      "FillRate": 0.7956951305575158
+      "FillRate": 0.7956951305575158,
+      "VendorName": "Mason-Bender Supply",
+      "ReceiptEvents": 235.0,
+      "MeanLeadDays": 15.642553191489363,
+      "MedianLeadDays": 16.0,
+      "P90LeadDays": 19.0
     },
     {
       "VendorID": "V0107",
@@ -40940,7 +41470,12 @@
       "OrderedQuantity": 5442,
       "ReceivedQuantity": 4582,
       "POValue": 163140.9,
-      "FillRate": 0.8419698640205807
+      "FillRate": 0.8419698640205807,
+      "VendorName": "Johnson, Romero and Campbell Supply",
+      "ReceiptEvents": 235.0,
+      "MeanLeadDays": 10.417021276595746,
+      "MedianLeadDays": 10.0,
+      "P90LeadDays": 14.0
     },
     {
       "VendorID": "V0108",
@@ -40948,7 +41483,12 @@
       "OrderedQuantity": 5927,
       "ReceivedQuantity": 4799,
       "POValue": 187773.01,
-      "FillRate": 0.8096844946853383
+      "FillRate": 0.8096844946853383,
+      "VendorName": "Dickson-Garcia Supply",
+      "ReceiptEvents": 242.0,
+      "MeanLeadDays": 8.512396694214877,
+      "MedianLeadDays": 8.5,
+      "P90LeadDays": 12.0
     },
     {
       "VendorID": "V0109",
@@ -40956,7 +41496,12 @@
       "OrderedQuantity": 4983,
       "ReceivedQuantity": 4079,
       "POValue": 149416.02,
-      "FillRate": 0.8185831828215934
+      "FillRate": 0.8185831828215934,
+      "VendorName": "Williamson PLC Supply",
+      "ReceiptEvents": 204.0,
+      "MeanLeadDays": 9.269607843137255,
+      "MedianLeadDays": 9.0,
+      "P90LeadDays": 13.0
     },
     {
       "VendorID": "V0110",
@@ -40964,7 +41509,12 @@
       "OrderedQuantity": 5239,
       "ReceivedQuantity": 4338,
       "POValue": 151570.93,
-      "FillRate": 0.8280206146211109
+      "FillRate": 0.8280206146211109,
+      "VendorName": "Medina LLC Supply",
+      "ReceiptEvents": 215.0,
+      "MeanLeadDays": 9.334883720930232,
+      "MedianLeadDays": 9.0,
+      "P90LeadDays": 13.0
     },
     {
       "VendorID": "V0111",
@@ -40972,7 +41522,12 @@
       "OrderedQuantity": 5313,
       "ReceivedQuantity": 4554,
       "POValue": 146279.6,
-      "FillRate": 0.8571428571428571
+      "FillRate": 0.8571428571428571,
+      "VendorName": "Phillips LLC Supply",
+      "ReceiptEvents": 210.0,
+      "MeanLeadDays": 8.495238095238095,
+      "MedianLeadDays": 8.0,
+      "P90LeadDays": 12.0
     },
     {
       "VendorID": "V0112",
@@ -40980,7 +41535,12 @@
       "OrderedQuantity": 6058,
       "ReceivedQuantity": 5004,
       "POValue": 172276.54,
-      "FillRate": 0.826015186530208
+      "FillRate": 0.826015186530208,
+      "VendorName": "Rodriguez and Sons Supply",
+      "ReceiptEvents": 245.0,
+      "MeanLeadDays": 15.628571428571428,
+      "MedianLeadDays": 16.0,
+      "P90LeadDays": 19.0
     },
     {
       "VendorID": "V0113",
@@ -40988,7 +41548,12 @@
       "OrderedQuantity": 5198,
       "ReceivedQuantity": 4422,
       "POValue": 158831.73,
-      "FillRate": 0.8507118122354752
+      "FillRate": 0.8507118122354752,
+      "VendorName": "Brown-Barnett Supply",
+      "ReceiptEvents": 214.0,
+      "MeanLeadDays": 8.467289719626168,
+      "MedianLeadDays": 8.0,
+      "P90LeadDays": 12.0
     },
     {
       "VendorID": "V0114",
@@ -40996,7 +41561,12 @@
       "OrderedQuantity": 5222,
       "ReceivedQuantity": 4328,
       "POValue": 145471.79,
-      "FillRate": 0.8288012255840674
+      "FillRate": 0.8288012255840674,
+      "VendorName": "Johnson, Norton and Patterson Supply",
+      "ReceiptEvents": 219.0,
+      "MeanLeadDays": 7.6118721461187215,
+      "MedianLeadDays": 8.0,
+      "P90LeadDays": 11.0
     },
     {
       "VendorID": "V0115",
@@ -41004,7 +41574,12 @@
       "OrderedQuantity": 5525,
       "ReceivedQuantity": 4305,
       "POValue": 163673.63,
-      "FillRate": 0.779185520361991
+      "FillRate": 0.779185520361991,
+      "VendorName": "Davidson-Glover Supply",
+      "ReceiptEvents": 222.0,
+      "MeanLeadDays": 12.427927927927929,
+      "MedianLeadDays": 12.0,
+      "P90LeadDays": 16.0
     },
     {
       "VendorID": "V0116",
@@ -41012,7 +41587,12 @@
       "OrderedQuantity": 5881,
       "ReceivedQuantity": 4838,
       "POValue": 176180.66,
-      "FillRate": 0.8226492093181432
+      "FillRate": 0.8226492093181432,
+      "VendorName": "Noble-Moore Supply",
+      "ReceiptEvents": 255.0,
+      "MeanLeadDays": 10.572549019607843,
+      "MedianLeadDays": 10.0,
+      "P90LeadDays": 14.0
     },
     {
       "VendorID": "V0117",
@@ -41020,7 +41600,12 @@
       "OrderedQuantity": 5639,
       "ReceivedQuantity": 4603,
       "POValue": 165028.31,
-      "FillRate": 0.8162794821776911
+      "FillRate": 0.8162794821776911,
+      "VendorName": "Williams-Smith Supply",
+      "ReceiptEvents": 232.0,
+      "MeanLeadDays": 14.426724137931034,
+      "MedianLeadDays": 14.0,
+      "P90LeadDays": 18.0
     },
     {
       "VendorID": "V0118",
@@ -41028,7 +41613,12 @@
       "OrderedQuantity": 5802,
       "ReceivedQuantity": 4664,
       "POValue": 169090.53,
-      "FillRate": 0.8038607376766632
+      "FillRate": 0.8038607376766632,
+      "VendorName": "Olsen and Sons Supply",
+      "ReceiptEvents": 243.0,
+      "MeanLeadDays": 10.991769547325102,
+      "MedianLeadDays": 11.0,
+      "P90LeadDays": 14.0
     },
     {
       "VendorID": "V0119",
@@ -41036,7 +41626,12 @@
       "OrderedQuantity": 5241,
       "ReceivedQuantity": 4278,
       "POValue": 148708.46,
-      "FillRate": 0.8162564396107613
+      "FillRate": 0.8162564396107613,
+      "VendorName": "Farley-Tran Supply",
+      "ReceiptEvents": 208.0,
+      "MeanLeadDays": 11.221153846153847,
+      "MedianLeadDays": 11.0,
+      "P90LeadDays": 14.0
     },
     {
       "VendorID": "V0120",
@@ -41044,7 +41639,12 @@
       "OrderedQuantity": 6194,
       "ReceivedQuantity": 4990,
       "POValue": 182828.49,
-      "FillRate": 0.805618340329351
+      "FillRate": 0.805618340329351,
+      "VendorName": "Wood, Hill and Johnson Supply",
+      "ReceiptEvents": 247.0,
+      "MeanLeadDays": 6.336032388663968,
+      "MedianLeadDays": 6.0,
+      "P90LeadDays": 10.0
     },
     {
       "VendorID": "V0121",
@@ -41052,7 +41652,12 @@
       "OrderedQuantity": 5617,
       "ReceivedQuantity": 4885,
       "POValue": 172890.48,
-      "FillRate": 0.8696813245504718
+      "FillRate": 0.8696813245504718,
+      "VendorName": "Olson-Jones Supply",
+      "ReceiptEvents": 238.0,
+      "MeanLeadDays": 14.487394957983193,
+      "MedianLeadDays": 15.0,
+      "P90LeadDays": 17.30000000000001
     },
     {
       "VendorID": "V0122",
@@ -41060,7 +41665,12 @@
       "OrderedQuantity": 6486,
       "ReceivedQuantity": 5244,
       "POValue": 194957.92,
-      "FillRate": 0.8085106382978723
+      "FillRate": 0.8085106382978723,
+      "VendorName": "Stevens PLC Supply",
+      "ReceiptEvents": 267.0,
+      "MeanLeadDays": 15.411985018726591,
+      "MedianLeadDays": 15.0,
+      "P90LeadDays": 19.0
     },
     {
       "VendorID": "V0123",
@@ -41068,7 +41678,12 @@
       "OrderedQuantity": 5415,
       "ReceivedQuantity": 4256,
       "POValue": 165546.05,
-      "FillRate": 0.7859649122807018
+      "FillRate": 0.7859649122807018,
+      "VendorName": "Galvan-Bright Supply",
+      "ReceiptEvents": 210.0,
+      "MeanLeadDays": 9.657142857142857,
+      "MedianLeadDays": 10.0,
+      "P90LeadDays": 13.0
     },
     {
       "VendorID": "V0124",
@@ -41076,7 +41691,12 @@
       "OrderedQuantity": 5059,
       "ReceivedQuantity": 4036,
       "POValue": 149304.98,
-      "FillRate": 0.7977861237398696
+      "FillRate": 0.7977861237398696,
+      "VendorName": "Delgado, Mathis and Bond Supply",
+      "ReceiptEvents": 204.0,
+      "MeanLeadDays": 8.382352941176471,
+      "MedianLeadDays": 8.0,
+      "P90LeadDays": 11.0
     },
     {
       "VendorID": "V0125",
@@ -41084,7 +41704,12 @@
       "OrderedQuantity": 5761,
       "ReceivedQuantity": 4816,
       "POValue": 178905.99,
-      "FillRate": 0.8359659781287971
+      "FillRate": 0.8359659781287971,
+      "VendorName": "Gibbs, Moore and Gordon Supply",
+      "ReceiptEvents": 244.0,
+      "MeanLeadDays": 6.315573770491803,
+      "MedianLeadDays": 6.0,
+      "P90LeadDays": 10.0
     },
     {
       "VendorID": "V0126",
@@ -41092,7 +41717,12 @@
       "OrderedQuantity": 5943,
       "ReceivedQuantity": 4604,
       "POValue": 178561.16,
-      "FillRate": 0.7746929160356723
+      "FillRate": 0.7746929160356723,
+      "VendorName": "Thomas-Foster Supply",
+      "ReceiptEvents": 233.0,
+      "MeanLeadDays": 8.609442060085836,
+      "MedianLeadDays": 9.0,
+      "P90LeadDays": 12.0
     },
     {
       "VendorID": "V0127",
@@ -41100,7 +41730,12 @@
       "OrderedQuantity": 4760,
       "ReceivedQuantity": 3949,
       "POValue": 140824.71,
-      "FillRate": 0.8296218487394958
+      "FillRate": 0.8296218487394958,
+      "VendorName": "Garcia Group Supply",
+      "ReceiptEvents": 197.0,
+      "MeanLeadDays": 15.598984771573605,
+      "MedianLeadDays": 16.0,
+      "P90LeadDays": 19.0
     },
     {
       "VendorID": "V0128",
@@ -41108,7 +41743,12 @@
       "OrderedQuantity": 6108,
       "ReceivedQuantity": 5139,
       "POValue": 166691.23,
-      "FillRate": 0.8413555992141454
+      "FillRate": 0.8413555992141454,
+      "VendorName": "Lopez, Wolf and Brown Supply",
+      "ReceiptEvents": 245.0,
+      "MeanLeadDays": 7.502040816326531,
+      "MedianLeadDays": 8.0,
+      "P90LeadDays": 11.0
     },
     {
       "VendorID": "V0129",
@@ -41116,7 +41756,12 @@
       "OrderedQuantity": 5920,
       "ReceivedQuantity": 4716,
       "POValue": 183371.17,
-      "FillRate": 0.7966216216216216
+      "FillRate": 0.7966216216216216,
+      "VendorName": "Pittman, Moreno and Acosta Supply",
+      "ReceiptEvents": 229.0,
+      "MeanLeadDays": 6.576419213973799,
+      "MedianLeadDays": 6.0,
+      "P90LeadDays": 10.0
     },
     {
       "VendorID": "V0130",
@@ -41124,7 +41769,12 @@
       "OrderedQuantity": 7538,
       "ReceivedQuantity": 6162,
       "POValue": 212911.18,
-      "FillRate": 0.8174582117272486
+      "FillRate": 0.8174582117272486,
+      "VendorName": "Miller-Johnson Supply",
+      "ReceiptEvents": 309.0,
+      "MeanLeadDays": 14.585760517799352,
+      "MedianLeadDays": 15.0,
+      "P90LeadDays": 18.0
     },
     {
       "VendorID": "V0131",
@@ -41132,7 +41782,12 @@
       "OrderedQuantity": 5465,
       "ReceivedQuantity": 4609,
       "POValue": 156673.59,
-      "FillRate": 0.843366880146386
+      "FillRate": 0.843366880146386,
+      "VendorName": "Mccormick-Randall Supply",
+      "ReceiptEvents": 229.0,
+      "MeanLeadDays": 7.580786026200873,
+      "MedianLeadDays": 8.0,
+      "P90LeadDays": 11.0
     },
     {
       "VendorID": "V0132",
@@ -41140,7 +41795,12 @@
       "OrderedQuantity": 6306,
       "ReceivedQuantity": 5120,
       "POValue": 183206.03,
-      "FillRate": 0.8119251506501745
+      "FillRate": 0.8119251506501745,
+      "VendorName": "Watson Group Supply",
+      "ReceiptEvents": 247.0,
+      "MeanLeadDays": 9.672064777327936,
+      "MedianLeadDays": 10.0,
+      "P90LeadDays": 13.0
     },
     {
       "VendorID": "V0133",
@@ -41148,7 +41808,12 @@
       "OrderedQuantity": 5025,
       "ReceivedQuantity": 4226,
       "POValue": 150189.79,
-      "FillRate": 0.8409950248756219
+      "FillRate": 0.8409950248756219,
+      "VendorName": "Rodriguez, Hernandez and Wilson Supply",
+      "ReceiptEvents": 211.0,
+      "MeanLeadDays": 13.407582938388625,
+      "MedianLeadDays": 13.0,
+      "P90LeadDays": 17.0
     },
     {
       "VendorID": "V0134",
@@ -41156,7 +41821,12 @@
       "OrderedQuantity": 6618,
       "ReceivedQuantity": 5419,
       "POValue": 178756.94,
-      "FillRate": 0.8188274403142943
+      "FillRate": 0.8188274403142943,
+      "VendorName": "Williams-Murphy Supply",
+      "ReceiptEvents": 271.0,
+      "MeanLeadDays": 7.516605166051661,
+      "MedianLeadDays": 7.0,
+      "P90LeadDays": 11.0
     },
     {
       "VendorID": "V0135",
@@ -41164,7 +41834,12 @@
       "OrderedQuantity": 5322,
       "ReceivedQuantity": 4489,
       "POValue": 165947.23,
-      "FillRate": 0.8434798947763998
+      "FillRate": 0.8434798947763998,
+      "VendorName": "Cummings Group Supply",
+      "ReceiptEvents": 229.0,
+      "MeanLeadDays": 9.275109170305678,
+      "MedianLeadDays": 9.0,
+      "P90LeadDays": 13.0
     },
     {
       "VendorID": "V0136",
@@ -41172,7 +41847,12 @@
       "OrderedQuantity": 6430,
       "ReceivedQuantity": 5194,
       "POValue": 187209.68,
-      "FillRate": 0.8077760497667185
+      "FillRate": 0.8077760497667185,
+      "VendorName": "Wade Ltd Supply",
+      "ReceiptEvents": 257.0,
+      "MeanLeadDays": 7.396887159533074,
+      "MedianLeadDays": 7.0,
+      "P90LeadDays": 11.0
     },
     {
       "VendorID": "V0137",
@@ -41180,7 +41860,12 @@
       "OrderedQuantity": 5187,
       "ReceivedQuantity": 4415,
       "POValue": 151491.82,
-      "FillRate": 0.851166377482167
+      "FillRate": 0.851166377482167,
+      "VendorName": "Brooks-Andrews Supply",
+      "ReceiptEvents": 211.0,
+      "MeanLeadDays": 10.488151658767773,
+      "MedianLeadDays": 10.0,
+      "P90LeadDays": 14.0
     },
     {
       "VendorID": "V0138",
@@ -41188,7 +41873,12 @@
       "OrderedQuantity": 5298,
       "ReceivedQuantity": 4321,
       "POValue": 154830.91,
-      "FillRate": 0.8155907889769725
+      "FillRate": 0.8155907889769725,
+      "VendorName": "Hicks-Wilson Supply",
+      "ReceiptEvents": 223.0,
+      "MeanLeadDays": 10.730941704035875,
+      "MedianLeadDays": 11.0,
+      "P90LeadDays": 14.0
     },
     {
       "VendorID": "V0139",
@@ -41196,7 +41886,12 @@
       "OrderedQuantity": 7062,
       "ReceivedQuantity": 5506,
       "POValue": 208088.64,
-      "FillRate": 0.7796658170489946
+      "FillRate": 0.7796658170489946,
+      "VendorName": "Kelly and Sons Supply",
+      "ReceiptEvents": 276.0,
+      "MeanLeadDays": 11.576086956521738,
+      "MedianLeadDays": 12.0,
+      "P90LeadDays": 15.0
     },
     {
       "VendorID": "V0140",
@@ -41204,7 +41899,12 @@
       "OrderedQuantity": 4785,
       "ReceivedQuantity": 3835,
       "POValue": 140792.48,
-      "FillRate": 0.8014629049111808
+      "FillRate": 0.8014629049111808,
+      "VendorName": "Harris, Stokes and Roberts Supply",
+      "ReceiptEvents": 193.0,
+      "MeanLeadDays": 10.44559585492228,
+      "MedianLeadDays": 10.0,
+      "P90LeadDays": 14.0
     },
     {
       "VendorID": "V0141",
@@ -41212,7 +41912,12 @@
       "OrderedQuantity": 5489,
       "ReceivedQuantity": 4674,
       "POValue": 155470.1,
-      "FillRate": 0.8515212242667153
+      "FillRate": 0.8515212242667153,
+      "VendorName": "Soto, Bailey and Hickman Supply",
+      "ReceiptEvents": 235.0,
+      "MeanLeadDays": 13.587234042553192,
+      "MedianLeadDays": 14.0,
+      "P90LeadDays": 17.0
     },
     {
       "VendorID": "V0142",
@@ -41220,7 +41925,12 @@
       "OrderedQuantity": 6155,
       "ReceivedQuantity": 5192,
       "POValue": 184811.9,
-      "FillRate": 0.8435418359057677
+      "FillRate": 0.8435418359057677,
+      "VendorName": "Lynch-Marquez Supply",
+      "ReceiptEvents": 254.0,
+      "MeanLeadDays": 9.456692913385826,
+      "MedianLeadDays": 9.0,
+      "P90LeadDays": 12.0
     },
     {
       "VendorID": "V0143",
@@ -41228,7 +41938,12 @@
       "OrderedQuantity": 5796,
       "ReceivedQuantity": 4864,
       "POValue": 177063.06,
-      "FillRate": 0.8391994478951
+      "FillRate": 0.8391994478951,
+      "VendorName": "Robles-Chambers Supply",
+      "ReceiptEvents": 241.0,
+      "MeanLeadDays": 6.340248962655601,
+      "MedianLeadDays": 6.0,
+      "P90LeadDays": 9.0
     },
     {
       "VendorID": "V0144",
@@ -41236,7 +41951,12 @@
       "OrderedQuantity": 5996,
       "ReceivedQuantity": 4765,
       "POValue": 175364.21,
-      "FillRate": 0.7946964643095397
+      "FillRate": 0.7946964643095397,
+      "VendorName": "Lee Group Supply",
+      "ReceiptEvents": 246.0,
+      "MeanLeadDays": 6.459349593495935,
+      "MedianLeadDays": 6.0,
+      "P90LeadDays": 10.0
     },
     {
       "VendorID": "V0145",
@@ -41244,7 +41964,12 @@
       "OrderedQuantity": 6340,
       "ReceivedQuantity": 5203,
       "POValue": 187018.03,
-      "FillRate": 0.8206624605678233
+      "FillRate": 0.8206624605678233,
+      "VendorName": "Pham-James Supply",
+      "ReceiptEvents": 249.0,
+      "MeanLeadDays": 9.594377510040161,
+      "MedianLeadDays": 10.0,
+      "P90LeadDays": 13.0
     },
     {
       "VendorID": "V0146",
@@ -41252,7 +41977,12 @@
       "OrderedQuantity": 6636,
       "ReceivedQuantity": 5660,
       "POValue": 185661.82,
-      "FillRate": 0.8529234478601567
+      "FillRate": 0.8529234478601567,
+      "VendorName": "Pruitt and Sons Supply",
+      "ReceiptEvents": 280.0,
+      "MeanLeadDays": 14.464285714285714,
+      "MedianLeadDays": 14.0,
+      "P90LeadDays": 18.0
     },
     {
       "VendorID": "V0147",
@@ -41260,7 +41990,12 @@
       "OrderedQuantity": 4739,
       "ReceivedQuantity": 3939,
       "POValue": 149368.63999999998,
-      "FillRate": 0.8311880143490188
+      "FillRate": 0.8311880143490188,
+      "VendorName": "Kennedy-Sims Supply",
+      "ReceiptEvents": 194.0,
+      "MeanLeadDays": 13.417525773195877,
+      "MedianLeadDays": 13.0,
+      "P90LeadDays": 17.0
     },
     {
       "VendorID": "V0148",
@@ -41268,7 +42003,12 @@
       "OrderedQuantity": 6027,
       "ReceivedQuantity": 4972,
       "POValue": 187668.42,
-      "FillRate": 0.8249543719926995
+      "FillRate": 0.8249543719926995,
+      "VendorName": "Figueroa-Sawyer Supply",
+      "ReceiptEvents": 240.0,
+      "MeanLeadDays": 8.55,
+      "MedianLeadDays": 9.0,
+      "P90LeadDays": 12.0
     },
     {
       "VendorID": "V0149",
@@ -41276,7 +42016,12 @@
       "OrderedQuantity": 5917,
       "ReceivedQuantity": 4870,
       "POValue": 180549.58,
-      "FillRate": 0.8230522224100051
+      "FillRate": 0.8230522224100051,
+      "VendorName": "Spencer, Page and Stevens Supply",
+      "ReceiptEvents": 249.0,
+      "MeanLeadDays": 6.550200803212851,
+      "MedianLeadDays": 7.0,
+      "P90LeadDays": 10.0
     },
     {
       "VendorID": "V0150",
@@ -41284,7 +42029,12 @@
       "OrderedQuantity": 7062,
       "ReceivedQuantity": 5907,
       "POValue": 209379.06,
-      "FillRate": 0.8364485981308412
+      "FillRate": 0.8364485981308412,
+      "VendorName": "Brown-Thomas Supply",
+      "ReceiptEvents": 282.0,
+      "MeanLeadDays": 9.78368794326241,
+      "MedianLeadDays": 10.0,
+      "P90LeadDays": 13.0
     }
   ],
   "open_purchase_orders": [
@@ -50794,25 +51544,41 @@
       "WarehouseID": "ATL",
       "AvgOrderToShipDays": 4.678905359179019,
       "ShippedOrders": 13155,
-      "Backorders": 1028
+      "Backorders": 1028,
+      "MedianShipDays": 5.0,
+      "P90ShipDays": 6.0,
+      "OnTimeOrders": 103.0,
+      "OnTimeRate": 0.007829722538958571
     },
     {
       "WarehouseID": "CHI",
       "AvgOrderToShipDays": 2.399987690792713,
       "ShippedOrders": 16248,
-      "Backorders": 1343
+      "Backorders": 1343,
+      "MedianShipDays": 2.0,
+      "P90ShipDays": 3.0,
+      "OnTimeOrders": 8903.0,
+      "OnTimeRate": 0.5479443623830625
     },
     {
       "WarehouseID": "DAL",
       "AvgOrderToShipDays": 2.094106672519754,
       "ShippedOrders": 18224,
-      "Backorders": 1463
+      "Backorders": 1463,
+      "MedianShipDays": 2.0,
+      "P90ShipDays": 3.0,
+      "OnTimeOrders": 12621.0,
+      "OnTimeRate": 0.6925482879719052
     },
     {
       "WarehouseID": "DEN",
       "AvgOrderToShipDays": 1.7953709467489107,
       "ShippedOrders": 17671,
-      "Backorders": 1411
+      "Backorders": 1411,
+      "MedianShipDays": 2.0,
+      "P90ShipDays": 3.0,
+      "OnTimeOrders": 14252.0,
+      "OnTimeRate": 0.8065191556787957
     }
   ],
   "returns_by_reason": [
@@ -58719,6 +59485,51 @@
       "exported": 1500,
       "selection": "Top 1,500 invoice lines by revenue",
       "scope": "All dates and regions; search and download cover this extract only"
+    }
+  },
+  "decision_evidence": {
+    "sales": {
+      "strongest_category": {
+        "CategoryName": "Cleaning",
+        "Revenue": 2111724.42,
+        "GrossProfit": 869316.91,
+        "Units": 49716,
+        "Discount": 135301.9,
+        "GrossMarginPct": 0.41166210030378875
+      },
+      "weakest_category": {
+        "CategoryName": "Snacks",
+        "Revenue": 892045.84,
+        "GrossProfit": 292190.36,
+        "Units": 37708,
+        "Discount": 82426.87,
+        "GrossMarginPct": 0.32755083527994483
+      }
+    },
+    "customers": {
+      "comparison_year": 2025,
+      "prior_year": 2024,
+      "declining_accounts": 1975,
+      "prior_active_accounts": 4429
+    },
+    "inventory": {
+      "negative_positions": 2188,
+      "no_shipments_positions": 1368,
+      "excess_positions": 4076,
+      "low_coverage_positions": 63,
+      "positions": 8000
+    },
+    "purchasing": {
+      "receipt_events": 34624,
+      "ordered_units": 852221,
+      "received_units": 698305
+    },
+    "operations": {
+      "shipped_orders": 65298,
+      "on_time_orders": 35879,
+      "mean_days": 2.610110570002144,
+      "median_days": 2.0,
+      "p90_days": 5.0
     }
   }
 }

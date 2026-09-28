@@ -23,8 +23,13 @@ function renderDecisionEvidence(data){
  for(const [key,investigation] of Object.entries(data.investigations||{})){
   const box=document.createElement('details');box.className='investigation';box.id=`investigation-${key}`;
   const columns=Object.keys(investigation.rows[0]||{});
-  box.innerHTML=`<summary>Signal investigation · ${h(investigation.rule)}</summary><p>${investigation.exported} of ${investigation.total} matching records · full dataset. This is an investigation queue, not recovered revenue or cash.</p><div class="table-scroll"><table><thead><tr>${columns.map(c=>`<th>${h(c)}</th>`).join('')}</tr></thead><tbody>${investigation.rows.map(r=>`<tr>${columns.map(c=>`<td>${h(r[c])}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
+  box.innerHTML=`<summary>Signal investigation · ${h(investigation.rule)}</summary><p>${investigation.exported} of ${investigation.total} matching records · full dataset. An investigation queue, not recovered revenue or cash.</p>`;
   document.querySelector(`#${key}`).appendChild(box);
+  const labels={SKU:'SKU',ProductName:'Product',WarehouseID:'Warehouse',AvailableQty:'Ledger on-hand',ExposureValue:'Current-cost value',CustomerID:'Customer ID',CustomerName:'Customer',Region:'Region',LifetimeRevenue:'Historical invoiced revenue',DaysInactive:'Days inactive',PONumber:'PO',VendorID:'Vendor ID',VendorName:'Vendor',DaysLate:'Days late',RemainingValue:'Remaining value'};
+  const datasetKey=`investigation_${key}`;
+  const spec=columns.map(c=>[c,labels[c]||c, /Value|Revenue/.test(c)?'money':/Qty|Days/.test(c)?'number':undefined]);
+  renderTables({[datasetKey]:investigation.rows},[[`#investigation-${key}`,'Affected records',datasetKey,spec]]);
+
  }
  document.querySelectorAll('.signal-card').forEach(a=>a.addEventListener('click',()=>{if(a.dataset.focus){const table=document.querySelector(`[data-extract="${a.hash==='#purchasing'?'vendor_performance':'warehouse_performance'}"]`);const input=table?.querySelector('input');if(input){input.value=a.dataset.focus;input.dispatchEvent(new Event('input'));requestAnimationFrame(()=>table.scrollIntoView({block:'start'}));return}}const key=a.hash.slice(1),target=document.querySelector(`#investigation-${key}`);if(target){target.open=true;requestAnimationFrame(()=>target.scrollIntoView({block:'start'}))}}));
  const revenue=Number(data.executive_kpis.revenue),exposure=Number(f.dead_inventory_value||0);

@@ -1,6 +1,6 @@
 {
   "name": "datrixon-verification",
   "private": true,
-  "scripts": {"test": "node --test tests/metrics.test.cjs", "test:browser": "node tests/browser.cjs"},
+  "scripts": {"test": "node --test tests/metrics.test.cjs tests/decisions.test.cjs", "test:browser": "node tests/browser.cjs"},
   "devDependencies": {"playwright": "1.62.1"}
 }
