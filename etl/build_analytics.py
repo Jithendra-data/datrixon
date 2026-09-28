@@ -6,6 +6,7 @@ import pandas as pd
 
 from utils.config import RAW_DIR, PROCESSED_DIR
 from utils.helpers import write_csv
+from utils.business_rules import business_date, customer_segment
 
 def build(input_dir: Path=PROCESSED_DIR, output_dir: Path=PROCESSED_DIR, warehouse: Path|None=None) -> dict[str,pd.DataFrame]:
     invoices=pd.read_csv(input_dir/"InvoiceLine.csv")
@@ -20,16 +21,25 @@ def build(input_dir: Path=PROCESSED_DIR, output_dir: Path=PROCESSED_DIR, warehou
     monthly["GrossMarginPct"]=monthly.GrossProfit.div(monthly.Revenue.where(monthly.Revenue.ne(0)))
     dimc=pd.read_csv(input_dir/"Customer.csv")
     customer=sales.groupby("CustomerID",as_index=False).agg(LifetimeRevenue=("Revenue","sum"),GrossProfit=("GrossProfit","sum"),LastPurchaseDate=("InvoiceDate","max"),Orders=("InvoiceID","nunique"))
+    if warehouse is not None:
+        with sqlite3.connect(warehouse) as db: customer=pd.read_sql_query('SELECT * FROM CustomerSales',db)
+        db.close()
     customer=customer.merge(dimc[["CustomerID","CustomerName","CustomerGroup","Region","SalesRepID"]],on="CustomerID",how="left")
-    customer["DaysInactive"]=(sales.InvoiceDate.max()-pd.to_datetime(customer.LastPurchaseDate)).dt.days
-    customer["Segment"]=customer.DaysInactive.map(lambda d:"Inactive >180 days" if d>180 else "At Risk" if d>90 else "Active")
+    customer["DaysInactive"]=(business_date()-pd.to_datetime(customer.LastPurchaseDate)).dt.days
+    customer["Segment"]=customer.DaysInactive.map(customer_segment)
     products=pd.read_csv(input_dir/"Product.csv")
     product=sales.groupby("ProductID",as_index=False).agg(Revenue=("Revenue","sum"),Units=("Quantity","sum"),GrossProfit=("GrossProfit","sum"))
     product=product.merge(products[["ProductID","SKU","ProductName","CategoryName","VendorID","UnitCost"]],on="ProductID",how="right").fillna({"Revenue":0,"Units":0,"GrossProfit":0})
     po=pd.read_csv(input_dir/"PurchaseOrderLine.csv").merge(pd.read_csv(input_dir/"PurchaseOrderHeader.csv"),on="PONumber",how="left")
     vendor=po.groupby("VendorID",as_index=False).agg(POCount=("PONumber","nunique"),OrderedQuantity=("OrderedQuantity","sum"),ReceivedQuantity=("ReceivedQuantity","sum"),POValue=("LineAmount","sum"))
+    if warehouse is not None:
+        with sqlite3.connect(warehouse) as db: vendor=pd.read_sql_query('SELECT * FROM VendorQuantity',db)
+        db.close()
     vendor["FillRate"]=vendor.ReceivedQuantity.div(vendor.OrderedQuantity.where(vendor.OrderedQuantity.ne(0)))
     result={"monthly_sales":monthly,"customer_performance":customer,"product_performance":product,"vendor_performance":vendor}
+    if warehouse is not None:
+        with sqlite3.connect(warehouse) as db: result['inventory_balance']=pd.read_sql_query('SELECT * FROM InventoryBalance',db)
+        db.close()
     output_dir.mkdir(parents=True,exist_ok=True)
     for name,frame in result.items(): write_csv(frame,output_dir/f"{name}.csv")
     return result

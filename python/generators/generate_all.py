@@ -8,6 +8,7 @@ import pandas as pd
 from python.generators.generate_master_data import create_master_data
 from utils.config import END_DATE, NUM_PURCHASE_ORDERS, NUM_SALES_ORDERS, RAW_DIR, RANDOM_SEED, START_DATE
 from utils.helpers import write_csv
+from utils.business_rules import money_round
 
 def build_transactions(m: dict[str, pd.DataFrame], orders_n: int, pos_n: int) -> dict[str, pd.DataFrame]:
     rng = np.random.default_rng(RANDOM_SEED)
@@ -54,10 +55,11 @@ def build_transactions(m: dict[str, pd.DataFrame], orders_n: int, pos_n: int) ->
             qty = int(max(1, rng.negative_binomial(2, .42)+1))
             if p.ProductID in family_ids and day >= pd.Timestamp("2024-07-01"): qty = int(np.ceil(qty * 1.6))
             discount = float(rng.uniform(.03,.22) if p.CategoryName == "Snacks" and day.year == 2025 else rng.uniform(0,.12))
-            price = float(p.StandardPrice); discount_amount = round(price * qty * discount, 2); revenue = round(price*qty-discount_amount, 2)
+            price = float(p.StandardPrice); discount_amount = money_round(price * qty * discount); revenue = money_round(price*qty-discount_amount)
             cost = float(p.UnitCost) * (1.12 if p.VendorID == "V0001" and day >= pd.Timestamp("2024-10-01") else 1)
-            gp = round(revenue - cost*qty, 2)
-            row={"SalesOrderID":order_id,"LineNumber":ln,"ProductID":p.ProductID,"Quantity":qty,"UnitPrice":price,"DiscountPercent":round(discount,4),"DiscountAmount":discount_amount,"LineRevenue":revenue,"UnitCost":round(cost,2),"LineCOGS":round(cost*qty,2),"GrossProfit":gp}
+            cost = money_round(cost)
+            gp = money_round(revenue - money_round(cost*qty))
+            row={"SalesOrderID":order_id,"LineNumber":ln,"ProductID":p.ProductID,"Quantity":qty,"UnitPrice":price,"DiscountPercent":round(discount,4),"DiscountAmount":discount_amount,"LineRevenue":revenue,"UnitCost":round(cost,2),"LineCOGS":money_round(cost*qty),"GrossProfit":gp}
             lines.append(row); order_rows.append((row,p))
         if status in ["Shipped", "Invoiced"]:
             for row,p in order_rows:
@@ -72,7 +74,7 @@ def build_transactions(m: dict[str, pd.DataFrame], orders_n: int, pos_n: int) ->
                     amount=round(row["UnitPrice"]*returned*(1-row["DiscountPercent"]),2)
                     reason=rng.choice(["Quality Issue","Damaged","Shipping Damage","Wrong Product","Customer Changed Mind","Short Dated","Other"])
                     return_date=min(end,invoice_date+pd.Timedelta(days=int(rng.integers(1,35))))
-                    returns.append({"ReturnID":return_id,"SalesOrderID":order_id,"InvoiceID":invoice_id,"CustomerID":customer.CustomerID,"ProductID":p.ProductID,"ReturnDate":return_date,"ReturnQuantity":returned,"ReturnReason":reason,"ReturnAmount":amount})
+                    returns.append({"ReturnID":return_id,"SalesOrderID":order_id,"InvoiceID":invoice_id,"InvoiceLineNumber":row["LineNumber"],"CustomerID":customer.CustomerID,"ProductID":p.ProductID,"ReturnDate":return_date,"ReturnQuantity":returned,"ReturnReason":reason,"ReturnAmount":amount})
                     invtx.append({"InventoryTransactionID":f"IT{len(invtx)+1:08}","ProductID":p.ProductID,"WarehouseID":wh.WarehouseID,"TransactionDate":return_date,"TransactionType":"Customer Return","Quantity":returned,"ReferenceNumber":return_id,"UnitCost":row["UnitCost"]})
     po_headers=[]; po_lines=[]; receipts=[]
     for n in range(1,pos_n+1):
@@ -90,8 +92,13 @@ def build_transactions(m: dict[str, pd.DataFrame], orders_n: int, pos_n: int) ->
             line_receipts.append((ordered,received))
             po_lines.append({"PONumber":po,"LineNumber":line_no,"ProductID":p.ProductID,"OrderedQuantity":ordered,"ReceivedQuantity":received,"RemainingQuantity":ordered-received,"UnitCost":p.UnitCost,"LineAmount":ordered*p.UnitCost})
             if received:
-                receipt_date=min(end,expected+pd.Timedelta(days=int(rng.integers(-2,6)))); receipts.append({"ReceiptID":f"RC{len(receipts)+1:07}","PONumber":po,"ProductID":p.ProductID,"ReceiptDate":receipt_date,"QuantityReceived":received,"WarehouseID":wh.WarehouseID})
-                invtx.append({"InventoryTransactionID":f"IT{len(invtx)+1:08}","ProductID":p.ProductID,"WarehouseID":wh.WarehouseID,"TransactionDate":receipt_date,"TransactionType":"Purchase Receipt","Quantity":received,"ReferenceNumber":po,"UnitCost":p.UnitCost})
+                # Two events demonstrate partial receipts against an explicit purchase line.
+                quantities=[received//2, received-received//2] if received>1 else [received]
+                for event_number, receipt_qty in enumerate(quantities):
+                    receipt_date=min(end,expected+pd.Timedelta(days=int(rng.integers(-2,6))+event_number))
+                    receipt_id=f"RC{len(receipts)+1:07}"
+                    receipts.append({"ReceiptID":receipt_id,"PONumber":po,"LineNumber":line_no,"ProductID":p.ProductID,"ReceiptDate":receipt_date,"QuantityReceived":receipt_qty,"WarehouseID":wh.WarehouseID})
+                    invtx.append({"InventoryTransactionID":f"IT{len(invtx)+1:08}","ProductID":p.ProductID,"WarehouseID":wh.WarehouseID,"TransactionDate":receipt_date,"TransactionType":"Purchase Receipt","Quantity":receipt_qty,"ReferenceNumber":receipt_id,"UnitCost":p.UnitCost})
         ordered_total=sum(x[0] for x in line_receipts); received_total=sum(x[1] for x in line_receipts)
         po_headers[-1]["POStatus"]="Fully Received" if received_total==ordered_total else "Partially Received" if received_total else "Open"
     # Intentional but documented dirty records for the quality demonstration.

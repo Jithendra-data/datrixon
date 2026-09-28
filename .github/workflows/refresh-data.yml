@@ -58,6 +58,7 @@ jobs:
         run: |
           python -c "import pandas as pd; print(pd.read_csv('data/processed/data_quality.csv').to_string(index=False)); print(); print(pd.read_csv('data/processed/reconciliation.csv').to_string(index=False))"
       - name: Preserve run evidence
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: northstar-pipeline-evidence-${{ github.run_id }}
@@ -67,7 +68,20 @@ jobs:
             data/processed/reconciliation.csv
             data/processed/run_manifest.json
             data/processed/warehouse.sqlite
+            data/processed/runs/
+            data/processed/failure.json
           retention-days: 14
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - uses: pnpm/action-setup@v4
+        with:
+          version: "11.19.0"
+      - name: Verify new dataset in browser
+        run: |
+          pnpm install --frozen-lockfile
+          pnpm exec playwright install --with-deps chromium
+          pnpm test:browser
       - name: Commit refreshed dashboard data
         run: |
           git config user.name "github-actions[bot]"

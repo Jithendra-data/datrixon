@@ -49,14 +49,14 @@ function polishKpis(data,rows,from,to,region){
  context.innerHTML=`<span class="trend-badge ${Number.isFinite(current)?current<0?'down':'':'neutral'}">${Number.isFinite(current)?`${current<0?'↓':'↑'} ${current<0?'Decrease':'Increase'}`:'No prior year'}</span><span>${year} vs ${year-1} · months ${from.slice(5)}–${to.slice(5)}</span>`;
 }
 function renderExecutiveSignals(data){
- const f=data.business_findings||{},k=data.executive_kpis||{},candidates=[];
+ const f=data.business_findings||{},k=data.executive_kpis||{},rules=data.metric_rules||{},candidates=[];
  const add=(score,title,value,detail,target)=>{if(Number.isFinite(score))candidates.push({score,title,value,detail,target})};
  const exposure=Number(f.dead_inventory_value),stock=Number(f.critical_stockout_sku_warehouse_rows);
- if(exposure>0||stock>0)add(80+Math.min(20,exposure/Math.max(1,k.inventory_value)*20),'Inventory exposure',money(exposure)+' inventory with no shipments in 90 days',`${integer(stock)} critical SKU / warehouse positions require review.`,'inventory');
+ if(exposure>0||stock>0)add(80+Math.min(20,exposure/Math.max(1,k.inventory_value)*20),'Inventory exposure',money(exposure)+` inventory with no shipments in ${rules.movement_window_days||90} days`,`${integer(stock)} critical SKU / warehouse positions require review.`,'inventory');
  const supplier=f.supplier_deterioration;
  if(supplier)add(supplier.ChangeDays>0?75+Math.min(20,supplier.ChangeDays):25,'Supplier lead time',`${supplier.ChangeDays>=0?'+':''}${supplier.ChangeDays.toFixed(1)} days`,`${supplier.VendorID}: ${supplier.FromDays.toFixed(1)} days in ${supplier.FromYear} → ${supplier.ToDays.toFixed(1)} in ${supplier.ToYear}. Largest deterioration among vendors with both years.`,'purchasing');
  const count=Number(f.valuable_customers_inactive_over_60_days);
- if(count>0)add(70+Math.min(10,count/10),'Customer retention',`${integer(count)} high-value accounts`,'Each exceeds $25K historical invoiced revenue and has been inactive for over 60 days.','customers');
+ if(count>0)add(70+Math.min(10,count/10),'Customer retention',`${integer(count)} high-value accounts`,`Each has at least ${money(rules.valuable_customer_revenue||25000)} historical invoiced revenue and has been inactive for over ${rules.inactive_days||60} days.`,'customers');
  const warehouses=Object.entries(f.warehouse_average_ship_days||{}).filter(([,v])=>Number.isFinite(v)).sort((a,b)=>b[1]-a[1]);
  if(warehouses.length>1){const slow=warehouses[0],fast=warehouses.at(-1);add(55+Math.min(20,(slow[1]-fast[1])*5),'Warehouse service',`${slow[0]} · ${slow[1].toFixed(1)} days`,`${(slow[1]-fast[1]).toFixed(1)} days slower than ${fast[0]} on average order-to-ship time.`,'operations')}
  const trend=data.sales_trend||[],a=trend.at(-2),b=trend.at(-1);
@@ -73,7 +73,7 @@ function renderLineage(data){
  ['Raw','Original extracts','CSV extracts preserve the generated source records before cleaning.','data/raw'],
  ['Staging','Standardized records','Python cleaning standardizes the raw files into processed data; SQL staging scripts document the warehouse implementation.','etl/clean_data.py'],
  ['Star Schema','Dimensions & facts','Conformed dimensions and transaction-grain facts define the analytical model. The hosted refresh loads an enforced SQLite reference warehouse. SQL Server scripts are a separate proposed deployment design.','sql/sqlite/warehouse.sql'],
- ['Analytics Marts','Business measures','Monthly sales run through the SQLite MonthlySales view. Operational analytics consume normalized staging CSVs. The analytics builder runs once per refresh.','etl/build_analytics.py'],
+ ['Analytics Marts','Business measures','Sales, customer, vendor and inventory-balance marts execute in SQLite. Receipt timing and movement windows use normalized staging and shared rules. The analytics builder runs once per refresh.','etl/build_analytics.py'],
  ['Quality Controls','Checks & reconciliation','Mandatory source checks, enforced warehouse keys, and five independent reconciliations block publication on failure. See Data Quality for this run’s results and the synthetic negative-stock exception.','validation'],
  ['dashboard.json','Published data contract','The export packages KPI values, monthly series, business findings, quality results, and detail rows into a single JSON file consumed by Datrixon.','web/data/dashboard.json'],
  ['Dashboard','Published intelligence','The exporter writes dashboard.json. GitHub Pages serves the static application, which reads the published export for KPIs, charts, signals, and detail tables.','etl/export_dashboard_data.py']

@@ -1,5 +1,6 @@
 """Bounded investigation extracts and measured dataset coverage."""
 import pandas as pd
+from utils.business_rules import RULES, business_date, inactive_customers
 from validation.registry import CONTROL_VERSION, CONTRACT_VERSION
 
 def add_evidence(payload, stock, po, customers, sales, orders, receipts, source):
@@ -7,10 +8,10 @@ def add_evidence(payload, stock, po, customers, sales, orders, receipts, source)
     positive=stock.AvailableQty.clip(lower=0)*stock.UnitCost
     negative=stock.AvailableQty.clip(upper=0)*stock.UnitCost
     f.update(positive_inventory_value=float(positive.sum()),negative_inventory_value=float(negative.sum()),
-      excess_inventory_value=float(positive[pd.to_numeric(stock.DaysOnHand).fillna(0)>90].sum()),
+      excess_inventory_value=float(positive[pd.to_numeric(stock.DaysOnHand).fillna(0)>RULES["excess_coverage_days"]].sum()),
       overdue_po_value=float(po.loc[(po.RemainingQuantity>0)&(po.DaysLate>0),'RemainingValue'].sum()))
-    recent=sales[sales.InvoiceDate>sales.InvoiceDate.max()-pd.Timedelta(days=90)]
-    inactive=customers[(customers.LifetimeRevenue>=25000)&(customers.DaysInactive>60)]
+    recent=sales[sales.InvoiceDate>business_date()-pd.Timedelta(days=RULES["movement_window_days"])]
+    inactive=inactive_customers(customers)
     f['inactive_recent_90d_revenue']=float(recent.loc[recent.CustomerID.isin(inactive.CustomerID),'Revenue'].sum())
     f['customer_top10_revenue_share']=float(customers.LifetimeRevenue.nlargest(10).sum()/customers.LifetimeRevenue.sum())
     shipped=orders.dropna(subset=['ActualShipDate']).copy()
@@ -26,10 +27,10 @@ def add_evidence(payload, stock, po, customers, sales, orders, receipts, source)
     def records(frame): return frame.astype(object).where(frame.notna(),None).to_dict(orient='records')
     dead=stock[(stock.Sales90Day==0)&(stock.AvailableQty>0)].copy();dead['ExposureValue']=dead.AvailableQty*dead.UnitCost
     definitions={
-      'inventory':(dead.sort_values('ExposureValue',ascending=False),['SKU','ProductName','WarehouseID','AvailableQty','ExposureValue'],'Positive stock with no shipments in trailing 90 days'),
-      'customers':(inactive,['CustomerID','CustomerName','Region','LifetimeRevenue','DaysInactive'],'Lifetime revenue >= $25K and inactivity >60 days'),
+      'inventory':(dead.sort_values('ExposureValue',ascending=False),['SKU','ProductName','WarehouseID','AvailableQty','ExposureValue'],f"Positive stock with no shipments in trailing {RULES['movement_window_days']} days"),
+      'customers':(inactive,['CustomerID','CustomerName','Region','LifetimeRevenue','DaysInactive'],f"Historical invoiced revenue >= ${RULES['valuable_customer_revenue']:,} and inactivity >{RULES['inactive_days']} days"),
       'purchasing':(po[(po.RemainingQuantity>0)&(po.DaysLate>0)].sort_values('RemainingValue',ascending=False),['PONumber','VendorID','VendorName','DaysLate','RemainingValue'],'Overdue unreceived PO lines, largest commitments first')}
     payload['investigations']={key:{'total':len(frame),'exported':min(500,len(frame)),'rule':rule,'rows':records(frame.head(500)[cols])} for key,(frame,cols,rule) in definitions.items()}
-    specs=[('sales_by_category',len(payload['sales_by_category']),'All categories'),('customer_performance',len(customers),'Top 500 customers by lifetime revenue'),('inventory_detail',len(stock),'Top 500 positions by risk then days on hand'),('open_purchase_orders',int((po.RemainingQuantity>0).sum()),'First 500 open PO lines by expected date'),('vendor_performance',len(payload['vendor_performance']),'All vendors'),('warehouse_performance',len(payload['warehouse_performance']),'All warehouses'),('returns_by_reason',len(payload['returns_by_reason']),'All return reasons'),('sales_detail',len(sales),'Top 1,500 invoice lines by revenue')]
+    specs=[('sales_by_category',len(payload['sales_by_category']),'All categories'),('customer_performance',len(customers),'Top 500 customers by historical invoiced revenue'),('inventory_detail',len(stock),'Top 500 positions by risk then days on hand'),('open_purchase_orders',int((po.RemainingQuantity>0).sum()),'First 500 open PO lines by expected date'),('vendor_performance',len(payload['vendor_performance']),'All vendors'),('warehouse_performance',len(payload['warehouse_performance']),'All warehouses'),('returns_by_reason',len(payload['returns_by_reason']),'All return reasons'),('sales_detail',len(sales),'Top 1,500 invoice lines by revenue')]
     payload['extract_coverage']={key:{'eligible':total,'exported':len(payload[key]),'selection':rule,'scope':'All dates and regions; search and download cover this extract only'} for key,total,rule in specs}
-    payload['pipeline_metadata'].update(contract_version=CONTRACT_VERSION,control_version=CONTROL_VERSION,data_through=str(orders.OrderDate.max().date()),valuation_policy='Signed ending quantity times current product unit cost. Negative positions included in net value and disclosed separately; not a financial inventory valuation.')
+    payload['pipeline_metadata'].update(contract_version=CONTRACT_VERSION,control_version=CONTROL_VERSION,data_through=str(business_date().date()),valuation_policy='Signed ending quantity times current product unit cost. Negative positions included in net value and disclosed separately; not a financial inventory valuation.')

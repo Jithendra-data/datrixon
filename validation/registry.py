@@ -1,6 +1,6 @@
 """Versioned publication contract. Append IDs; never recycle their meanings."""
-CONTROL_VERSION = 1
-CONTRACT_VERSION = 3
+CONTROL_VERSION = 2
+CONTRACT_VERSION = 4
 NAMES = (
     'Duplicate InvoiceID', 'Duplicate SalesOrderID', 'Duplicate PONumber',
     'Orphan invoice lines', 'Invoices without sales orders', 'Orphan order lines',
@@ -13,6 +13,10 @@ NAMES = (
     'Orders before customer creation', 'Sales before product availability',
     'Invoices before product availability', 'Invalid return chronology',
     'Shipment inventory consistency', 'Invalid shipment chronology',
+    'Invoice posting eligibility', 'Invoice financial arithmetic', 'PO remaining arithmetic',
+    'Finite source numeric values', 'Return quantity consistency', 'Receipt line relationships',
+    'Receipt quantity reconciliation', 'Receipt inventory consistency', 'Return inventory consistency',
+    'Business cutoff coverage', 'Source key integrity',
 )
 CONTROL_IDS = {name: f'C{i:03}' for i, name in enumerate(NAMES, 1)}
 

@@ -8,7 +8,7 @@ flowchart TD
   R --> V[Blocking source checks]
   V --> S[Normalized staging CSV]
   S --> W[SQLite: six dimensions and four facts]
-  W --> M[SQL MonthlySales view]
+  W --> M[SQL sales, customer, vendor and balance views]
   S --> P[Python operational aggregates]
   M --> C[Candidate dashboard contract]
   P --> C
@@ -23,7 +23,7 @@ flowchart TD
 
 `etl/run_pipeline.py` is the orchestrator. Cleaning trims text and standardizes dates; it does not implement a quarantine service. Invalid source checks stop the run before model loading. `etl/warehouse.py` loads `sql/sqlite/warehouse.sql`, enforces primary/foreign keys, and atomically replaces the reference database. Missing dimension members fail the load; there is no implicit unknown-member substitution.
 
-Monthly financial aggregates execute against the SQLite view. Customer, inventory, vendor, and service calculations use validated staging CSVs. Reconciliation reads original raw sources and independently queries the SQLite facts. No transformation reads staging and then silently switches back to raw for its ordinary analytics path.
+Monthly sales, customer aggregates, vendor quantities, and inventory balances execute against SQLite views. Inventory velocity, receipt timing, and service calculations use validated staging CSVs with shared business rules. Reconciliation reads original raw sources and independently queries the SQLite facts. No transformation reads staging and then silently switches back to raw for its ordinary analytics path.
 
 ## Executed grains
 
@@ -43,3 +43,9 @@ The synthetic returns source has one row per ReturnID; no line number exists. Th
 ## Boundaries
 
 The SQLite database is a build artifact, never exposed as a browser database API. Only synthetic JSON is public. No authentication, confidential-data authorization, CDC, or enterprise SLA is claimed. See engineering/security_and_scale.md for the private-deployment design.
+
+## Receipt relationship and retained evidence
+
+The four core dimensional facts are supplemented by `PurchaseReceiptEvent`, a child event table keyed by ReceiptID and referencing FactPurchasing(PONumber, LineNumber). It permits multiple partial receipts per purchase line. FactReturns references its original invoice line. FactSales retains status, COGS and discount; inventory retains movement type, source reference and unit cost; purchasing retains ordered, received and remaining quantities and expected date.
+
+Canonical views: MonthlySales, CustomerSales, VendorQuantity, InventoryBalance. Shared operational functions live in etl/operational.py. Shared as-of date and thresholds live in utils/config.py and utils/business_rules.py. Sources beyond the configured cutoff fail validation rather than silently mixing periods.

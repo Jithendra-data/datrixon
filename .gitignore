@@ -16,3 +16,6 @@ data/processed/*.json
 .test-run/
 test-results/
 node_modules/
+
+data/processed/runs/
+data/raw/generation_manifest.json

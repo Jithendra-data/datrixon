@@ -8,6 +8,7 @@ from utils.config import RAW_DIR
 from utils.helpers import write_csv
 from validation.registry import CONTROL_IDS, CONTROL_VERSION
 from validation.lifecycle import lifecycle_checks
+from validation.arithmetic import arithmetic_checks
 
 def validate(source: Path=RAW_DIR) -> pd.DataFrame:
     def read(name): return pd.read_csv(source/f"{name}.csv")
@@ -42,6 +43,7 @@ def validate(source: Path=RAW_DIR) -> pd.DataFrame:
     balances=tx.groupby(["ProductID","WarehouseID"],as_index=False).Quantity.sum().rename(columns={"Quantity":"EndingOnHand"})
     add("Negative ending on-hand",balances,balances.EndingOnHand<0,"Inventory")
     lifecycle_checks(read, add)
+    arithmetic_checks(read, add)
     return pd.DataFrame(checks)
 
 def main():

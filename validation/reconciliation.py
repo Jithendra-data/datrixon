@@ -1,4 +1,5 @@
 """Independent source to executed SQLite warehouse to published KPI reconciliation."""
+from utils.business_rules import RULES
 from pathlib import Path
 import sqlite3
 import pandas as pd
@@ -17,7 +18,7 @@ def reconcile(source: Path, warehouse: Path, payload: dict) -> pd.DataFrame:
     with sqlite3.connect(warehouse) as db:
         for name,raw_value,sql,key,unit in specs:
             fact=float(db.execute(sql).fetchone()[0] or 0);published=float(payload['executive_kpis'][key]);raw_value=float(raw_value)
-            fv=abs(raw_value-fact);dv=abs(raw_value-published);tolerance=0.000001 if unit=='units' else 0.01
+            fv=abs(raw_value-fact);dv=abs(raw_value-published);tolerance=RULES['quantity_tolerance'] if unit=='units' else RULES['money_tolerance']
             rows.append(dict(Measure=name,RawValue=raw_value,FactValue=fact,DashboardValue=published,Variance=dv,SourceToWarehouseVariance=fv,SourceToDashboardVariance=dv,Unit=unit,Tolerance=tolerance,Status='PASS' if fv<=tolerance and dv<=tolerance else 'FAIL',Provenance='Raw CSV / SQLite fact query / candidate JSON'))
     db.close()
     return pd.DataFrame(rows)

@@ -29,3 +29,11 @@ Customer labels: Inactive >180 days, At Risk >90 days, otherwise Active. These a
 Domain summaries use the full source population before extract caps. Customer decline compares the latest available calendar year against its preceding calendar year; it is independent of overview filters. Category margin rankings use all available history. Lead time measures receipt date minus PO creation date per receipt event. Quantity fill is received units / ordered units across all PO lines; open and not-yet-due lines remain included. Shipment cycle time is actual ship date minus order date, among shipped orders. Median and p90 describe that distribution.
 
 Average order value would require booking revenue / distinct eligible order headers with an explicit cancellation policy. It is not calculated by dividing invoice revenue by bookings. Returns shown here are amounts and reason counts; no overall return rate or net-of-credits revenue is claimed.
+
+## Canonical rules and money policy
+
+`utils/business_rules.py` is the authoritative threshold and date policy; the public contract exports metric_rules for UI wording. `DATRIXON_AS_OF_DATE` defaults to 2025-12-31 and controls generation, inactivity, shipment windows, PO aging and report cutoffs. Reused sources containing later business events fail validation. Customer year-to-date comparisons use the same cutoff shifted one year.
+
+Money is rounded to two decimals using Decimal ROUND_HALF_UP at generation boundaries. Unit cost is rounded before quantity multiplication; COGS and discount are rounded at line grain, then GP = rounded revenue minus rounded COGS. SQLite stores REAL; explicit reconciliation tolerance remains $0.01. This is a demonstrated policy, not financial certification. Posted synthetic invoice revenue is after discounts but before separate physical-return amounts; no credit-note accounting is implemented.
+
+Warehouse SQL supplies sales, customer totals, vendor quantities, and ledger balances. Shared Python transforms supply trailing movement windows and commitment aging. The standalone operational reports use the same date and rules. Negative ledger positions are a distinct class and are not described as physical available stock.

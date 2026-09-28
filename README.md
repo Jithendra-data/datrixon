@@ -10,9 +10,9 @@ Datrixon helps a fictional distribution leadership team investigate margin movem
 
 ## What runs today
 
-Synthetic ERP CSV → mandatory source validation → normalized staging CSV → enforced SQLite reference warehouse → SQL monthly sales + Python operational analytics → independent source/warehouse/dashboard reconciliation → approved JSON → static browser application.
+Synthetic ERP CSV → mandatory source validation → normalized staging CSV → enforced SQLite reference warehouse → SQL sales/customer/vendor/balance marts + shared Python operational analytics → independent source/warehouse/dashboard reconciliation → approved JSON → static browser application.
 
-Four SQLite facts and six dimensions are actually populated by `etl/warehouse.py`. `sql/sqlite/warehouse.sql` is executed. The T-SQL directories are a separate SQL Server deployment design, not an active SQL Server service. Operational calculations read staging directly; the architecture diagram shows that branch.
+Four SQLite facts and six dimensions are actually populated by `etl/warehouse.py`. `sql/sqlite/warehouse.sql` is executed. The T-SQL directories are a separate SQL Server deployment design, not an active SQL Server service. Receipt timing and movement-window calculations read staging directly; the architecture diagram shows that branch.
 
 | Implemented | Designed | Not implemented |
 |---|---|---|
@@ -32,7 +32,7 @@ pnpm test:browser
 python -m http.server 8000 --directory web
 ```
 
-`--skip-generation` reuses raw files and explicitly records an unknown scenario seed; input hashes identify the files. `--workspace .test-run` isolates all generated files. Defaults: 75,000 order headers, 10,000 PO headers, 5,000 customers, 2,000 products, four warehouses, and business dates in 2023–2025. Repeated full builds of the same inputs are idempotent; generated timestamps and runtime measurements are intentionally different.
+`--skip-generation` reuses raw files. A matching raw generation manifest preserves the seed; otherwise it is explicitly unknown. Input hashes identify the files. `--workspace .test-run` isolates all generated files. Defaults: 75,000 order headers, 10,000 PO headers, 5,000 customers, 2,000 products, four warehouses, and business dates in 2023–2025. Repeated full builds of the same inputs are idempotent; generated timestamps and runtime measurements are intentionally different.
 
 ## Trust and evidence
 
@@ -64,3 +64,5 @@ MIT licensed. See LICENSE.
 ## Product evidence
 
 [Release screenshots](screenshots/README.md) show executive analytics, sales, controls, architecture, and an investigation. Domain summaries are calculated from full source populations; financial comparisons follow the selected overview period.
+
+Configuration: `DATRIXON_RANDOM_SEED` (legacy `NORTHSTAR_RANDOM_SEED` supported), `DATRIXON_AS_OF_DATE` (default 2025-12-31). The latter controls business time, not the deployment clock. Validation requires the current versioned control registry.

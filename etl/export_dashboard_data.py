@@ -10,6 +10,8 @@ from utils.config import RAW_DIR, WEB_DATA_DIR, PROCESSED_DIR, RANDOM_SEED
 from utils.helpers import write_json
 from etl.export_evidence import add_evidence
 from etl.decision_summaries import add_decision_summaries
+from etl.operational import inventory_positions, purchase_positions
+from utils.business_rules import business_date, RULES, inactive_customers
 
 def export(data=None, source=PROCESSED_DIR, write=True) -> dict:
     data=data if data is not None else build(source)
@@ -21,21 +23,7 @@ def export(data=None, source=PROCESSED_DIR, write=True) -> dict:
     inventory=pd.read_csv(source/"InventoryTransaction.csv",parse_dates=["TransactionDate"]) if (source/"InventoryTransaction.csv").exists() else pd.DataFrame()
     po_lines=pd.read_csv(source/"PurchaseOrderLine.csv")
     open_po_value=float((po_lines.RemainingQuantity*po_lines.UnitCost).sum())
-    snapshot=pd.DataFrame()
-    if not inventory.empty:
-        as_of=inventory.TransactionDate.max()
-        stock=inventory.groupby(["ProductID","WarehouseID"],as_index=False).agg(AvailableQty=("Quantity","sum"))
-        shipments=inventory[inventory.TransactionType.eq("Sales Shipment")].copy()
-        shipments["UnitsSold"]=shipments.Quantity.abs()
-        last30=shipments[shipments.TransactionDate>as_of-pd.Timedelta(days=30)].groupby(["ProductID","WarehouseID"]).UnitsSold.sum().rename("Sales30Day")
-        last90=shipments[shipments.TransactionDate>as_of-pd.Timedelta(days=90)].groupby(["ProductID","WarehouseID"]).UnitsSold.sum().rename("Sales90Day")
-        inbound=po_lines.merge(pd.read_csv(source/"PurchaseOrderHeader.csv")[["PONumber","WarehouseID"]],on="PONumber").groupby(["ProductID","WarehouseID"]).RemainingQuantity.sum().rename("InboundQty")
-        stock=stock.set_index(["ProductID","WarehouseID"])
-        for series in [last30,last90,inbound]: stock=stock.join(series,how="left")
-        stock=stock.fillna(0).reset_index()
-        stock["DaysOnHand"]=stock.AvailableQty.clip(lower=0).div(stock.Sales90Day/90).replace([float("inf"),-float("inf")],pd.NA)
-        stock["RiskLevel"]=stock.DaysOnHand.map(lambda d:"No Recent Sales" if pd.isna(d) else "Critical" if d<7 else "High Risk" if d<14 else "Watch" if d<30 else "Healthy" if d<=90 else "Excess")
-        snapshot=stock.merge(products[["ProductID","SKU","ProductName","CategoryName","VendorID","UnitCost"]],on="ProductID",how="left")
+    snapshot=inventory_positions(source,products,data.get('inventory_balance'))
     # Business findings are calculated from transaction facts on each export, never curated constants.
     order_headers=pd.read_csv(source/"SalesOrderHeader.csv",parse_dates=["OrderDate","ActualShipDate"])
     order_headers["OrderToShipDays"]=(order_headers.ActualShipDate-order_headers.OrderDate).dt.days
@@ -45,7 +33,7 @@ def export(data=None, source=PROCESSED_DIR, write=True) -> dict:
     receipts["ActualLeadDays"]=(receipts.ReceiptDate-receipts.CreatedDate).dt.days
     lead=receipts.groupby("VendorID").ActualLeadDays.mean()
     vendor_one_trend=receipts[receipts.VendorID.eq("V0001")].assign(Year=lambda f:f.CreatedDate.dt.year).groupby("Year").ActualLeadDays.mean()
-    at_risk=customers[(customers.LifetimeRevenue>=25000)&(customers.DaysInactive>60)]
+    at_risk=inactive_customers(customers)
     dead_stock=snapshot[(snapshot.Sales90Day==0)&(snapshot.AvailableQty>0)] if not snapshot.empty else pd.DataFrame()
     invoice_lines=pd.read_csv(source/"InvoiceLine.csv")
     invoice_headers=pd.read_csv(source/"InvoiceHeader.csv",parse_dates=["InvoiceDate"])
@@ -67,10 +55,7 @@ def export(data=None, source=PROCESSED_DIR, write=True) -> dict:
     channel_summary=sales_product.groupby("Channel",as_index=False).agg(Revenue=("Revenue","sum"),Invoices=("InvoiceID","nunique"))
     customer_segments=customers.groupby("Segment",as_index=False).agg(Customers=("CustomerID","nunique"),LifetimeRevenue=("LifetimeRevenue","sum"))
     warehouse_summary=order_headers.groupby("WarehouseID").agg(AvgOrderToShipDays=("OrderToShipDays","mean"),ShippedOrders=("ActualShipDate","count"),Backorders=("OrderStatus",lambda values:int(values.eq("Backordered").sum()))).reset_index()
-    po_headers_full=pd.read_csv(source/"PurchaseOrderHeader.csv",parse_dates=["CreatedDate","ExpectedDeliveryDate"])
-    po_detail=po_headers_full.merge(po_lines,on="PONumber",how="inner").merge(pd.read_csv(source/"Vendor.csv")[["VendorID","VendorName"]],on="VendorID",how="left")
-    po_detail["RemainingValue"]=po_detail.RemainingQuantity*po_detail.UnitCost
-    po_detail["DaysLate"]=(order_headers.OrderDate.max()-po_detail.ExpectedDeliveryDate).dt.days.clip(lower=0)
+    po_detail=purchase_positions(source)
     open_po_detail=po_detail[po_detail.RemainingQuantity.gt(0)].sort_values(["ExpectedDeliveryDate","RemainingValue"],ascending=[True,False]).head(500)
     ret=pd.read_csv(source/"CustomerReturn.csv")
     ret["ReturnDate"]=pd.to_datetime(ret.ReturnDate,errors="coerce")
@@ -85,7 +70,7 @@ def export(data=None, source=PROCESSED_DIR, write=True) -> dict:
     rec_path=source/"reconciliation.csv"
     reconciliation=pd.read_csv(rec_path).to_dict(orient="records") if rec_path.exists() else []
     if not snapshot.empty:
-        snapshot["RiskRank"]=snapshot.RiskLevel.map({"Critical":1,"High Risk":2,"Watch":3,"Healthy":4,"Excess":5,"No Recent Sales":6})
+        snapshot["RiskRank"]=snapshot.RiskLevel.map({"Negative ledger":0,"Critical":1,"High Risk":2,"Watch":3,"Healthy":4,"Excess":5,"No Recent Sales":6})
         inv_top=snapshot.sort_values(["RiskRank","DaysOnHand"],na_position="first").head(500).drop(columns="RiskRank")
         safe_snapshot=inv_top.astype(object).where(pd.notna(inv_top),None)
     else: safe_snapshot=snapshot
@@ -94,6 +79,7 @@ def export(data=None, source=PROCESSED_DIR, write=True) -> dict:
       "executive_kpis":{"revenue":float(monthly.Revenue.sum()),"gross_profit":float(monthly.GrossProfit.sum()),"gross_margin":float(monthly.GrossProfit.sum()/monthly.Revenue.sum()) if monthly.Revenue.sum() else 0,"units":int(monthly.Units.sum()),"orders":int(orders.SalesOrderID.nunique()),"customers":int(customers.CustomerID.nunique()),"inventory_value":float((snapshot.AvailableQty*snapshot.UnitCost).sum()) if not snapshot.empty else 0,"open_po_value":open_po_value},
       "sales_trend":monthly.to_dict(orient="records"),"sales_trend_by_region":region_trend.to_dict(orient="records"),"sales_by_category":category_summary.sort_values("Revenue",ascending=False).to_dict(orient="records"),"sales_by_region":region_summary.sort_values("Revenue",ascending=False).to_dict(orient="records"),"sales_by_rep":rep_summary.sort_values("Revenue",ascending=False).to_dict(orient="records"),"sales_by_channel":channel_summary.to_dict(orient="records"),"sales_detail":sales_product.nlargest(1500,"Revenue")[["InvoiceID","InvoiceDate","CustomerID","Region","SalesRepID","ProductID","SKU","ProductName","CategoryName","Channel","Quantity","Revenue","DiscountAmount","GrossProfit"]].to_dict(orient="records"),"customer_performance":customers.nlargest(500,"LifetimeRevenue").to_dict(orient="records"),"customer_segments":customer_segments.to_dict(orient="records"),"inventory_detail":safe_snapshot.to_dict(orient="records"),"vendor_performance":vendors.to_dict(orient="records"),"open_purchase_orders":open_po_detail.to_dict(orient="records"),"warehouse_performance":warehouse_summary.to_dict(orient="records"),"returns_by_reason":returns_by_reason.to_dict(orient="records"),"business_findings":findings,"data_quality":{"summary":dq_summary,"results":dq.to_dict(orient="records")},"reconciliation":reconciliation}
     add_evidence(payload, snapshot, po_detail, customers, sales_product, order_headers, receipts, source)
+    payload['metric_rules']=RULES
     add_decision_summaries(payload, snapshot, customers, sales_product, order_headers, receipts)
     if write:
         raise ValueError("Use etl.run_pipeline: publication must pass the quality gate")

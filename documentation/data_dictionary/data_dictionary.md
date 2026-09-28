@@ -1,18 +1,17 @@
-# Data Dictionary (initial core entities)
+# Executed Datrixon model
 
-| Table | Column | Type | Description | Business meaning |
-|---|---|---|---|---|
-| Customer | CustomerID | varchar(8) | Synthetic stable identifier | Customer natural key |
-| Customer | CustomerGroup | varchar(40) | Commercial segment | Supports cohort and mix analysis |
-| Product | ProductID | varchar(8) | Synthetic stable identifier | Product natural key |
-| Product | UnitCost | decimal(12,2) | Current synthetic standard cost | Cost basis for gross profit |
-| SalesOrderHeader | SalesOrderID | varchar(12) | Booking identifier | Order lifecycle, not revenue |
-| SalesOrderLine | LineRevenue | decimal(14,2) | Net booked line amount | Order booking value |
-| InvoiceHeader | InvoiceID | varchar(12) | Posted invoice identifier | Revenue recognition event |
-| InvoiceLine | Revenue | decimal(14,2) | Net invoiced amount | Revenue fact source |
-| PurchaseOrderLine | RemainingQuantity | int | Ordered less received | Outstanding commitment |
-| InventoryTransaction | Quantity | decimal(14,2) | Signed inventory movement | Source for on-hand calculation |
-| CustomerReturn | ReturnAmount | decimal(14,2) | Value of returned goods | Return exposure |
+Source CSV values are normalized by Python. The executed warehouse is SQLite; monetary amounts are REAL with explicit tolerance. T-SQL decimal/surrogate-key designs are separate and not loaded.
 
-All names, addresses, transactions and identifiers are generated. Full warehouse key/type details are maintained in the SQL DDL and extended as entities are implemented.
+| Table | Key / grain | Retained evidence |
+|---|---|---|
+| FactSales | InvoiceID + LineNumber | Invoice date, customer, product, warehouse, rep, order, posted status, quantity, revenue, COGS, discount, GP |
+| FactInventory | InventoryTransactionID | Date, product, warehouse, signed quantity, movement type, source reference, movement cost |
+| FactPurchasing | PONumber + LineNumber | Created date, expected date, vendor, product, warehouse, ordered/received/remaining quantities, unit cost |
+| FactReturns | ReturnID | Date, customer, product, invoice-line reference, quantity, amount, reason |
+| PurchaseReceiptEvent | ReceiptID, child of PO line | PO number + line number, receipt date, quantity; multiple events allowed |
 
+Six natural-key dimensions: Date, Customer, Product, Vendor, SalesRep, Warehouse. DateKey is ISO date text, covering 2020–2035. Masters represent current attributes, not SCD2 history. Source keys, foreign keys, arithmetic and lifecycle constraints block publication.
+
+Public compatibility names: LifetimeRevenue means historical invoiced revenue in the available scenario, not lifetime value. AvailableQty means signed ledger on-hand, not available-to-promise. dead_inventory_value is a legacy contract field for positive stock with no shipments in the trailing movement window, not proven obsolete stock. These internal field names are retained to avoid unnecessary contract breakage; UI labels state the measured definition.
+
+Current source and target column details are executable in sql/sqlite/warehouse.sql and etl/warehouse.py. Product UnitCost is the current standard cost; invoice UnitCost captures the transaction's generated cost and can differ.

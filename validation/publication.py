@@ -1,4 +1,5 @@
 """Fail-closed publication policy; only synthetic negative stock has an exception."""
+from utils.business_rules import RULES
 import math
 
 from validation.registry import CONTROL_VERSION, CONTRACT_VERSION, CONTROL_IDS, summarize
@@ -37,7 +38,11 @@ def validate_contract(payload):
     required={'revenue','gross_profit','gross_margin','units','orders','customers','inventory_value','open_po_value'}
     k=payload.get('executive_kpis',{})
     if not required.issubset(k): raise ValueError('Incomplete KPI contract')
-    if any(not isinstance(k[x],(float,int)) or not math.isfinite(k[x]) for x in required): raise ValueError('Nonfinite KPI contract')
+    if any(type(k[x]) not in (float,int) or not math.isfinite(k[x]) for x in required): raise ValueError('Nonfinite KPI contract')
+    for series,fields in [('sales_trend',['Revenue','GrossProfit','Units']),('sales_trend_by_region',['Revenue','GrossProfit','Orders'])]:
+        for row in payload.get(series,[]):
+            if any(type(row.get(field)) not in (float,int) or not math.isfinite(row[field]) for field in fields):
+                raise ValueError('Invalid numeric reporting series')
     if not payload.get('sales_trend_by_region'): raise ValueError('Missing monthly reporting coverage')
     for field,key in [('Revenue','revenue'),('GrossProfit','gross_profit'),('Units','units')]:
         if abs(sum(float(r[field]) for r in payload.get('sales_trend',[]))-k[key])>0.01: raise ValueError('Monthly totals do not match KPI: '+key)
@@ -50,7 +55,7 @@ def validate_contract(payload):
     if any(r['Status']!='PASS' for r in rec): raise ValueError('Reconciliation blocked publication')
     measures={'Revenue':'revenue','GrossProfit':'gross_profit','Units':'units','EndingInventoryValue':'inventory_value','OpenPOValue':'open_po_value'}
     for r in rec:
-        tolerance=0.000001 if r['Measure']=='Units' else 0.01
+        tolerance=RULES['quantity_tolerance'] if r['Measure']=='Units' else RULES['money_tolerance']
         values=[r.get(key) for key in ['RawValue','FactValue','DashboardValue']]
         if any(not isinstance(v,(int,float)) or not math.isfinite(v) for v in values): raise ValueError('Missing independent totals')
         if max(abs(values[0]-values[1]),abs(values[0]-values[2]),abs(values[2]-k[measures[r['Measure']]]))>tolerance: raise ValueError('Invalid reconciliation values')

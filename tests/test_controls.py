@@ -19,7 +19,7 @@ class ControlTests(unittest.TestCase):
     def test_schema_rejects_unresolved_keys(self):
         with sqlite3.connect(':memory:') as db:
             db.executescript(Path('sql/sqlite/warehouse.sql').read_text())
-            with self.assertRaises(sqlite3.IntegrityError): db.execute("INSERT INTO FactInventory VALUES ('x','missing','missing','2025-01-01',1)")
+            with self.assertRaises(sqlite3.IntegrityError): db.execute("INSERT INTO FactInventory(InventoryTransactionID,ProductID,WarehouseID,DateKey,Quantity,TransactionType,ReferenceNumber,UnitCost) VALUES ('x','missing','missing','2025-01-01',1,'Opening Balance','x',1)")
 
     def test_mock_replay_late_arrival_reversal_delete_and_conflict(self):
         e=dict(source='mock',legal_entity='US01',invoice_id='INV1',line=1,version=1,revenue_cents=12345,currency='USD',uom='EA',operation='upsert')
