@@ -16,7 +16,7 @@
  function policy(g,metric,trust,role,operation='ai',scenario='none'){
    const reasons=[];
    if(!['ai','view','publish'].includes(operation))reasons.push('unknown_operation');
-   if(!g.policy.roles[role]?.includes(metric.domain))reasons.push('role_domain_denied');
+   if(!Object.hasOwn(g.policy.roles,role)||!Array.isArray(g.policy.roles[role])||!g.policy.roles[role].includes(metric.domain))reasons.push('role_domain_denied');
    if(!metric.permitted_roles.includes(role))reasons.push('metric_role_denied');
    if(metric.sensitivity==='Restricted'||scenario==='restricted')reasons.push('restricted_field');
    if(metric.certification_status!=='CERTIFIED_DEMO')reasons.push('uncertified_metric');

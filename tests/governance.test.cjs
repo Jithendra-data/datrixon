@@ -13,6 +13,6 @@ test('draft definitions cannot answer',()=>{for(const q of ['What was net sales?
 test('stale artifact blocks at real query time',()=>{const later=new Date(+now+193*3600000);assert.equal(api.answer(data,'What was revenue?','Executive','none',later).status,'BLOCKED')});
 test('reconciliation evidence corruption blocks dependent answer',()=>{const d=structuredClone(data);d.reconciliation.find(r=>r.Measure==='Revenue').FactValue+=100;assert.equal(ask('What was gross margin?','Executive','none',d).status,'BLOCKED')});
 test('missing control fails closed',()=>{const d=structuredClone(data);delete d.governance.decisions.revenue.controls.contract;assert.equal(ask('What was revenue?','Executive','none',d).status,'BLOCKED')});
-test('unknown role denied',()=>assert.equal(ask('What was revenue?','root').policy_decision,'DENY'));
+test('unknown and prototype-like roles denied without throwing',()=>{for(const role of ['root','__proto__','constructor'])assert.equal(ask('What was revenue?',role).policy_decision,'DENY')});
 test('impact includes metric and AI consumer',()=>assert(api.impact(data.governance.lineage,'FactSales.Revenue').includes('ai:revenue')));
 test('warning remains visible in answer',()=>{const r=ask('Can AI safely use the inventory metric?');if(data.pipeline_metadata.expected_exceptions.length)assert.equal(r.trust_status,'WARNING')});
