@@ -31,3 +31,7 @@ pnpm test:browser
 `tests/browser-v2.cjs` prints first-evidence-render time and actual payload bytes. It fixes the browser clock to the artifact timestamp for reproducibility; separate unit tests deliberately advance time past freshness expiry. `DATRIXON_TEST_PAYLOAD` supports isolated artifacts. `DATRIXON_BASE_URL` targets deployed assets. Screenshots go to ignored `test-results/`.
 
 The credential scanner checks nonignored/tracked source files for selected private-key, token and credential patterns and reports file names only. It does not establish the absence of every possible secret. External live integrations, corporate SSO, real Finance approval and production performance cannot be verified in this repository.
+
+## Release artifact check
+
+The final local replay built from clean commit `379bcd032f2957ee9ed4b705f7aa2b275a11b447` completed in 134.182 seconds (5.519 seconds for governance), with a 2,012,095-byte JSON artifact. Publication and governance validators passed against that artifact. A separate scan of 307 historical text blobs found no configured credential-pattern matches; this is heuristic scanning, not proof against all secrets. Pinned dependencies and Playwright Chromium were installed using the README commands.
