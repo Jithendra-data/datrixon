@@ -27,7 +27,7 @@
  function parse(question){
    if(typeof question!=='string'||question.length>500)return null;
    const q=question.toLowerCase().trim().replace(/[?.]+$/,'').replace(/\s+/g,' ');
-   if(/\b(address|password|secret|token|credit limit|restricted)\b/.test(q))return {op:'restricted',ids:['revenue']};
+   if(/\b(address(?:es)?|password|secret|token|credit limit|restricted)\b/.test(q))return {op:'restricted',ids:[]};
    const scalar=q.match(/^(?:what (?:was|is)|show(?: me)?) (?:the )?(revenue|gross margin|gross profit|net sales|average order value|return rate|inventory balance|inventory exposure|inventory velocity|vendor fill rate|order volume|outstanding purchasing exposure)(?: in (20\d{2}))?$/);
    const names={'revenue':'revenue','gross margin':'gross_margin','gross profit':'gross_profit','net sales':'net_sales','average order value':'average_order_value','return rate':'return_rate','inventory balance':'inventory_value','inventory exposure':'inventory_exposure','inventory velocity':'inventory_velocity','vendor fill rate':'vendor_fill_rate','order volume':'orders','outstanding purchasing exposure':'open_po_value'};
    if(scalar)return {op:'scalar',ids:[names[scalar[1]]],year:scalar[2]||null};
@@ -49,7 +49,7 @@
      data_version:g?.version_identity?.dataset_version,latest_approved_run:g?.version_identity?.run_id,metric_ids:operation?.ids||[],source_assets:[],evidence:[],status:'BLOCKED',text:'Unsupported question. Choose a supported question; no data was queried.',rows:[],policy_decision:'DENY',simulation:scenario!=='none',logic:operation?.op||'unsupported'};
    if(!g||!operation)return result;
    if(data.pipeline_metadata?.publication_status!=='APPROVED'){result.text='Dataset has no publication approval. No analytical result is available.';return result}
-   if(operation.op==='restricted')scenario='restricted';
+   if(operation.op==='restricted'){result.text='Access denied: Restricted fields are outside the governed analytical interface.';result.policy_reason='restricted_field';result.trust_status='BLOCKED';return result}
    for(const id of operation.ids){
      const metric=g.registry.metrics.find(m=>m.metric_id===id);
      if(!metric){result.text='Metric definition is unavailable.';return result}
