@@ -48,6 +48,7 @@
    const result={answer_id:typeof crypto!=='undefined'&&crypto.randomUUID?crypto.randomUUID():'answer-'+now.getTime()+'-'+Math.random().toString(36).slice(2),question:String(question).slice(0,500),timestamp:now.toISOString(),business_cutoff:g?.version_identity?.business_cutoff,
      data_version:g?.version_identity?.dataset_version,latest_approved_run:g?.version_identity?.run_id,metric_ids:operation?.ids||[],source_assets:[],evidence:[],status:'BLOCKED',text:'Unsupported question. Choose a supported question; no data was queried.',rows:[],policy_decision:'DENY',simulation:scenario!=='none',logic:operation?.op||'unsupported'};
    if(!g||!operation)return result;
+   if(data.pipeline_metadata?.publication_status!=='APPROVED'){result.text='Dataset has no publication approval. No analytical result is available.';return result}
    if(operation.op==='restricted')scenario='restricted';
    for(const id of operation.ids){
      const metric=g.registry.metrics.find(m=>m.metric_id===id);
@@ -59,7 +60,7 @@
      }
      const authorization=policy(g,metric,trust,role,'ai',scenario);
      result.evidence.push({metric_id:id,version:metric.version,definition:metric.business_definition,source_assets:g.values[id]?.dependencies||metric.source_columns,
-       query:g.values[id]?.query||metric.calculation,trust,policy:authorization,reconciliation:data.reconciliation.filter(r=>metric.reconciliation_rule.includes(r.Measure)),
+       query:g.values[id]?.query||metric.calculation,trust,policy:authorization,reconciliation:data.reconciliation.filter(r=>metric.reconciliation_rule.includes(r.Measure)).map(r=>authorization.decision==='ALLOW'?r:{Measure:r.Measure,Status:r.Status,details:'Totals withheld by the policy/trust gate'}),
        lineage_reference:'#lineage',metric_reference:'#metric-catalog',controls_reference:'#quality',business_cutoff:result.business_cutoff,data_version:result.data_version});
    }
    result.source_assets=[...new Set(result.evidence.flatMap(e=>e.source_assets))];
