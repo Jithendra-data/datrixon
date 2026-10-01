@@ -3,3 +3,5 @@
 @media(max-width:1000px){.gov-lineage{grid-template-columns:1fr}.gov-lineage section{border-left:2px solid var(--border);padding-left:16px}.gov-lineage h3{min-height:0}.gov-arrow{display:block;transform:rotate(90deg);width:24px}.gov-lineage .gov-node{display:inline-block;width:auto;max-width:100%;margin:4px}.gov-summary{grid-template-columns:1fr}.gov-summary>div:last-child{display:flex;align-items:center;gap:14px}}@media(max-width:520px){.gov-card{padding:16px}.gov-summary{padding:18px}.gov-value{font-size:21px}.gov-examples{display:grid}.governance-heading h1{font-size:27px}}
 
 .governance-page{scroll-margin-top:88px}
+
+.demo-start{font-size:12px;line-height:1.8;margin:12px 0}.demo-start a{color:var(--primary);text-decoration:underline}.gov-demo-warning{padding:14px;border-left:3px solid #785207;background:#fff7e5;color:#543900}.gov-question{font-weight:600}.gov-card a:focus-visible,.demo-start a:focus-visible{outline:3px solid var(--primary);outline-offset:4px}

@@ -37,3 +37,17 @@ The credential scanner checks nonignored/tracked source files for selected priva
 The initial committed-release replay built from clean commit `379bcd032f2957ee9ed4b705f7aa2b275a11b447` completed in 134.182 seconds (5.519 seconds for governance), with a 2,012,095-byte JSON artifact. Publication and governance validators passed against that artifact. A separate scan of 307 historical text blobs found no configured credential-pattern matches; this is heuristic scanning, not proof against all secrets. Pinned dependencies and Playwright Chromium were installed using the README commands.
 
 The canonical LF release replay from clean commit `5ef8361233735d7eb5a66f2283a98beb1ed063c8` completed in 132.144 seconds (5.703 seconds for governance), producing 1,945,342 bytes. The local publication manifest SHA-256 matches the exact JSON bytes; JSON serialization and Git attributes preserve those bytes across Windows and Pages. The full Python suite passed 67 tests in 78.371 seconds after this change.
+
+## Portfolio / release polish verification — 2026-10-01
+
+- Baseline: 67 Python tests passed in 76.679 seconds; 21 JavaScript tests and both browser suites passed before presentation changes.
+- Final local rerun: 67 Python tests passed in 73.789 seconds; 21 JavaScript tests passed with zero failures. Isolated generation and replay smoke tests passed.
+- Publication and governance validation passed: 19 definitions, 14 source contracts, policy coverage, lineage and approved evidence. Configured credential scan checked 134 source files with no matches.
+- Both browser suites passed. The V2 regression now additionally follows Failure Simulator → Governed Assistant → controlled refusal → reset → approved answer across routes. All 11 V2 views were checked at 390, 768 and 1440px; keyboard, labels, heading presence, reduced motion, escaped input, navigation targets and page overflow checks passed.
+- Local first-evidence rendering measured 389ms in this run; this is one local measurement, not a network SLA. The unchanged dashboard artifact is 1,945,342 bytes. Seven JavaScript files total 93,130 bytes; seven current V2 screenshots total 618,543 bytes. No new runtime library was added; screenshots are documentation-only.
+- Checked 48 local documentation/image links with no missing targets or anchors. Public repository, release, deployment run and site entry points returned HTTP 200. Browser suites validate in-app hash targets.
+- Six desktop screenshots (1440 × 1000) plus a mobile screenshot (390 × 900) were captured and visually reviewed. Historical V1 screenshots remain explicitly labeled as historical evidence.
+- `v2.0.0` anchors the original stable implementation commit `52847b0a52e1a637fbc9904525ccee2bb69e6047`; presentation changes follow on main. No approved data or core calculation changed during polish.
+
+Accessibility checks are basic regression and visual review, not WCAG certification. The credential scan is pattern-based, not a guarantee that all possible secrets are absent.
+

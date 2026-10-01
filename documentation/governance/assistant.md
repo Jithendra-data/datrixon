@@ -11,3 +11,7 @@ Question text is visible only in the in-memory answer provenance panel. Session 
 ## Future provider integration
 
 A server-side provider may implement the same answer interface or propose a strictly validated operation. It must never bypass the semantic allowlist, certification, freshness, policy or reconciliation checks. Put credentials in the deployment secret store, not browser code. Enforce roles from a verified identity at the server. The current client-side gate is an educational demonstration and cannot protect data already downloaded as public JSON.
+
+## Guided failure demonstration
+
+The Failure Simulator carries its selected copied-control override into Governed Assistant for the current page session. A visible banner identifies simulated answers and links to recovery. Restore approved evidence clears that override; reload also clears it. Approved data, Trust Center decisions and pipeline files are never mutated. Actual stale or failed evidence is not repaired by the reset button. This presentation flow uses the existing policy engine and is covered by the browser regression.

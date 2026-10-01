@@ -1,104 +1,159 @@
 # Datrixon
 
-**V2 — Governed ERP Intelligence**
+## Governed ERP Intelligence
 
-Datrixon demonstrates how ERP data becomes trusted analytics and governed analytical answers: validate the sources, reconcile the totals, define the metrics, trace dependencies, and check policies before publication or use. It is a working Python/SQL analytics engineering portfolio, with a responsive browser application and a deterministic local assistant.
+Datrixon demonstrates how ERP data becomes trusted analytics and governed analytical answers by validating, reconciling, defining, tracing, and controlling information before publication or use.
 
-**Boundary:** synthetic data only; no live ERP integration, production SSO, confidential business data, commercial deployment, or fabricated ROI. Browser role switching demonstrates policy behavior and provides no security boundary. The assistant uses approved operations, not an LLM.
+**[Live Demo](https://jithendra-data.github.io/datrixon/) · [V2 Release](https://github.com/Jithendra-data/datrixon/releases/tag/v2.0.0) · [Repository](https://github.com/Jithendra-data/datrixon)**
 
-[Live application](https://jithendra-data.github.io/datrixon/) · [Project & Architecture](https://jithendra-data.github.io/datrixon/#project-story) · [Actions](https://github.com/Jithendra-data/datrixon/actions)
+**Python · SQL · SQLite · JavaScript · GitHub Actions · GitHub Pages**
 
-Datrixon helps a fictional distribution leadership team investigate margin movement, stock exposure, overdue purchasing, inactive customers, and service gaps. All records are synthetic. No real customer outcome, recovered revenue, or ROI is claimed.
+Working synthetic-data demonstration: **19 metric definitions, 16 executable measures, 14 source contracts, 10 trust dimensions.** The assistant is deterministic, not an LLM. No live ERP, production SSO, confidential business data, commercial deployment, or fabricated ROI.
 
-## What runs today
+**Source files → contracts & validation → warehouse → reconciliation → governed metrics & lineage → trust & policy → approved analytics and answers.**
 
-### V2 capabilities
+![Datrixon Executive Overview](screenshots/datrixon-v2-overview.png)
 
-- **19 governed definitions:** 16 executable SQL measures and 3 deliberately uncertified definitions (net-of-credits sales, AOV, overall return rate). Drafts cannot answer questions.
-- **14 source contracts:** exact schema, types, nullability, keys, category rules and versions; breaking drift stops the pipeline before staging.
-- **Shared semantic layer:** canonical warehouse calculations independently compared with existing dashboard values before replacement. Existing analytics and financial filters are retained.
-- **Column lineage and impact:** executed SQLite reads plus reviewed, DDL-validated loader metadata connect source fields to metrics, dashboard consumers and analytical answers.
-- **Explicit trust decisions:** schema, quality, referential integrity, batch freshness, reconciliation, certification, lineage, access coverage, contract and semantic equivalence. No opaque score.
-- **Evidence-backed assistant:** ten supported question patterns, predefined operations, allowed/denied demo roles, freshness checks, citations and answer provenance. No unrestricted SQL, paid service or credentials.
-- **Governance UI:** Trust Center, Reconciliation, Metric Catalog, Data Products, Lineage, Source Contracts, Glossary, AI Readiness, Governed Assistant, Audit & Evidence, and isolated Failure Simulator.
+## Why Datrixon
 
-[V2 release guide](documentation/releases/v2.md) · [Architecture](documentation/architecture/v2.md) · [Governance and semantic layer](documentation/governance/metrics.md) · [Security boundaries](documentation/governance/security.md)
+A dashboard can load successfully while its totals are wrong. An AI system can repeat a metric whose definition changed, whose source is stale, or whose reconciliation failed. Those failures can misdirect inventory, purchasing, and margin decisions.
 
-Synthetic ERP CSV → mandatory source validation → normalized staging CSV → enforced SQLite reference warehouse → SQL sales/customer/vendor/balance marts + shared Python operational analytics → independent source/warehouse/dashboard reconciliation → approved JSON → static browser application.
+Datrixon makes the checks visible. Required control failures prevent a new dataset from replacing the last approved publication. The assistant checks certification, freshness, evidence, and demo access policies before returning an answer. It explains why an answer is withheld instead of inventing a result.
 
-Four SQLite facts, six dimensions, and a purchase-receipt child table are actually populated by `etl/warehouse.py`. `sql/sqlite/warehouse.sql` is executed. The T-SQL directories are a separate SQL Server deployment design, not an active SQL Server service. Receipt timing and movement-window calculations read staging directly; the architecture diagram shows that branch.
+## 60-second demo
 
-| Implemented | Demonstrated / Simulated | Future Enterprise Capability |
+Use the existing approved synthetic dataset. Keep the default **Executive** demo role.
+
+1. Open [Executive Overview](https://jithendra-data.github.io/datrixon/#overview) and inspect the KPIs and business cutoff.
+2. Open [Reconciliation](https://jithendra-data.github.io/datrixon/#reconciliation): compare source, warehouse, and published totals.
+3. Open [Metric Catalog](https://jithendra-data.github.io/datrixon/#metric-catalog). Gross Margin shows its definition, ownership, roles, and controls. Click **Trace this metric** to follow source → staging → warehouse → metric → consumers.
+4. Open [Governed Assistant](https://jithendra-data.github.io/datrixon/#ai-assistant), ask **What was gross margin?**, and inspect its evidence and **Answer provenance**.
+5. Open [Failure Simulator](https://jithendra-data.github.io/datrixon/#incidents), select **reconciliation**, and click **Introduce failure**. Gross Margin becomes **BLOCKED in this simulation**.
+6. Click **Ask the same question in Governed Assistant**, then **Ask with evidence**. The answer is withheld, with the failed control identified.
+7. Return to Failure Simulator and click **Restore approved evidence**. Ask again: the approved answer is available.
+
+The simulation follows you between these two views for the current page session. It never changes source files, published data, or the real pipeline. Reload also clears the simulation. A genuinely stale artifact remains blocked after reset; run a validated refresh to recover it. Inventory warnings are expected synthetic exceptions, not hidden failures.
+
+## Implementation status
+
+| IMPLEMENTED | SIMULATED / DEMONSTRATED | FUTURE ENTERPRISE CAPABILITY |
 |---|---|---|
-| Source controls, normalized staging, SQLite facts, SQL/Python aggregates, five reconciliations, fail-closed publication, hashes and timings, unit/integration/browser tests | Synthetic ERP scenario; standalone tested mock change adapter; separate SQL Server design | Real ERP connection, SSO/RLS, production CDC, SCD Type 2, multi-user warehouse, validated business ROI |
+| Source contracts, schema drift, normalized staging, SQLite warehouse | Synthetic ERP records and example business owners | Live D365 / ERP integration and source-owner approval |
+| SQL semantic metrics, reconciliation, column lineage, impact analysis | Standalone mock change-event adapter | Centralized warehouse, incremental ingestion |
+| Trust engine, fail-closed atomic publication, SHA-256 evidence | Browser role switching; no authentication boundary | Entra ID / real SSO, server-side authorization and RLS |
+| Deterministic assistant, provenance, local run audit | Isolated failure scenarios and session-only browser audit | Live LLM provider and enterprise audit platform |
+| Tests, CI gates, scheduled refresh, Pages deployment | Synthetic scale and control demonstrations | Production SLA, security assessment, measured customer ROI |
 
-## Run and verify
+**Three definitions remain uncertified:** net sales, average order value, and overall return rate. Existing invoice/return records do not establish the required credit, cancellation, and denominator policies. They cannot be used for answers.
 
-```bash
-python -m pip install -r requirements.txt
-python -m etl.run_pipeline
-python -m unittest discover -s tests -p 'test_*.py' -v
-python -m tests.smoke_pipeline
-node --test tests/metrics.test.cjs tests/decisions.test.cjs tests/governance.test.cjs
-pnpm install --frozen-lockfile
-pnpm exec playwright install chromium
-pnpm test:browser
-python -m governance.validate --source data/raw
-python -m tests.security_scan
-python -m http.server 8000 --directory web
+## Architecture
+
+```mermaid
+flowchart TD
+    A[Synthetic ERP / source files] --> B[Source contracts]
+    B --> C[Validation + schema drift]
+    C --> D[Normalized staging + SQLite warehouse]
+    D --> E[SQL / Python analytics + reconciliation]
+    E --> F[Semantic metrics]
+    F --> G[Lineage + classification]
+    G --> H[Trust + publication policy]
+    H --> I[Atomic approved artifact]
+    H -->|failure| J[Keep last approved artifact]
+    I --> K[Analytics + Trust Center]
+    I --> L[Query-time freshness + demo role policy]
+    L --> M[Governed assistant + provenance]
 ```
 
-`--skip-generation` reuses raw files. A matching raw generation manifest preserves the seed; otherwise it is explicitly unknown. Input hashes identify the files. `--workspace .test-run` isolates all generated files. Defaults: 75,000 order headers, 10,000 PO headers, 5,000 customers, 2,000 products, four warehouses, and business dates in 2023–2025. Repeated full builds of the same inputs are idempotent; generated timestamps and runtime measurements are intentionally different.
+The approved JSON contains analytics **and their matching governance evidence**. The browser never executes user-supplied SQL or downloads the warehouse. Existing Python operational transforms remain alongside SQL measures. [Detailed executing architecture](documentation/architecture/v2.md).
 
-## Trust and evidence
+| Modules | Responsibility |
+|---|---|
+| `python/generators/`, `etl/` | Deterministic source generation, staging, warehouse load, analytics |
+| `validation/` | Source controls, independent reconciliation, atomic publication gate |
+| `governance/` | Contracts, metric registry, read-only semantics, lineage, trust, policies, audit |
+| `web/js/governed-ai.js` | Allowlisted questions, policy checks, evidence-backed answers |
+| `web/js/governance.js` | Catalogs, trust evidence, lineage, assistant and demonstration UI |
+| `tests/`, `.github/workflows/` | Regression, negative tests, browser checks and deployment gates |
 
-V2 extends the same atomic JSON publication boundary. A governed value, its definition, lineage, policies, trust decision and run identity travel together in `dashboard.json`. The contract version is 5. The exact byte hash remains in the matching run manifest to avoid a self-referential hash. `SemanticLayer(...).get_metric('gross_margin')` executes only repository-defined, read-only SQL with bound period/cutoff parameters.
+### Design principles
 
-The historical business cutoff and batch publication time are separate. At query time the assistant denies artifacts older than 192 hours (weekly refresh plus one-day grace). Existing historical dashboards remain viewable with their explicit cutoff. This is a synthetic batch-freshness policy, not an enterprise source SLA.
+- **Fail closed:** mandatory failures retain the last approved publication and block dependent answers.
+- **One governed definition:** material semantic measures are checked against warehouse and dashboard results.
+- **Evidence over confidence:** show control outcomes, definitions, lineage, and versions; no opaque score.
+- **No fabricated answers:** unsupported questions and unavailable periods receive a refusal.
+- **Transparent status:** implemented logic, simulations, and enterprise requirements stay distinguishable.
+- **Deterministic reproducibility:** seeds, source hashes, code version, and run evidence identify a build.
+- **Governance travels with analytics:** one atomic artifact prevents mixed-version evidence.
 
-Mandatory failures block publication. The synthetic negative-stock scenario is the only expected control exception; it is not accepted by a real ERP integration policy. Five measures independently reconcile raw records, SQLite SQL queries, and published KPI values. The candidate replaces `dashboard.json` only after serialization and validation. Failed runs retain the last approved public file.
+## Technical highlights
 
-The current run's values, fact row counts, runtime, model/export Python allocation peak, dependencies, and input hashes are published in `web/data/dashboard.json`. The downloadable Actions artifact also includes the SQLite file and run manifest with actual payload bytes/hash. These are measured single-run results, not an enterprise scale benchmark. No static 'current scenario' numbers are copied here because automated refresh changes them.
-
-## Product scope
-
-Overview financial filters compare the exact selected interval to that interval one year earlier. Partial prior coverage is not reported as YoY. Snapshot metrics and signals use the full dataset. Each detail table states its export cap, eligible population, and selection rule; downloads contain the displayed extract. Three investigation queues expose inventory, inactive-customer, and overdue-PO evidence. SQL Server and private API deployment remain separate design work.
-
-## Decisions and limitations
-
-- [Executing architecture and model](documentation/architecture/architecture.md)
-- [Decisions, limitations, recovery](documentation/engineering/decisions.md)
-- [Mock ERP integration contract](documentation/engineering/integration_contract.md)
-- [Enterprise Roadmap and acceptance criteria](documentation/engineering/enterprise_roadmap.md)
-- [Security and scale plan](documentation/engineering/security_and_scale.md)
-- [Business investigation and methodology](case-study/case_study.md)
-- [Metric definitions](documentation/kpi_dictionary/kpi_dictionary.md)
-- [Operating guide](documentation/operations/pipeline_operations.md)
-- [Implementation evidence and limitations](documentation/engineering/review_status.md)
-
-## Ownership
-
-Project owner: **Anumala Jithendra**. Developed iteratively with AI-assisted implementation. Repository changes and tests are the evidence; this does not claim unaided authorship or commercial production deployment. [LinkedIn](https://www.linkedin.com/in/anumala-jithendra/) · [Email](mailto:jithendra.anumala1@gmail.com).
-
-MIT licensed. See LICENSE.
+- Python ETL loads four SQLite facts, six dimensions, purchase receipt events, and an order-service reference table. The separate T-SQL design is not an active SQL Server deployment.
+- Fixed source contracts detect breaking schema changes before staging. Five independent totals reconcile raw records, warehouse queries, and published KPIs.
+- Executed SQL reads and reviewed loader mappings support column lineage and downstream impact. Policy checks restrict assistant operations to certified, authorized measures.
+- Publication manifests retain the exact artifact SHA-256. GitHub Actions verifies code and browser behavior before Pages deployment; failed candidates cannot replace approved data.
 
 ## Product evidence
 
-[Release screenshots](screenshots/README.md) show executive analytics, sales, controls, architecture, and an investigation. Domain summaries are calculated from full source populations; financial comparisons follow the selected overview period.
+Six consistent desktop captures show the review path; [screenshot notes and mobile view](screenshots/README.md) explain capture conditions.
 
-Configuration: `DATRIXON_RANDOM_SEED` (legacy `NORTHSTAR_RANDOM_SEED` supported), `DATRIXON_AS_OF_DATE` (default 2025-12-31). The latter controls business time, not the deployment clock. Validation requires the current versioned control registry.
+| Trust Center | Reconciliation |
+|---|---|
+| [![Trust Center](screenshots/datrixon-v2-trust-center.png)](screenshots/datrixon-v2-trust-center.png) | [![Reconciliation](screenshots/datrixon-v2-reconciliation.png)](screenshots/datrixon-v2-reconciliation.png) |
 
-## Review the V2 proof in five minutes
+| Column lineage | Governed answer |
+|---|---|
+| [![Lineage](screenshots/datrixon-v2-lineage.png)](screenshots/datrixon-v2-lineage.png) | [![Assistant evidence](screenshots/datrixon-v2-assistant.png)](screenshots/datrixon-v2-assistant.png) |
 
-1. Open Executive Overview and Sales to inspect the retained business analytics.
-2. Open Reconciliation to compare independent source, warehouse and published totals.
-3. Select Gross Margin in Metric Catalog, then **Trace this metric**. Select a source/warehouse node to see downstream impact.
-4. Ask **What was revenue in 2025?** in Governed Assistant and expand Answer provenance.
-5. Switch the demo role to Sales and ask **What was gross margin?** to see a denied policy decision.
-6. Open Failure Simulator and inject reconciliation failure, then restore approved evidence. No approved data is modified.
+[View controlled failure and recovery](screenshots/datrixon-v2-failure.png).
 
-The controls establish evidence about this synthetic implementation. They do not demonstrate general-ledger certification, customer savings, live Dynamics integration, production identity, or enterprise-scale availability.
+## Run locally
 
-## Final verification commands
+Python 3.12 and Node with pnpm are used for this release. Create and activate a Python virtual environment first.
 
-`pnpm test` runs both JavaScript suites. `DATRIXON_BASE_URL` optionally points the browser regression at the deployed Pages URL; `DATRIXON_ALLOW_CDN=1` additionally verifies the normal ECharts path. Without that flag, the browser suite deliberately blocks CDNs to verify fallback charts. All major views are checked at desktop, tablet and 390px widths. These checks are regression evidence, not a security or accessibility certification.
+```bash
+python -m pip install -r requirements.txt
+pnpm install --frozen-lockfile
+pnpm exec playwright install chromium
+python -m etl.run_pipeline
+python -m http.server 8000 --directory web
+```
+
+Open **http://localhost:8000**. The checked-in approved dashboard also works without rebuilding the pipeline.
+
+Use `--skip-generation` to replay raw files, or `--workspace .test-run/example --orders 1000 --purchase-orders 250` for an isolated small build. Defaults: 75,000 order headers, 10,000 purchase orders, 5,000 customers, 2,000 products, four warehouses, and business dates in 2023–2025. Timestamps and runtime measurements change between otherwise deterministic builds.
+
+Configuration: `DATRIXON_RANDOM_SEED` (legacy `NORTHSTAR_RANDOM_SEED` supported) and `DATRIXON_AS_OF_DATE` (default `2025-12-31`). Business cutoff and publication freshness are separate. The assistant checks a 192-hour batch freshness limit; historical analytics remain visible with their cutoff.
+
+## Testing and verification
+
+Release verification: **67 Python tests and 21 JavaScript tests passed**, plus pipeline generation/replay smoke tests, publication/governance validation, and both browser suites. Browser coverage includes **390 / 768 / 1440px**, routes, exports, policy denial, provenance, simulation recovery, keyboard basics and reduced motion. [Recorded results](testing/v2_verification.md).
+
+The stable V2 deployment's JSON matched its local approved manifest byte-for-byte by SHA-256. Credential-pattern scanning found no configured matches; this is not proof against every possible secret. Browser checks are regression evidence, not accessibility or security certification.
+
+```bash
+python -m unittest discover -s tests -p 'test_*.py' -v
+python -m tests.smoke_pipeline
+python -m governance.validate --source data/raw
+python -m validation.publication
+python -m tests.security_scan
+pnpm test
+pnpm test:browser
+```
+
+Governance validation covers metric definitions, contracts, policy coverage, lineage and approved evidence. `DATRIXON_BASE_URL` targets the live site; `DATRIXON_ALLOW_CDN=1` exercises normal chart loading. Otherwise browser tests verify CDN fallback behavior. `node tests/capture-v2.cjs` refreshes screenshots explicitly.
+
+## Review deeper
+
+- [V2 release notes](documentation/releases/v2.md) and [V1 → V2 architecture](documentation/architecture/v2.md)
+- [Metrics and semantic layer](documentation/governance/metrics.md), [contracts](documentation/governance/contracts.md), [trust](documentation/governance/trust.md), [assistant](documentation/governance/assistant.md), [audit](documentation/governance/audit.md)
+- [KPI dictionary](documentation/kpi_dictionary/kpi_dictionary.md) and [business methodology](case-study/case_study.md)
+- [Conceptual Dynamics 365 mapping](documentation/erp/dynamics365_mapping.md) — no live connector claimed
+- [Operations](documentation/operations/pipeline_operations.md), [security boundaries](documentation/governance/security.md), [decisions and limitations](documentation/engineering/decisions.md), [enterprise roadmap](documentation/engineering/enterprise_roadmap.md)
+
+SQLite remains a full-rebuild reference warehouse with REAL monetary values and explicit tolerances. Detail responses disclose extract caps. Browser policy checks cannot protect information already downloaded in public JSON. No general-ledger certification, production SLA, real financial approval, or enterprise-scale performance is claimed.
+
+## Ownership
+
+**Anumala Jithendra** — developed iteratively with AI assistance. Code, tests, and run evidence document the work; no unaided-authorship or commercial-deployment claim is made. [LinkedIn](https://www.linkedin.com/in/anumala-jithendra/) · [Email](mailto:jithendra.anumala1@gmail.com).
+
+[MIT license](LICENSE).
