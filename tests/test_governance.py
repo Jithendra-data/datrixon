@@ -132,6 +132,7 @@ class PipelineGovernanceTests(unittest.TestCase):
         g=self.payload['governance'];self.assertEqual(g['version_identity']['dataset_version'],self.payload['pipeline_metadata']['dataset_id'])
         manifest=json.loads((self.kwargs['processed_dir']/'run_manifest.json').read_text())
         self.assertEqual(manifest['published_sha256'],hashlib.sha256((self.kwargs['web_dir']/'dashboard.json').read_bytes()).hexdigest())
+        self.assertNotIn(b'\r\n',(self.kwargs['web_dir']/'dashboard.json').read_bytes())
         self.assertEqual(len(g['version_identity']['warehouse_hash']),64)
     def test_audit_events(self):
         events={e['event'] for e in self.payload['governance']['audit']}

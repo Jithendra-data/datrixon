@@ -23,4 +23,6 @@ def write_json(payload: Any, path: Path) -> None:
         if hasattr(value, "isoformat") and callable(value.isoformat): return value.isoformat()
         if isinstance(value, float) and not math.isfinite(value): return None
         return value
-    path.write_text(json.dumps(clean(payload), indent=2, default=str, allow_nan=False), encoding="utf-8")
+    # Canonical LF bytes survive Git checkout on every platform. The publication
+    # manifest must hash exactly the bytes later served by GitHub Pages.
+    path.write_text(json.dumps(clean(payload), indent=2, default=str, allow_nan=False), encoding="utf-8", newline="\n")

@@ -1,0 +1,2 @@
+# Public artifact bytes must agree with the pipeline's publication manifest.
+web/data/*.json text eol=lf
