@@ -23,6 +23,7 @@ async function loadDashboard(){
     renderTrust(data);
     renderDecisionEvidence(data);
     renderDomainSummaries(data);
+    renderGovernance(data);
     document.querySelector(".period").dataset.asof=run.data_through;window.dispatchEvent(new Event("hashchange"));
     finishLoading();
   }catch(error){
@@ -139,7 +140,7 @@ function hydrateShell(){
  const setActive=id=>links.forEach(a=>{const active=a.getAttribute('href')===`#${id}`;a.classList.toggle('active',active);if(active)a.setAttribute('aria-current','location');else a.removeAttribute('aria-current');if(active)document.querySelector('.crumb').textContent=`Datrixon / ${a.textContent.slice(1).trim()}`});
  const nav=document.querySelector('.sidebar nav');nav.appendChild(nav.querySelector('[href="#project-story"]'));
  nav.querySelector('[href="#sales"]').insertAdjacentHTML('beforebegin','<div class="nav-group">ANALYTICS</div>');
- nav.querySelector('[href="#quality"]').insertAdjacentHTML('beforebegin','<div class="nav-group">ENGINEERING</div>');
+ nav.querySelector('[href="#project-story"]').insertAdjacentHTML('beforebegin','<div class="nav-group">PROJECT</div>');
  setActive(['#architecture','#documentation','#implementation','#run-evidence','#contribution','#value-model','#enterprise-roadmap'].includes(location.hash)?'project-story':location.hash.slice(1)||'overview');
  links.forEach(a=>a.addEventListener('click',()=>setActive(a.getAttribute('href').slice(1))));
  let queued=false;
@@ -181,6 +182,7 @@ function drawCharts(rows){
 }
 renderQuality({});
 renderLineage({});
+mountGovernance();
 setupProjectPage();
 hydrateShell();
 loadDashboard();

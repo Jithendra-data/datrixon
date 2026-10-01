@@ -53,7 +53,9 @@ jobs:
       - name: Generate, model, validate, reconcile, and export
         run: python -m etl.run_pipeline --orders "$ORDER_COUNT" --purchase-orders "$PURCHASE_ORDER_COUNT"
       - name: Verify publication approval
-        run: python -m validation.publication
+        run: |
+          python -m validation.publication
+          python -m governance.validate --source data/raw
       - name: Summarize controls
         run: |
           python -c "import pandas as pd; print(pd.read_csv('data/processed/data_quality.csv').to_string(index=False)); print(); print(pd.read_csv('data/processed/reconciliation.csv').to_string(index=False))"

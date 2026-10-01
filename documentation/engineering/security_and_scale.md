@@ -18,4 +18,4 @@ For larger datasets: partition staging, move persisted facts to a managed databa
 
 ## Governance to establish with an enterprise customer
 
-Metric owner, approved definition and version, lineage owner, data steward, control severity/tolerance, exception expiry, freshness objective, access matrix, retention policy, and change approval. The demo's descriptive lineage and metric dictionary are evidence of intent, not an enterprise catalog or governance program.
+Metric owner, approved definition and version, lineage owner, data steward, control severity/tolerance, exception expiry, freshness objective, access matrix, retention policy, and change approval. V2 now implements a local metric catalog, source contracts, executable column lineage and deterministic trust/policy checks. See [the V2 security boundary](../governance/security.md). These are portfolio evidence, not a deployed enterprise governance program.

@@ -1,0 +1,55 @@
+{
+  "version": "1.0.0",
+  "roles": {
+    "Executive": [
+      "Finance",
+      "Sales",
+      "Customers",
+      "Inventory",
+      "Purchasing",
+      "Operations"
+    ],
+    "Finance": [
+      "Finance",
+      "Sales",
+      "Purchasing"
+    ],
+    "Sales": [
+      "Sales",
+      "Customers"
+    ],
+    "Operations": [
+      "Inventory",
+      "Purchasing",
+      "Operations"
+    ],
+    "Data Analyst": [
+      "Finance",
+      "Sales",
+      "Customers",
+      "Inventory",
+      "Purchasing",
+      "Operations"
+    ],
+    "Data Engineer": [
+      "Finance",
+      "Sales",
+      "Customers",
+      "Inventory",
+      "Purchasing",
+      "Operations"
+    ],
+    "Administrator": [
+      "Finance",
+      "Sales",
+      "Customers",
+      "Inventory",
+      "Purchasing",
+      "Operations"
+    ]
+  },
+  "restricted_ai": "DENY",
+  "fresh_hours": 192,
+  "implementation": "SIMULATED / DEMONSTRATED",
+  "boundary": "Public synthetic data; no authentication or confidential-data protection"
+}

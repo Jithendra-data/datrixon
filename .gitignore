@@ -29,6 +29,7 @@ data/processed/*.json
 .test-run/
 test-results/
 node_modules/
+.pnpm-store/
 
 data/processed/runs/
 data/raw/generation_manifest.json

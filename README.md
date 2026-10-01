@@ -1,14 +1,28 @@
 # Datrixon
 
-**ERP Analytics & Operational Intelligence**
+**V2 — Governed ERP Intelligence**
 
-Datrixon is an end-to-end analytics engineering portfolio project that models how ERP data from a distribution business becomes decision-ready analytics. Datrixon is the platform; the distributor is fictional. The implementation uses synthetic data, without live ERP connectivity or enterprise authentication.
+Datrixon demonstrates how ERP data becomes trusted analytics and governed analytical answers: validate the sources, reconcile the totals, define the metrics, trace dependencies, and check policies before publication or use. It is a working Python/SQL analytics engineering portfolio, with a responsive browser application and a deterministic local assistant.
+
+**Boundary:** synthetic data only; no live ERP integration, production SSO, confidential business data, commercial deployment, or fabricated ROI. Browser role switching demonstrates policy behavior and provides no security boundary. The assistant uses approved operations, not an LLM.
 
 [Live application](https://jithendra-data.github.io/datrixon/) · [Project & Architecture](https://jithendra-data.github.io/datrixon/#project-story) · [Actions](https://github.com/Jithendra-data/datrixon/actions)
 
 Datrixon helps a fictional distribution leadership team investigate margin movement, stock exposure, overdue purchasing, inactive customers, and service gaps. All records are synthetic. No real customer outcome, recovered revenue, or ROI is claimed.
 
 ## What runs today
+
+### V2 capabilities
+
+- **19 governed definitions:** 16 executable SQL measures and 3 deliberately uncertified definitions (net-of-credits sales, AOV, overall return rate). Drafts cannot answer questions.
+- **14 source contracts:** exact schema, types, nullability, keys, category rules and versions; breaking drift stops the pipeline before staging.
+- **Shared semantic layer:** canonical warehouse calculations independently compared with existing dashboard values before replacement. Existing analytics and financial filters are retained.
+- **Column lineage and impact:** executed SQLite reads plus reviewed, DDL-validated loader metadata connect source fields to metrics, dashboard consumers and analytical answers.
+- **Explicit trust decisions:** schema, quality, referential integrity, batch freshness, reconciliation, certification, lineage, access coverage, contract and semantic equivalence. No opaque score.
+- **Evidence-backed assistant:** ten supported question patterns, predefined operations, allowed/denied demo roles, freshness checks, citations and answer provenance. No unrestricted SQL, paid service or credentials.
+- **Governance UI:** Trust Center, Reconciliation, Metric Catalog, Data Products, Lineage, Source Contracts, Glossary, AI Readiness, Governed Assistant, Audit & Evidence, and isolated Failure Simulator.
+
+[V2 release guide](documentation/releases/v2.md) · [Architecture](documentation/architecture/v2.md) · [Governance and semantic layer](documentation/governance/metrics.md) · [Security boundaries](documentation/governance/security.md)
 
 Synthetic ERP CSV → mandatory source validation → normalized staging CSV → enforced SQLite reference warehouse → SQL sales/customer/vendor/balance marts + shared Python operational analytics → independent source/warehouse/dashboard reconciliation → approved JSON → static browser application.
 
@@ -25,16 +39,22 @@ python -m pip install -r requirements.txt
 python -m etl.run_pipeline
 python -m unittest discover -s tests -p 'test_*.py' -v
 python -m tests.smoke_pipeline
-node --test tests/metrics.test.cjs tests/decisions.test.cjs
+node --test tests/metrics.test.cjs tests/decisions.test.cjs tests/governance.test.cjs
 pnpm install --frozen-lockfile
 pnpm exec playwright install chromium
 pnpm test:browser
+python -m governance.validate --source data/raw
+python -m tests.security_scan
 python -m http.server 8000 --directory web
 ```
 
 `--skip-generation` reuses raw files. A matching raw generation manifest preserves the seed; otherwise it is explicitly unknown. Input hashes identify the files. `--workspace .test-run` isolates all generated files. Defaults: 75,000 order headers, 10,000 PO headers, 5,000 customers, 2,000 products, four warehouses, and business dates in 2023–2025. Repeated full builds of the same inputs are idempotent; generated timestamps and runtime measurements are intentionally different.
 
 ## Trust and evidence
+
+V2 extends the same atomic JSON publication boundary. A governed value, its definition, lineage, policies, trust decision and run identity travel together in `dashboard.json`. The contract version is 5. The exact byte hash remains in the matching run manifest to avoid a self-referential hash. `SemanticLayer(...).get_metric('gross_margin')` executes only repository-defined, read-only SQL with bound period/cutoff parameters.
+
+The historical business cutoff and batch publication time are separate. At query time the assistant denies artifacts older than 192 hours (weekly refresh plus one-day grace). Existing historical dashboards remain viewable with their explicit cutoff. This is a synthetic batch-freshness policy, not an enterprise source SLA.
 
 Mandatory failures block publication. The synthetic negative-stock scenario is the only expected control exception; it is not accepted by a real ERP integration policy. Five measures independently reconcile raw records, SQLite SQL queries, and published KPI values. The candidate replaces `dashboard.json` only after serialization and validation. Failed runs retain the last approved public file.
 
@@ -67,6 +87,17 @@ MIT licensed. See LICENSE.
 [Release screenshots](screenshots/README.md) show executive analytics, sales, controls, architecture, and an investigation. Domain summaries are calculated from full source populations; financial comparisons follow the selected overview period.
 
 Configuration: `DATRIXON_RANDOM_SEED` (legacy `NORTHSTAR_RANDOM_SEED` supported), `DATRIXON_AS_OF_DATE` (default 2025-12-31). The latter controls business time, not the deployment clock. Validation requires the current versioned control registry.
+
+## Review the V2 proof in five minutes
+
+1. Open Executive Overview and Sales to inspect the retained business analytics.
+2. Open Reconciliation to compare independent source, warehouse and published totals.
+3. Select Gross Margin in Metric Catalog, then **Trace this metric**. Select a source/warehouse node to see downstream impact.
+4. Ask **What was revenue in 2025?** in Governed Assistant and expand Answer provenance.
+5. Switch the demo role to Sales and ask **What was gross margin?** to see a denied policy decision.
+6. Open Failure Simulator and inject reconciliation failure, then restore approved evidence. No approved data is modified.
+
+The controls establish evidence about this synthetic implementation. They do not demonstrate general-ledger certification, customer savings, live Dynamics integration, production identity, or enterprise-scale availability.
 
 ## Final verification commands
 

@@ -1,0 +1,870 @@
+{
+  "version": "1.0.0",
+  "sources": [
+    {
+      "source": "Customer",
+      "version": "1.0.0",
+      "columns": {
+        "CustomerID": {
+          "type": "string",
+          "nullable": false,
+          "sensitivity": "Internal"
+        },
+        "CustomerName": {
+          "type": "string",
+          "nullable": false,
+          "sensitivity": "Internal"
+        },
+        "CustomerGroup": {
+          "type": "string",
+          "nullable": false,
+          "sensitivity": "Internal"
+        },
+        "AddressLine1": {
+          "type": "string",
+          "nullable": false,
+          "sensitivity": "Restricted"
+        },
+        "City": {
+          "type": "string",
+          "nullable": false,
+          "sensitivity": "Internal"
+        },
+        "State": {
+          "type": "string",
+          "nullable": false,
+          "sensitivity": "Internal"
+        },
+        "ZipCode": {
+          "type": "string",
+          "nullable": false,
+          "sensitivity": "Internal"
+        },
+        "Region": {
+          "type": "string",
+          "nullable": false,
+          "sensitivity": "Internal",
+          "allowed_values": [
+            "West",
+            "South",
+            "Midwest",
+            "East"
+          ]
+        },
+        "SalesRepID": {
+          "type": "string",
+          "nullable": false,
+          "sensitivity": "Internal"
+        },
+        "CreditLimit": {
+          "type": "integer",
+          "nullable": false,
+          "sensitivity": "Confidential"
+        },
+        "PaymentTerms": {
+          "type": "string",
+          "nullable": false,
+          "sensitivity": "Internal"
+        },
+        "CreatedDate": {
+          "type": "date",
+          "nullable": false,
+          "sensitivity": "Internal"
+        },
+        "Status": {
+          "type": "string",
+          "nullable": false,
+          "sensitivity": "Internal",
+          "allowed_values": [
+            "Active"
+          ]
+        }
+      },
+      "keys": [
+        "CustomerID"
+      ],
+      "grain": "CustomerID",
+      "owner": "Synthetic ERP source steward",
+      "sensitivity": "Internal",
+      "refresh_frequency": "Weekly synthetic batch",
+      "freshness_expectation": "192 hours since batch publication; business cutoff is historical"
+    },
+    {
+      "source": "CustomerReturn",
+      "version": "1.0.0",
+      "columns": {
+        "ReturnID": {
+          "type": "string",
+          "nullable": false,
+          "sensitivity": "Internal"
+        },
+        "SalesOrderID": {
+          "type": "string",
+          "nullable": false,
+          "sensitivity": "Internal"
+        },
+        "InvoiceID": {
+          "type": "string",
+          "nullable": false,
+          "sensitivity": "Internal"
+        },
+        "InvoiceLineNumber": {
+          "type": "integer",
+          "nullable": false,
+          "sensitivity": "Internal"
+        },
+        "CustomerID": {
+          "type": "string",
+          "nullable": false,
+          "sensitivity": "Internal"
+        },
+        "ProductID": {
+          "type": "string",
+          "nullable": false,
+          "sensitivity": "Internal"
+        },
+        "ReturnDate": {
+          "type": "date",
+          "nullable": false,
+          "sensitivity": "Internal"
+        },
+        "ReturnQuantity": {
+          "type": "integer",
+          "nullable": false,
+          "sensitivity": "Internal"
+        },
+        "ReturnReason": {
+          "type": "string",
+          "nullable": false,
+          "sensitivity": "Internal",
+          "allowed_values": [
+            "Quality Issue",
+            "Damaged",
+            "Shipping Damage",
+            "Wrong Product",
+            "Customer Changed Mind",
+            "Short Dated",
+            "Other"
+          ]
+        },
+        "ReturnAmount": {
+          "type": "number",
+          "nullable": false,
+          "sensitivity": "Internal"
+        }
+      },
+      "keys": [
+        "ReturnID"
+      ],
+      "grain": "ReturnID",
+      "owner": "Synthetic ERP source steward",
+      "sensitivity": "Internal",
+      "refresh_frequency": "Weekly synthetic batch",
+      "freshness_expectation": "192 hours since batch publication; business cutoff is historical"
+    },
+    {
+      "source": "InventoryTransaction",
+      "version": "1.0.0",
+      "columns": {
+        "InventoryTransactionID": {
+          "type": "string",
+          "nullable": false,
+          "sensitivity": "Internal"
+        },
+        "ProductID": {
+          "type": "string",
+          "nullable": false,
+          "sensitivity": "Internal"
+        },
+        "WarehouseID": {
+          "type": "string",
+          "nullable": false,
+          "sensitivity": "Internal"
+        },
+        "TransactionDate": {
+          "type": "date",
+          "nullable": false,
+          "sensitivity": "Internal"
+        },
+        "TransactionType": {
+          "type": "string",
+          "nullable": false,
+          "sensitivity": "Internal",
+          "allowed_values": [
+            "Opening Balance",
+            "Sales Shipment",
+            "Customer Return",
+            "Purchase Receipt"
+          ]
+        },
+        "Quantity": {
+          "type": "integer",
+          "nullable": false,
+          "sensitivity": "Internal"
+        },
+        "ReferenceNumber": {
+          "type": "string",
+          "nullable": false,
+          "sensitivity": "Internal"
+        },
+        "UnitCost": {
+          "type": "number",
+          "nullable": false,
+          "sensitivity": "Internal"
+        }
+      },
+      "keys": [
+        "InventoryTransactionID"
+      ],
+      "grain": "InventoryTransactionID",
+      "owner": "Synthetic ERP source steward",
+      "sensitivity": "Internal",
+      "refresh_frequency": "Weekly synthetic batch",
+      "freshness_expectation": "192 hours since batch publication; business cutoff is historical"
+    },
+    {
+      "source": "InvoiceHeader",
+      "version": "1.0.0",
+      "columns": {
+        "InvoiceID": {
+          "type": "string",
+          "nullable": false,
+          "sensitivity": "Internal"
+        },
+        "SalesOrderID": {
+          "type": "string",
+          "nullable": false,
+          "sensitivity": "Internal"
+        },
+        "CustomerID": {
+          "type": "string",
+          "nullable": false,
+          "sensitivity": "Internal"
+        },
+        "InvoiceDate": {
+          "type": "date",
+          "nullable": false,
+          "sensitivity": "Internal"
+        },
+        "InvoiceStatus": {
+          "type": "string",
+          "nullable": false,
+          "sensitivity": "Internal",
+          "allowed_values": [
+            "Posted"
+          ]
+        }
+      },
+      "keys": [
+        "InvoiceID"
+      ],
+      "grain": "InvoiceID",
+      "owner": "Synthetic ERP source steward",
+      "sensitivity": "Internal",
+      "refresh_frequency": "Weekly synthetic batch",
+      "freshness_expectation": "192 hours since batch publication; business cutoff is historical"
+    },
+    {
+      "source": "InvoiceLine",
+      "version": "1.0.0",
+      "columns": {
+        "InvoiceID": {
+          "type": "string",
+          "nullable": false,
+          "sensitivity": "Internal"
+        },
+        "LineNumber": {
+          "type": "integer",
+          "nullable": false,
+          "sensitivity": "Internal"
+        },
+        "SalesOrderID": {
+          "type": "string",
+          "nullable": false,
+          "sensitivity": "Internal"
+        },
+        "ProductID": {
+          "type": "string",
+          "nullable": false,
+          "sensitivity": "Internal"
+        },
+        "Quantity": {
+          "type": "integer",
+          "nullable": false,
+          "sensitivity": "Internal"
+        },
+        "UnitPrice": {
+          "type": "number",
+          "nullable": false,
+          "sensitivity": "Internal"
+        },
+        "DiscountAmount": {
+          "type": "number",
+          "nullable": false,
+          "sensitivity": "Internal"
+        },
+        "Revenue": {
+          "type": "number",
+          "nullable": false,
+          "sensitivity": "Internal"
+        },
+        "UnitCost": {
+          "type": "number",
+          "nullable": false,
+          "sensitivity": "Internal"
+        },
+        "COGS": {
+          "type": "number",
+          "nullable": false,
+          "sensitivity": "Internal"
+        },
+        "GrossProfit": {
+          "type": "number",
+          "nullable": false,
+          "sensitivity": "Internal"
+        }
+      },
+      "keys": [
+        "InvoiceID",
+        "LineNumber"
+      ],
+      "grain": "InvoiceID + LineNumber",
+      "owner": "Synthetic ERP source steward",
+      "sensitivity": "Internal",
+      "refresh_frequency": "Weekly synthetic batch",
+      "freshness_expectation": "192 hours since batch publication; business cutoff is historical"
+    },
+    {
+      "source": "Product",
+      "version": "1.0.0",
+      "columns": {
+        "ProductID": {
+          "type": "string",
+          "nullable": false,
+          "sensitivity": "Internal"
+        },
+        "SKU": {
+          "type": "string",
+          "nullable": false,
+          "sensitivity": "Internal"
+        },
+        "ProductName": {
+          "type": "string",
+          "nullable": false,
+          "sensitivity": "Internal"
+        },
+        "BrandID": {
+          "type": "string",
+          "nullable": false,
+          "sensitivity": "Internal"
+        },
+        "CategoryID": {
+          "type": "string",
+          "nullable": false,
+          "sensitivity": "Internal"
+        },
+        "CategoryName": {
+          "type": "string",
+          "nullable": false,
+          "sensitivity": "Internal"
+        },
+        "VendorID": {
+          "type": "string",
+          "nullable": false,
+          "sensitivity": "Internal"
+        },
+        "UnitCost": {
+          "type": "number",
+          "nullable": false,
+          "sensitivity": "Internal"
+        },
+        "StandardPrice": {
+          "type": "number",
+          "nullable": false,
+          "sensitivity": "Internal"
+        },
+        "PackSize": {
+          "type": "integer",
+          "nullable": false,
+          "sensitivity": "Internal"
+        },
+        "LaunchDate": {
+          "type": "date",
+          "nullable": false,
+          "sensitivity": "Internal"
+        },
+        "DiscontinuedFlag": {
+          "type": "boolean",
+          "nullable": false,
+          "sensitivity": "Internal"
+        },
+        "Status": {
+          "type": "string",
+          "nullable": false,
+          "sensitivity": "Internal",
+          "allowed_values": [
+            "Active"
+          ]
+        }
+      },
+      "keys": [
+        "ProductID"
+      ],
+      "grain": "ProductID",
+      "owner": "Synthetic ERP source steward",
+      "sensitivity": "Internal",
+      "refresh_frequency": "Weekly synthetic batch",
+      "freshness_expectation": "192 hours since batch publication; business cutoff is historical"
+    },
+    {
+      "source": "PurchaseOrderHeader",
+      "version": "1.0.0",
+      "columns": {
+        "PONumber": {
+          "type": "string",
+          "nullable": false,
+          "sensitivity": "Internal"
+        },
+        "VendorID": {
+          "type": "string",
+          "nullable": false,
+          "sensitivity": "Internal"
+        },
+        "WarehouseID": {
+          "type": "string",
+          "nullable": false,
+          "sensitivity": "Internal"
+        },
+        "CreatedDate": {
+          "type": "date",
+          "nullable": false,
+          "sensitivity": "Internal"
+        },
+        "ExpectedDeliveryDate": {
+          "type": "date",
+          "nullable": false,
+          "sensitivity": "Internal"
+        },
+        "POStatus": {
+          "type": "string",
+          "nullable": false,
+          "sensitivity": "Internal",
+          "allowed_values": [
+            "Open",
+            "Partially Received",
+            "Fully Received"
+          ]
+        },
+        "CreatedBy": {
+          "type": "string",
+          "nullable": false,
+          "sensitivity": "Internal"
+        }
+      },
+      "keys": [
+        "PONumber"
+      ],
+      "grain": "PONumber",
+      "owner": "Synthetic ERP source steward",
+      "sensitivity": "Internal",
+      "refresh_frequency": "Weekly synthetic batch",
+      "freshness_expectation": "192 hours since batch publication; business cutoff is historical"
+    },
+    {
+      "source": "PurchaseOrderLine",
+      "version": "1.0.0",
+      "columns": {
+        "PONumber": {
+          "type": "string",
+          "nullable": false,
+          "sensitivity": "Internal"
+        },
+        "LineNumber": {
+          "type": "integer",
+          "nullable": false,
+          "sensitivity": "Internal"
+        },
+        "ProductID": {
+          "type": "string",
+          "nullable": false,
+          "sensitivity": "Internal"
+        },
+        "OrderedQuantity": {
+          "type": "integer",
+          "nullable": false,
+          "sensitivity": "Internal"
+        },
+        "ReceivedQuantity": {
+          "type": "integer",
+          "nullable": false,
+          "sensitivity": "Internal"
+        },
+        "RemainingQuantity": {
+          "type": "integer",
+          "nullable": false,
+          "sensitivity": "Internal"
+        },
+        "UnitCost": {
+          "type": "number",
+          "nullable": false,
+          "sensitivity": "Internal"
+        },
+        "LineAmount": {
+          "type": "number",
+          "nullable": false,
+          "sensitivity": "Internal"
+        }
+      },
+      "keys": [
+        "PONumber",
+        "LineNumber"
+      ],
+      "grain": "PONumber + LineNumber",
+      "owner": "Synthetic ERP source steward",
+      "sensitivity": "Internal",
+      "refresh_frequency": "Weekly synthetic batch",
+      "freshness_expectation": "192 hours since batch publication; business cutoff is historical"
+    },
+    {
+      "source": "PurchaseReceipt",
+      "version": "1.0.0",
+      "columns": {
+        "ReceiptID": {
+          "type": "string",
+          "nullable": false,
+          "sensitivity": "Internal"
+        },
+        "PONumber": {
+          "type": "string",
+          "nullable": false,
+          "sensitivity": "Internal"
+        },
+        "LineNumber": {
+          "type": "integer",
+          "nullable": false,
+          "sensitivity": "Internal"
+        },
+        "ProductID": {
+          "type": "string",
+          "nullable": false,
+          "sensitivity": "Internal"
+        },
+        "ReceiptDate": {
+          "type": "date",
+          "nullable": false,
+          "sensitivity": "Internal"
+        },
+        "QuantityReceived": {
+          "type": "integer",
+          "nullable": false,
+          "sensitivity": "Internal"
+        },
+        "WarehouseID": {
+          "type": "string",
+          "nullable": false,
+          "sensitivity": "Internal"
+        }
+      },
+      "keys": [
+        "ReceiptID"
+      ],
+      "grain": "ReceiptID",
+      "owner": "Synthetic ERP source steward",
+      "sensitivity": "Internal",
+      "refresh_frequency": "Weekly synthetic batch",
+      "freshness_expectation": "192 hours since batch publication; business cutoff is historical"
+    },
+    {
+      "source": "SalesOrderHeader",
+      "version": "1.0.0",
+      "columns": {
+        "SalesOrderID": {
+          "type": "string",
+          "nullable": false,
+          "sensitivity": "Internal"
+        },
+        "CustomerID": {
+          "type": "string",
+          "nullable": false,
+          "sensitivity": "Internal"
+        },
+        "SalesRepID": {
+          "type": "string",
+          "nullable": false,
+          "sensitivity": "Internal"
+        },
+        "WarehouseID": {
+          "type": "string",
+          "nullable": false,
+          "sensitivity": "Internal"
+        },
+        "OrderDate": {
+          "type": "date",
+          "nullable": false,
+          "sensitivity": "Internal"
+        },
+        "RequestedShipDate": {
+          "type": "date",
+          "nullable": false,
+          "sensitivity": "Internal"
+        },
+        "ActualShipDate": {
+          "type": "date",
+          "nullable": true,
+          "sensitivity": "Internal"
+        },
+        "OrderStatus": {
+          "type": "string",
+          "nullable": false,
+          "sensitivity": "Internal",
+          "allowed_values": [
+            "Invoiced",
+            "Shipped",
+            "Backordered",
+            "Cancelled",
+            "Open"
+          ]
+        },
+        "Channel": {
+          "type": "string",
+          "nullable": false,
+          "sensitivity": "Internal",
+          "allowed_values": [
+            "Direct Sales",
+            "Online",
+            "Key Accounts",
+            "Marketplace",
+            "Inside Sales"
+          ]
+        },
+        "CustomerPO": {
+          "type": "string",
+          "nullable": false,
+          "sensitivity": "Internal"
+        },
+        "OrderCreatedTimestamp": {
+          "type": "date",
+          "nullable": false,
+          "sensitivity": "Internal"
+        }
+      },
+      "keys": [
+        "SalesOrderID"
+      ],
+      "grain": "SalesOrderID",
+      "owner": "Synthetic ERP source steward",
+      "sensitivity": "Internal",
+      "refresh_frequency": "Weekly synthetic batch",
+      "freshness_expectation": "192 hours since batch publication; business cutoff is historical"
+    },
+    {
+      "source": "SalesOrderLine",
+      "version": "1.0.0",
+      "columns": {
+        "SalesOrderID": {
+          "type": "string",
+          "nullable": false,
+          "sensitivity": "Internal"
+        },
+        "LineNumber": {
+          "type": "integer",
+          "nullable": false,
+          "sensitivity": "Internal"
+        },
+        "ProductID": {
+          "type": "string",
+          "nullable": false,
+          "sensitivity": "Internal"
+        },
+        "Quantity": {
+          "type": "integer",
+          "nullable": false,
+          "sensitivity": "Internal"
+        },
+        "UnitPrice": {
+          "type": "number",
+          "nullable": false,
+          "sensitivity": "Internal"
+        },
+        "DiscountPercent": {
+          "type": "number",
+          "nullable": false,
+          "sensitivity": "Internal"
+        },
+        "DiscountAmount": {
+          "type": "number",
+          "nullable": false,
+          "sensitivity": "Internal"
+        },
+        "LineRevenue": {
+          "type": "number",
+          "nullable": false,
+          "sensitivity": "Internal"
+        },
+        "UnitCost": {
+          "type": "number",
+          "nullable": false,
+          "sensitivity": "Internal"
+        },
+        "LineCOGS": {
+          "type": "number",
+          "nullable": false,
+          "sensitivity": "Internal"
+        },
+        "GrossProfit": {
+          "type": "number",
+          "nullable": false,
+          "sensitivity": "Internal"
+        }
+      },
+      "keys": [
+        "SalesOrderID",
+        "LineNumber"
+      ],
+      "grain": "SalesOrderID + LineNumber",
+      "owner": "Synthetic ERP source steward",
+      "sensitivity": "Internal",
+      "refresh_frequency": "Weekly synthetic batch",
+      "freshness_expectation": "192 hours since batch publication; business cutoff is historical"
+    },
+    {
+      "source": "SalesRep",
+      "version": "1.0.0",
+      "columns": {
+        "SalesRepID": {
+          "type": "string",
+          "nullable": false,
+          "sensitivity": "Internal"
+        },
+        "SalesRepName": {
+          "type": "string",
+          "nullable": false,
+          "sensitivity": "Internal"
+        },
+        "Region": {
+          "type": "string",
+          "nullable": false,
+          "sensitivity": "Internal",
+          "allowed_values": [
+            "West",
+            "South",
+            "Midwest",
+            "East"
+          ]
+        },
+        "Territory": {
+          "type": "string",
+          "nullable": false,
+          "sensitivity": "Internal"
+        },
+        "HireDate": {
+          "type": "date",
+          "nullable": false,
+          "sensitivity": "Internal"
+        },
+        "Status": {
+          "type": "string",
+          "nullable": false,
+          "sensitivity": "Internal",
+          "allowed_values": [
+            "Active"
+          ]
+        }
+      },
+      "keys": [
+        "SalesRepID"
+      ],
+      "grain": "SalesRepID",
+      "owner": "Synthetic ERP source steward",
+      "sensitivity": "Internal",
+      "refresh_frequency": "Weekly synthetic batch",
+      "freshness_expectation": "192 hours since batch publication; business cutoff is historical"
+    },
+    {
+      "source": "Vendor",
+      "version": "1.0.0",
+      "columns": {
+        "VendorID": {
+          "type": "string",
+          "nullable": false,
+          "sensitivity": "Internal"
+        },
+        "VendorName": {
+          "type": "string",
+          "nullable": false,
+          "sensitivity": "Internal"
+        },
+        "City": {
+          "type": "string",
+          "nullable": false,
+          "sensitivity": "Internal"
+        },
+        "State": {
+          "type": "string",
+          "nullable": false,
+          "sensitivity": "Internal"
+        },
+        "PaymentTerms": {
+          "type": "string",
+          "nullable": false,
+          "sensitivity": "Internal"
+        },
+        "StandardLeadTimeDays": {
+          "type": "integer",
+          "nullable": false,
+          "sensitivity": "Internal"
+        },
+        "Status": {
+          "type": "string",
+          "nullable": false,
+          "sensitivity": "Internal",
+          "allowed_values": [
+            "Active"
+          ]
+        }
+      },
+      "keys": [
+        "VendorID"
+      ],
+      "grain": "VendorID",
+      "owner": "Synthetic ERP source steward",
+      "sensitivity": "Internal",
+      "refresh_frequency": "Weekly synthetic batch",
+      "freshness_expectation": "192 hours since batch publication; business cutoff is historical"
+    },
+    {
+      "source": "Warehouse",
+      "version": "1.0.0",
+      "columns": {
+        "WarehouseID": {
+          "type": "string",
+          "nullable": false,
+          "sensitivity": "Internal"
+        },
+        "WarehouseName": {
+          "type": "string",
+          "nullable": false,
+          "sensitivity": "Internal"
+        },
+        "City": {
+          "type": "string",
+          "nullable": false,
+          "sensitivity": "Internal"
+        },
+        "State": {
+          "type": "string",
+          "nullable": false,
+          "sensitivity": "Internal"
+        }
+      },
+      "keys": [
+        "WarehouseID"
+      ],
+      "grain": "WarehouseID",
+      "owner": "Synthetic ERP source steward",
+      "sensitivity": "Internal",
+      "refresh_frequency": "Weekly synthetic batch",
+      "freshness_expectation": "192 hours since batch publication; business cutoff is historical"
+    }
+  ]
+}

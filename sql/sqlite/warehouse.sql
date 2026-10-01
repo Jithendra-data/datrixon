@@ -6,6 +6,9 @@ CREATE TABLE DimProduct(ProductID TEXT PRIMARY KEY, ProductName TEXT, CategoryNa
 CREATE TABLE DimWarehouse(WarehouseID TEXT PRIMARY KEY, WarehouseName TEXT);
 CREATE TABLE DimVendor(VendorID TEXT PRIMARY KEY, VendorName TEXT);
 CREATE TABLE DimSalesRep(SalesRepID TEXT PRIMARY KEY, SalesRepName TEXT);
+-- V2 reference table preserves booking/service grain without changing invoice facts.
+CREATE TABLE OrderService(SalesOrderID TEXT PRIMARY KEY, OrderDate TEXT NOT NULL REFERENCES DimDate,
+ ActualShipDate TEXT REFERENCES DimDate, RequestedShipDate TEXT NOT NULL, OrderStatus TEXT NOT NULL);
 CREATE TABLE FactSales(InvoiceID TEXT, LineNumber INTEGER, DateKey TEXT NOT NULL REFERENCES DimDate,
  CustomerID TEXT NOT NULL REFERENCES DimCustomer, ProductID TEXT NOT NULL REFERENCES DimProduct,
  WarehouseID TEXT NOT NULL REFERENCES DimWarehouse, SalesRepID TEXT NOT NULL REFERENCES DimSalesRep,

@@ -26,11 +26,14 @@ jobs:
       - name: Unit and reporting regression tests
         run: |
           python -m unittest discover -s tests -p 'test_*.py' -v
-          node --test tests/metrics.test.cjs tests/decisions.test.cjs
+          node --test tests/metrics.test.cjs tests/decisions.test.cjs tests/governance.test.cjs
+          python -m tests.security_scan
       - name: Isolated pipeline and replay integration
         run: python -m tests.smoke_pipeline
       - name: Validate published dataset
-        run: python -m validation.publication
+        run: |
+          python -m validation.publication
+          python -m governance.validate
       - name: Browser regression and failure recovery
         run: pnpm test:browser
       - name: JavaScript syntax
@@ -40,3 +43,5 @@ jobs:
           node --check web/js/metrics.js
           node --check web/js/reliability.js
           node --check web/js/decisions.js
+          node --check web/js/governance.js
+          node --check web/js/governed-ai.js

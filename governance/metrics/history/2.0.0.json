@@ -1,0 +1,874 @@
+{
+  "version": "2.0.0",
+  "certification_scope": "Repository-reviewed demonstration definitions; not enterprise Finance signoff",
+  "metrics": [
+    {
+      "metric_id": "revenue",
+      "display_name": "Invoiced Revenue",
+      "business_definition": "Sum of posted invoice revenue after discounts, before physical returns; excludes tax and freight.",
+      "calculation": "SELECT COALESCE(SUM(Revenue),0) FROM FactSales WHERE DateKey BETWEEN :start AND :end",
+      "sql": "SELECT COALESCE(SUM(Revenue),0) FROM FactSales WHERE DateKey BETWEEN :start AND :end",
+      "source_tables": [
+        "FactSales"
+      ],
+      "source_columns": [
+        "FactSales.DateKey",
+        "FactSales.Revenue"
+      ],
+      "grain": "Invoice line",
+      "aggregation_type": "sum",
+      "filters": "Through configured business cutoff; posted invoices only where applicable",
+      "exclusions": "No taxes, freight, rebates, GL balances or credit-note accounting",
+      "owner": "Sales owner (demo)",
+      "steward": "Data Engineering (demo)",
+      "domain": "Sales",
+      "sensitivity": "Internal",
+      "refresh_frequency": "Weekly synthetic refresh",
+      "reconciliation_rule": [
+        "Revenue"
+      ],
+      "tolerance": 0.01,
+      "effective_date": "2026-10-01",
+      "version": "1.0.0",
+      "status": "ACTIVE",
+      "certification_status": "CERTIFIED_DEMO",
+      "permitted_roles": [
+        "Executive",
+        "Finance",
+        "Sales",
+        "Data Analyst",
+        "Data Engineer",
+        "Administrator"
+      ],
+      "downstream_consumers": [
+        "dashboard:overview",
+        "dashboard:sales",
+        "catalog:revenue"
+      ],
+      "unit": "USD",
+      "published_path": "executive_kpis.revenue",
+      "period_support": true,
+      "implementation": "IMPLEMENTED"
+    },
+    {
+      "metric_id": "gross_profit",
+      "display_name": "Gross Profit",
+      "business_definition": "Posted invoice revenue minus generated line COGS; excludes rebates and overhead.",
+      "calculation": "SELECT COALESCE(SUM(GrossProfit),0) FROM FactSales WHERE DateKey BETWEEN :start AND :end",
+      "sql": "SELECT COALESCE(SUM(GrossProfit),0) FROM FactSales WHERE DateKey BETWEEN :start AND :end",
+      "source_tables": [
+        "FactSales"
+      ],
+      "source_columns": [
+        "FactSales.DateKey",
+        "FactSales.GrossProfit"
+      ],
+      "grain": "Invoice line",
+      "aggregation_type": "sum",
+      "filters": "Through configured business cutoff; posted invoices only where applicable",
+      "exclusions": "No taxes, freight, rebates, GL balances or credit-note accounting",
+      "owner": "Finance owner (demo)",
+      "steward": "Data Engineering (demo)",
+      "domain": "Finance",
+      "sensitivity": "Internal",
+      "refresh_frequency": "Weekly synthetic refresh",
+      "reconciliation_rule": [
+        "GrossProfit"
+      ],
+      "tolerance": 0.01,
+      "effective_date": "2026-10-01",
+      "version": "1.0.0",
+      "status": "ACTIVE",
+      "certification_status": "CERTIFIED_DEMO",
+      "permitted_roles": [
+        "Executive",
+        "Finance",
+        "Data Analyst",
+        "Data Engineer",
+        "Administrator"
+      ],
+      "downstream_consumers": [
+        "dashboard:overview",
+        "dashboard:sales",
+        "catalog:gross_profit"
+      ],
+      "unit": "USD",
+      "published_path": "executive_kpis.gross_profit",
+      "period_support": true,
+      "implementation": "IMPLEMENTED"
+    },
+    {
+      "metric_id": "gross_margin",
+      "display_name": "Gross Margin",
+      "business_definition": "Aggregate gross profit divided by aggregate posted invoice revenue. Undefined at zero revenue.",
+      "calculation": "SELECT SUM(GrossProfit)/NULLIF(SUM(Revenue),0) FROM FactSales WHERE DateKey BETWEEN :start AND :end",
+      "sql": "SELECT SUM(GrossProfit)/NULLIF(SUM(Revenue),0) FROM FactSales WHERE DateKey BETWEEN :start AND :end",
+      "source_tables": [
+        "FactSales"
+      ],
+      "source_columns": [
+        "FactSales.DateKey",
+        "FactSales.GrossProfit",
+        "FactSales.Revenue"
+      ],
+      "grain": "Invoice line",
+      "aggregation_type": "ratio",
+      "filters": "Through configured business cutoff; posted invoices only where applicable",
+      "exclusions": "No taxes, freight, rebates, GL balances or credit-note accounting",
+      "owner": "Finance owner (demo)",
+      "steward": "Data Engineering (demo)",
+      "domain": "Finance",
+      "sensitivity": "Internal",
+      "refresh_frequency": "Weekly synthetic refresh",
+      "reconciliation_rule": [
+        "Revenue",
+        "GrossProfit"
+      ],
+      "tolerance": 1e-06,
+      "effective_date": "2026-10-01",
+      "version": "1.0.0",
+      "status": "ACTIVE",
+      "certification_status": "CERTIFIED_DEMO",
+      "permitted_roles": [
+        "Executive",
+        "Finance",
+        "Data Analyst",
+        "Data Engineer",
+        "Administrator"
+      ],
+      "downstream_consumers": [
+        "dashboard:overview",
+        "dashboard:sales",
+        "catalog:gross_margin"
+      ],
+      "unit": "ratio",
+      "published_path": "executive_kpis.gross_margin",
+      "period_support": true,
+      "implementation": "IMPLEMENTED"
+    },
+    {
+      "metric_id": "units",
+      "display_name": "Invoiced Units",
+      "business_definition": "Sum of quantity on posted invoice lines.",
+      "calculation": "SELECT COALESCE(SUM(Quantity),0) FROM FactSales WHERE DateKey BETWEEN :start AND :end",
+      "sql": "SELECT COALESCE(SUM(Quantity),0) FROM FactSales WHERE DateKey BETWEEN :start AND :end",
+      "source_tables": [
+        "FactSales"
+      ],
+      "source_columns": [
+        "FactSales.DateKey",
+        "FactSales.Quantity"
+      ],
+      "grain": "Invoice line",
+      "aggregation_type": "sum",
+      "filters": "Through configured business cutoff; posted invoices only where applicable",
+      "exclusions": "No taxes, freight, rebates, GL balances or credit-note accounting",
+      "owner": "Sales owner (demo)",
+      "steward": "Data Engineering (demo)",
+      "domain": "Sales",
+      "sensitivity": "Internal",
+      "refresh_frequency": "Weekly synthetic refresh",
+      "reconciliation_rule": [
+        "Units"
+      ],
+      "tolerance": 1e-06,
+      "effective_date": "2026-10-01",
+      "version": "1.0.0",
+      "status": "ACTIVE",
+      "certification_status": "CERTIFIED_DEMO",
+      "permitted_roles": [
+        "Executive",
+        "Finance",
+        "Sales",
+        "Data Analyst",
+        "Data Engineer",
+        "Administrator"
+      ],
+      "downstream_consumers": [
+        "dashboard:sales",
+        "catalog:units"
+      ],
+      "unit": "units",
+      "published_path": "executive_kpis.units",
+      "period_support": true,
+      "implementation": "IMPLEMENTED"
+    },
+    {
+      "metric_id": "orders",
+      "display_name": "Order Volume",
+      "business_definition": "Distinct order headers by order date, including open and cancelled states. Bookings are not invoices.",
+      "calculation": "SELECT COUNT(DISTINCT SalesOrderID) FROM OrderService WHERE OrderDate BETWEEN :start AND :end",
+      "sql": "SELECT COUNT(DISTINCT SalesOrderID) FROM OrderService WHERE OrderDate BETWEEN :start AND :end",
+      "source_tables": [
+        "OrderService"
+      ],
+      "source_columns": [
+        "OrderService.OrderDate",
+        "OrderService.SalesOrderID"
+      ],
+      "grain": "Order header",
+      "aggregation_type": "count",
+      "filters": "Through configured business cutoff; posted invoices only where applicable",
+      "exclusions": "No taxes, freight, rebates, GL balances or credit-note accounting",
+      "owner": "Sales owner (demo)",
+      "steward": "Data Engineering (demo)",
+      "domain": "Sales",
+      "sensitivity": "Internal",
+      "refresh_frequency": "Weekly synthetic refresh",
+      "reconciliation_rule": [],
+      "tolerance": 1e-06,
+      "effective_date": "2026-10-01",
+      "version": "1.0.0",
+      "status": "ACTIVE",
+      "certification_status": "CERTIFIED_DEMO",
+      "permitted_roles": [
+        "Executive",
+        "Finance",
+        "Sales",
+        "Data Analyst",
+        "Data Engineer",
+        "Administrator"
+      ],
+      "downstream_consumers": [
+        "dashboard:overview",
+        "dashboard:sales",
+        "catalog:orders"
+      ],
+      "unit": "orders",
+      "published_path": "executive_kpis.orders",
+      "period_support": true,
+      "implementation": "IMPLEMENTED"
+    },
+    {
+      "metric_id": "customers",
+      "display_name": "Invoiced Customers",
+      "business_definition": "Distinct customers with invoice activity in the complete dataset.",
+      "calculation": "SELECT COUNT(DISTINCT CustomerID) FROM FactSales WHERE DateKey BETWEEN :start AND :end",
+      "sql": "SELECT COUNT(DISTINCT CustomerID) FROM FactSales WHERE DateKey BETWEEN :start AND :end",
+      "source_tables": [
+        "FactSales"
+      ],
+      "source_columns": [
+        "FactSales.CustomerID",
+        "FactSales.DateKey"
+      ],
+      "grain": "Customer",
+      "aggregation_type": "count",
+      "filters": "Through configured business cutoff; posted invoices only where applicable",
+      "exclusions": "No taxes, freight, rebates, GL balances or credit-note accounting",
+      "owner": "Customers owner (demo)",
+      "steward": "Data Engineering (demo)",
+      "domain": "Customers",
+      "sensitivity": "Internal",
+      "refresh_frequency": "Weekly synthetic refresh",
+      "reconciliation_rule": [],
+      "tolerance": 1e-06,
+      "effective_date": "2026-10-01",
+      "version": "1.0.0",
+      "status": "ACTIVE",
+      "certification_status": "CERTIFIED_DEMO",
+      "permitted_roles": [
+        "Executive",
+        "Sales",
+        "Data Analyst",
+        "Data Engineer",
+        "Administrator"
+      ],
+      "downstream_consumers": [
+        "dashboard:overview",
+        "dashboard:customers",
+        "catalog:customers"
+      ],
+      "unit": "customers",
+      "published_path": "executive_kpis.customers",
+      "period_support": false,
+      "implementation": "IMPLEMENTED"
+    },
+    {
+      "metric_id": "inventory_value",
+      "display_name": "Inventory Balance",
+      "business_definition": "Signed ending quantity times current product cost, including negative ledger positions. Not accounting valuation.",
+      "calculation": "SELECT COALESCE(SUM(f.Quantity*p.UnitCost),0) FROM FactInventory f JOIN DimProduct p USING(ProductID)",
+      "sql": "SELECT COALESCE(SUM(f.Quantity*p.UnitCost),0) FROM FactInventory f JOIN DimProduct p USING(ProductID)",
+      "source_tables": [
+        "DimProduct",
+        "FactInventory"
+      ],
+      "source_columns": [
+        "DimProduct.ProductID",
+        "DimProduct.UnitCost",
+        "FactInventory.ProductID",
+        "FactInventory.Quantity"
+      ],
+      "grain": "Product / warehouse movement",
+      "aggregation_type": "sum",
+      "filters": "Through configured business cutoff; posted invoices only where applicable",
+      "exclusions": "No taxes, freight, rebates, GL balances or credit-note accounting",
+      "owner": "Inventory owner (demo)",
+      "steward": "Data Engineering (demo)",
+      "domain": "Inventory",
+      "sensitivity": "Internal",
+      "refresh_frequency": "Weekly synthetic refresh",
+      "reconciliation_rule": [
+        "EndingInventoryValue"
+      ],
+      "tolerance": 0.01,
+      "effective_date": "2026-10-01",
+      "version": "1.0.0",
+      "status": "ACTIVE",
+      "certification_status": "CERTIFIED_DEMO",
+      "permitted_roles": [
+        "Executive",
+        "Operations",
+        "Data Analyst",
+        "Data Engineer",
+        "Administrator"
+      ],
+      "downstream_consumers": [
+        "dashboard:overview",
+        "dashboard:inventory",
+        "catalog:inventory_value"
+      ],
+      "unit": "USD",
+      "published_path": "executive_kpis.inventory_value",
+      "period_support": false,
+      "implementation": "IMPLEMENTED"
+    },
+    {
+      "metric_id": "inventory_exposure",
+      "display_name": "Inventory Exposure",
+      "business_definition": "Positive ending stock with zero shipments in trailing 90 days at current product cost. Investigation candidate, not obsolete stock.",
+      "calculation": "WITH positions AS (SELECT ProductID,WarehouseID,SUM(Quantity) qty,SUM(CASE WHEN TransactionType='Sales Shipment' AND DateKey>date(:cutoff,'-' || :movement_window_days || ' days') AND DateKey<=:cutoff THEN ABS(Quantity) ELSE 0 END) shipped FROM FactInventory GROUP BY ProductID,WarehouseID) SELECT COALESCE(SUM(qty*p.UnitCost),0) FROM positions JOIN DimProduct p USING(ProductID) WHERE qty>0 AND shipped=0",
+      "sql": "WITH positions AS (SELECT ProductID,WarehouseID,SUM(Quantity) qty,SUM(CASE WHEN TransactionType='Sales Shipment' AND DateKey>date(:cutoff,'-' || :movement_window_days || ' days') AND DateKey<=:cutoff THEN ABS(Quantity) ELSE 0 END) shipped FROM FactInventory GROUP BY ProductID,WarehouseID) SELECT COALESCE(SUM(qty*p.UnitCost),0) FROM positions JOIN DimProduct p USING(ProductID) WHERE qty>0 AND shipped=0",
+      "source_tables": [
+        "DimProduct",
+        "FactInventory"
+      ],
+      "source_columns": [
+        "DimProduct.ProductID",
+        "DimProduct.UnitCost",
+        "FactInventory.DateKey",
+        "FactInventory.ProductID",
+        "FactInventory.Quantity",
+        "FactInventory.TransactionType",
+        "FactInventory.WarehouseID"
+      ],
+      "grain": "Product / warehouse",
+      "aggregation_type": "sum",
+      "filters": "Through configured business cutoff; posted invoices only where applicable",
+      "exclusions": "No taxes, freight, rebates, GL balances or credit-note accounting",
+      "owner": "Inventory owner (demo)",
+      "steward": "Data Engineering (demo)",
+      "domain": "Inventory",
+      "sensitivity": "Internal",
+      "refresh_frequency": "Weekly synthetic refresh",
+      "reconciliation_rule": [
+        "EndingInventoryValue"
+      ],
+      "tolerance": 0.01,
+      "effective_date": "2026-10-01",
+      "version": "1.0.0",
+      "status": "ACTIVE",
+      "certification_status": "CERTIFIED_DEMO",
+      "permitted_roles": [
+        "Executive",
+        "Operations",
+        "Data Analyst",
+        "Data Engineer",
+        "Administrator"
+      ],
+      "downstream_consumers": [
+        "dashboard:overview",
+        "dashboard:inventory",
+        "catalog:inventory_exposure"
+      ],
+      "unit": "USD",
+      "published_path": "business_findings.dead_inventory_value",
+      "period_support": false,
+      "implementation": "IMPLEMENTED"
+    },
+    {
+      "metric_id": "inventory_velocity",
+      "display_name": "Inventory Velocity",
+      "business_definition": "Shipment units in the trailing 90-day window divided by 90; full distribution network.",
+      "calculation": "SELECT COALESCE(SUM(ABS(Quantity)),0)/CAST(:movement_window_days AS REAL) FROM FactInventory WHERE TransactionType='Sales Shipment' AND DateKey>date(:cutoff,'-' || :movement_window_days || ' days') AND DateKey<=:cutoff",
+      "sql": "SELECT COALESCE(SUM(ABS(Quantity)),0)/CAST(:movement_window_days AS REAL) FROM FactInventory WHERE TransactionType='Sales Shipment' AND DateKey>date(:cutoff,'-' || :movement_window_days || ' days') AND DateKey<=:cutoff",
+      "source_tables": [
+        "FactInventory"
+      ],
+      "source_columns": [
+        "FactInventory.DateKey",
+        "FactInventory.Quantity",
+        "FactInventory.TransactionType"
+      ],
+      "grain": "Distribution network per day",
+      "aggregation_type": "ratio",
+      "filters": "Through configured business cutoff; posted invoices only where applicable",
+      "exclusions": "No taxes, freight, rebates, GL balances or credit-note accounting",
+      "owner": "Inventory owner (demo)",
+      "steward": "Data Engineering (demo)",
+      "domain": "Inventory",
+      "sensitivity": "Internal",
+      "refresh_frequency": "Weekly synthetic refresh",
+      "reconciliation_rule": [],
+      "tolerance": 1e-06,
+      "effective_date": "2026-10-01",
+      "version": "1.0.0",
+      "status": "ACTIVE",
+      "certification_status": "CERTIFIED_DEMO",
+      "permitted_roles": [
+        "Executive",
+        "Operations",
+        "Data Analyst",
+        "Data Engineer",
+        "Administrator"
+      ],
+      "downstream_consumers": [
+        "dashboard:inventory",
+        "catalog:inventory_velocity"
+      ],
+      "unit": "units/day",
+      "published_path": null,
+      "period_support": false,
+      "implementation": "IMPLEMENTED"
+    },
+    {
+      "metric_id": "inactive_customers",
+      "display_name": "Inactive Valuable Customers",
+      "business_definition": "Customers with at least $25,000 historical invoiced revenue and more than 60 days since last invoice.",
+      "calculation": "SELECT COUNT(*) FROM (SELECT CustomerID FROM FactSales GROUP BY CustomerID HAVING SUM(Revenue)>=:valuable_customer_revenue AND julianday(:cutoff)-julianday(MAX(DateKey))>:inactive_days)",
+      "sql": "SELECT COUNT(*) FROM (SELECT CustomerID FROM FactSales GROUP BY CustomerID HAVING SUM(Revenue)>=:valuable_customer_revenue AND julianday(:cutoff)-julianday(MAX(DateKey))>:inactive_days)",
+      "source_tables": [
+        "FactSales"
+      ],
+      "source_columns": [
+        "FactSales.CustomerID",
+        "FactSales.DateKey",
+        "FactSales.Revenue"
+      ],
+      "grain": "Customer",
+      "aggregation_type": "count",
+      "filters": "Through configured business cutoff; posted invoices only where applicable",
+      "exclusions": "No taxes, freight, rebates, GL balances or credit-note accounting",
+      "owner": "Customers owner (demo)",
+      "steward": "Data Engineering (demo)",
+      "domain": "Customers",
+      "sensitivity": "Internal",
+      "refresh_frequency": "Weekly synthetic refresh",
+      "reconciliation_rule": [],
+      "tolerance": 1e-06,
+      "effective_date": "2026-10-01",
+      "version": "1.0.0",
+      "status": "ACTIVE",
+      "certification_status": "CERTIFIED_DEMO",
+      "permitted_roles": [
+        "Executive",
+        "Sales",
+        "Data Analyst",
+        "Data Engineer",
+        "Administrator"
+      ],
+      "downstream_consumers": [
+        "dashboard:overview",
+        "dashboard:customers",
+        "catalog:inactive_customers"
+      ],
+      "unit": "customers",
+      "published_path": "business_findings.valuable_customers_inactive_over_60_days",
+      "period_support": false,
+      "implementation": "IMPLEMENTED"
+    },
+    {
+      "metric_id": "vendor_fill_rate",
+      "display_name": "Vendor Fill Rate",
+      "business_definition": "Received divided by ordered quantity over all PO lines, including open lines. Not OTIF.",
+      "calculation": "SELECT SUM(ReceivedQuantity)*1.0/NULLIF(SUM(OrderedQuantity),0) FROM FactPurchasing",
+      "sql": "SELECT SUM(ReceivedQuantity)*1.0/NULLIF(SUM(OrderedQuantity),0) FROM FactPurchasing",
+      "source_tables": [
+        "FactPurchasing"
+      ],
+      "source_columns": [
+        "FactPurchasing.OrderedQuantity",
+        "FactPurchasing.ReceivedQuantity"
+      ],
+      "grain": "PO line",
+      "aggregation_type": "ratio",
+      "filters": "Through configured business cutoff; posted invoices only where applicable",
+      "exclusions": "No taxes, freight, rebates, GL balances or credit-note accounting",
+      "owner": "Purchasing owner (demo)",
+      "steward": "Data Engineering (demo)",
+      "domain": "Purchasing",
+      "sensitivity": "Internal",
+      "refresh_frequency": "Weekly synthetic refresh",
+      "reconciliation_rule": [],
+      "tolerance": 1e-06,
+      "effective_date": "2026-10-01",
+      "version": "1.0.0",
+      "status": "ACTIVE",
+      "certification_status": "CERTIFIED_DEMO",
+      "permitted_roles": [
+        "Executive",
+        "Finance",
+        "Operations",
+        "Data Analyst",
+        "Data Engineer",
+        "Administrator"
+      ],
+      "downstream_consumers": [
+        "dashboard:purchasing",
+        "catalog:vendor_fill_rate"
+      ],
+      "unit": "ratio",
+      "published_path": null,
+      "period_support": false,
+      "implementation": "IMPLEMENTED"
+    },
+    {
+      "metric_id": "overdue_purchase_orders",
+      "display_name": "Overdue Purchase Orders",
+      "business_definition": "Distinct POs with remaining quantity and an expected delivery date strictly before business cutoff.",
+      "calculation": "SELECT COUNT(DISTINCT PONumber) FROM FactPurchasing WHERE RemainingQuantity>0 AND ExpectedDeliveryDate<:cutoff",
+      "sql": "SELECT COUNT(DISTINCT PONumber) FROM FactPurchasing WHERE RemainingQuantity>0 AND ExpectedDeliveryDate<:cutoff",
+      "source_tables": [
+        "FactPurchasing"
+      ],
+      "source_columns": [
+        "FactPurchasing.ExpectedDeliveryDate",
+        "FactPurchasing.PONumber",
+        "FactPurchasing.RemainingQuantity"
+      ],
+      "grain": "PO header",
+      "aggregation_type": "count",
+      "filters": "Through configured business cutoff; posted invoices only where applicable",
+      "exclusions": "No taxes, freight, rebates, GL balances or credit-note accounting",
+      "owner": "Purchasing owner (demo)",
+      "steward": "Data Engineering (demo)",
+      "domain": "Purchasing",
+      "sensitivity": "Internal",
+      "refresh_frequency": "Weekly synthetic refresh",
+      "reconciliation_rule": [],
+      "tolerance": 1e-06,
+      "effective_date": "2026-10-01",
+      "version": "1.0.0",
+      "status": "ACTIVE",
+      "certification_status": "CERTIFIED_DEMO",
+      "permitted_roles": [
+        "Executive",
+        "Finance",
+        "Operations",
+        "Data Analyst",
+        "Data Engineer",
+        "Administrator"
+      ],
+      "downstream_consumers": [
+        "dashboard:purchasing",
+        "catalog:overdue_purchase_orders"
+      ],
+      "unit": "orders",
+      "published_path": null,
+      "period_support": false,
+      "implementation": "IMPLEMENTED"
+    },
+    {
+      "metric_id": "open_po_value",
+      "display_name": "Outstanding Purchasing Exposure",
+      "business_definition": "Unreceived quantity multiplied by PO line unit cost, including future-due commitments.",
+      "calculation": "SELECT COALESCE(SUM(RemainingQuantity*UnitCost),0) FROM FactPurchasing",
+      "sql": "SELECT COALESCE(SUM(RemainingQuantity*UnitCost),0) FROM FactPurchasing",
+      "source_tables": [
+        "FactPurchasing"
+      ],
+      "source_columns": [
+        "FactPurchasing.RemainingQuantity",
+        "FactPurchasing.UnitCost"
+      ],
+      "grain": "PO line",
+      "aggregation_type": "sum",
+      "filters": "Through configured business cutoff; posted invoices only where applicable",
+      "exclusions": "No taxes, freight, rebates, GL balances or credit-note accounting",
+      "owner": "Purchasing owner (demo)",
+      "steward": "Data Engineering (demo)",
+      "domain": "Purchasing",
+      "sensitivity": "Internal",
+      "refresh_frequency": "Weekly synthetic refresh",
+      "reconciliation_rule": [
+        "OpenPOValue"
+      ],
+      "tolerance": 0.01,
+      "effective_date": "2026-10-01",
+      "version": "1.0.0",
+      "status": "ACTIVE",
+      "certification_status": "CERTIFIED_DEMO",
+      "permitted_roles": [
+        "Executive",
+        "Finance",
+        "Operations",
+        "Data Analyst",
+        "Data Engineer",
+        "Administrator"
+      ],
+      "downstream_consumers": [
+        "dashboard:overview",
+        "dashboard:purchasing",
+        "catalog:open_po_value"
+      ],
+      "unit": "USD",
+      "published_path": "executive_kpis.open_po_value",
+      "period_support": false,
+      "implementation": "IMPLEMENTED"
+    },
+    {
+      "metric_id": "overdue_po_value",
+      "display_name": "Overdue Purchasing Exposure",
+      "business_definition": "Unreceived PO line value with expected delivery date before business cutoff.",
+      "calculation": "SELECT COALESCE(SUM(RemainingQuantity*UnitCost),0) FROM FactPurchasing WHERE RemainingQuantity>0 AND ExpectedDeliveryDate<:cutoff",
+      "sql": "SELECT COALESCE(SUM(RemainingQuantity*UnitCost),0) FROM FactPurchasing WHERE RemainingQuantity>0 AND ExpectedDeliveryDate<:cutoff",
+      "source_tables": [
+        "FactPurchasing"
+      ],
+      "source_columns": [
+        "FactPurchasing.ExpectedDeliveryDate",
+        "FactPurchasing.RemainingQuantity",
+        "FactPurchasing.UnitCost"
+      ],
+      "grain": "PO line",
+      "aggregation_type": "sum",
+      "filters": "Through configured business cutoff; posted invoices only where applicable",
+      "exclusions": "No taxes, freight, rebates, GL balances or credit-note accounting",
+      "owner": "Purchasing owner (demo)",
+      "steward": "Data Engineering (demo)",
+      "domain": "Purchasing",
+      "sensitivity": "Internal",
+      "refresh_frequency": "Weekly synthetic refresh",
+      "reconciliation_rule": [
+        "OpenPOValue"
+      ],
+      "tolerance": 0.01,
+      "effective_date": "2026-10-01",
+      "version": "1.0.0",
+      "status": "ACTIVE",
+      "certification_status": "CERTIFIED_DEMO",
+      "permitted_roles": [
+        "Executive",
+        "Finance",
+        "Operations",
+        "Data Analyst",
+        "Data Engineer",
+        "Administrator"
+      ],
+      "downstream_consumers": [
+        "dashboard:overview",
+        "dashboard:purchasing",
+        "catalog:overdue_po_value"
+      ],
+      "unit": "USD",
+      "published_path": "business_findings.overdue_po_value",
+      "period_support": false,
+      "implementation": "IMPLEMENTED"
+    },
+    {
+      "metric_id": "on_time_shipment_rate",
+      "display_name": "On-time Shipment Rate",
+      "business_definition": "Shipped orders meeting requested ship date divided by shipped orders. Not delivery OTIF.",
+      "calculation": "SELECT AVG(CASE WHEN ActualShipDate<=RequestedShipDate THEN 1.0 ELSE 0 END) FROM OrderService WHERE ActualShipDate IS NOT NULL",
+      "sql": "SELECT AVG(CASE WHEN ActualShipDate<=RequestedShipDate THEN 1.0 ELSE 0 END) FROM OrderService WHERE ActualShipDate IS NOT NULL",
+      "source_tables": [
+        "OrderService"
+      ],
+      "source_columns": [
+        "OrderService.ActualShipDate",
+        "OrderService.RequestedShipDate"
+      ],
+      "grain": "Shipped order",
+      "aggregation_type": "ratio",
+      "filters": "Through configured business cutoff; posted invoices only where applicable",
+      "exclusions": "No taxes, freight, rebates, GL balances or credit-note accounting",
+      "owner": "Operations owner (demo)",
+      "steward": "Data Engineering (demo)",
+      "domain": "Operations",
+      "sensitivity": "Internal",
+      "refresh_frequency": "Weekly synthetic refresh",
+      "reconciliation_rule": [],
+      "tolerance": 1e-06,
+      "effective_date": "2026-10-01",
+      "version": "1.0.0",
+      "status": "ACTIVE",
+      "certification_status": "CERTIFIED_DEMO",
+      "permitted_roles": [
+        "Executive",
+        "Operations",
+        "Data Analyst",
+        "Data Engineer",
+        "Administrator"
+      ],
+      "downstream_consumers": [
+        "dashboard:overview",
+        "dashboard:operations",
+        "catalog:on_time_shipment_rate"
+      ],
+      "unit": "ratio",
+      "published_path": "business_findings.on_time_shipment_rate",
+      "period_support": false,
+      "implementation": "IMPLEMENTED"
+    },
+    {
+      "metric_id": "order_to_ship_days",
+      "display_name": "Mean Order-to-Ship Days",
+      "business_definition": "Mean actual ship date minus order date among shipped orders.",
+      "calculation": "SELECT AVG(julianday(ActualShipDate)-julianday(OrderDate)) FROM OrderService WHERE ActualShipDate IS NOT NULL",
+      "sql": "SELECT AVG(julianday(ActualShipDate)-julianday(OrderDate)) FROM OrderService WHERE ActualShipDate IS NOT NULL",
+      "source_tables": [
+        "OrderService"
+      ],
+      "source_columns": [
+        "OrderService.ActualShipDate",
+        "OrderService.OrderDate"
+      ],
+      "grain": "Shipped order",
+      "aggregation_type": "average",
+      "filters": "Through configured business cutoff; posted invoices only where applicable",
+      "exclusions": "No taxes, freight, rebates, GL balances or credit-note accounting",
+      "owner": "Operations owner (demo)",
+      "steward": "Data Engineering (demo)",
+      "domain": "Operations",
+      "sensitivity": "Internal",
+      "refresh_frequency": "Weekly synthetic refresh",
+      "reconciliation_rule": [],
+      "tolerance": 1e-06,
+      "effective_date": "2026-10-01",
+      "version": "1.0.0",
+      "status": "ACTIVE",
+      "certification_status": "CERTIFIED_DEMO",
+      "permitted_roles": [
+        "Executive",
+        "Operations",
+        "Data Analyst",
+        "Data Engineer",
+        "Administrator"
+      ],
+      "downstream_consumers": [
+        "dashboard:operations",
+        "catalog:order_to_ship_days"
+      ],
+      "unit": "days",
+      "published_path": "decision_evidence.operations.mean_days",
+      "period_support": false,
+      "implementation": "IMPLEMENTED"
+    },
+    {
+      "metric_id": "net_sales",
+      "display_name": "Net Sales",
+      "business_definition": "Not certified: physical returns do not establish posted credit-note accounting. No net-of-credits revenue is claimed.",
+      "calculation": "UNDEFINED \u2014 business approval required",
+      "sql": null,
+      "source_tables": [],
+      "source_columns": [],
+      "grain": "Requires approved invoice / credit-note grain",
+      "aggregation_type": "sum",
+      "filters": "Through configured business cutoff; posted invoices only where applicable",
+      "exclusions": "No taxes, freight, rebates, GL balances or credit-note accounting",
+      "owner": "Finance owner (demo)",
+      "steward": "Data Engineering (demo)",
+      "domain": "Finance",
+      "sensitivity": "Internal",
+      "refresh_frequency": "Weekly synthetic refresh",
+      "reconciliation_rule": [],
+      "tolerance": 0.01,
+      "effective_date": "2026-10-01",
+      "version": "1.0.0",
+      "status": "DRAFT",
+      "certification_status": "DRAFT",
+      "permitted_roles": [
+        "Executive",
+        "Finance",
+        "Data Analyst",
+        "Data Engineer",
+        "Administrator"
+      ],
+      "downstream_consumers": [
+        "catalog:net_sales"
+      ],
+      "unit": "USD",
+      "published_path": null,
+      "period_support": false,
+      "implementation": "FUTURE ENTERPRISE CAPABILITY"
+    },
+    {
+      "metric_id": "average_order_value",
+      "display_name": "Average Order Value",
+      "business_definition": "Not certified: requires booking revenue and an explicit eligible-order cancellation policy. Never divide invoice revenue by bookings.",
+      "calculation": "UNDEFINED \u2014 business approval required",
+      "sql": null,
+      "source_tables": [],
+      "source_columns": [],
+      "grain": "Eligible booked order",
+      "aggregation_type": "ratio",
+      "filters": "Through configured business cutoff; posted invoices only where applicable",
+      "exclusions": "No taxes, freight, rebates, GL balances or credit-note accounting",
+      "owner": "Sales owner (demo)",
+      "steward": "Data Engineering (demo)",
+      "domain": "Sales",
+      "sensitivity": "Internal",
+      "refresh_frequency": "Weekly synthetic refresh",
+      "reconciliation_rule": [],
+      "tolerance": 1e-06,
+      "effective_date": "2026-10-01",
+      "version": "1.0.0",
+      "status": "DRAFT",
+      "certification_status": "DRAFT",
+      "permitted_roles": [
+        "Executive",
+        "Finance",
+        "Sales",
+        "Data Analyst",
+        "Data Engineer",
+        "Administrator"
+      ],
+      "downstream_consumers": [
+        "catalog:average_order_value"
+      ],
+      "unit": "USD/order",
+      "published_path": null,
+      "period_support": false,
+      "implementation": "FUTURE ENTERPRISE CAPABILITY"
+    },
+    {
+      "metric_id": "return_rate",
+      "display_name": "Return Rate",
+      "business_definition": "Not certified: a period and denominator policy is required. Existing return amounts and reason counts remain available.",
+      "calculation": "UNDEFINED \u2014 business approval required",
+      "sql": null,
+      "source_tables": [],
+      "source_columns": [],
+      "grain": "Requires approved return / sales cohort",
+      "aggregation_type": "ratio",
+      "filters": "Through configured business cutoff; posted invoices only where applicable",
+      "exclusions": "No taxes, freight, rebates, GL balances or credit-note accounting",
+      "owner": "Operations owner (demo)",
+      "steward": "Data Engineering (demo)",
+      "domain": "Operations",
+      "sensitivity": "Internal",
+      "refresh_frequency": "Weekly synthetic refresh",
+      "reconciliation_rule": [],
+      "tolerance": 1e-06,
+      "effective_date": "2026-10-01",
+      "version": "1.0.0",
+      "status": "DRAFT",
+      "certification_status": "DRAFT",
+      "permitted_roles": [
+        "Executive",
+        "Operations",
+        "Data Analyst",
+        "Data Engineer",
+        "Administrator"
+      ],
+      "downstream_consumers": [
+        "catalog:return_rate"
+      ],
+      "unit": "ratio",
+      "published_path": null,
+      "period_support": false,
+      "implementation": "FUTURE ENTERPRISE CAPABILITY"
+    }
+  ]
+}

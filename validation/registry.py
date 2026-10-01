@@ -1,6 +1,6 @@
 """Versioned publication contract. Append IDs; never recycle their meanings."""
 CONTROL_VERSION = 2
-CONTRACT_VERSION = 4
+CONTRACT_VERSION = 5
 NAMES = (
     'Duplicate InvoiceID', 'Duplicate SalesOrderID', 'Duplicate PONumber',
     'Orphan invoice lines', 'Invoices without sales orders', 'Orphan order lines',

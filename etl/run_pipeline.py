@@ -20,6 +20,9 @@ from utils.helpers import write_csv, write_json
 from validation.run_data_quality_checks import validate
 from validation.reconciliation import reconcile
 from validation.publication import enforce_controls, validate_contract
+from governance.contracts import validate_sources, enforce_contracts
+from governance.build import build_governance
+from governance.audit import AuditLog
 
 def run(generate=True, orders=NUM_SALES_ORDERS, purchase_orders=NUM_PURCHASE_ORDERS, raw_dir=RAW_DIR, processed_dir=PROCESSED_DIR, web_dir=WEB_DATA_DIR):
     import shutil
@@ -32,6 +35,8 @@ def run(generate=True, orders=NUM_SALES_ORDERS, purchase_orders=NUM_PURCHASE_ORD
     started=time.perf_counter(); timings={}; stage='initialization'
     raw_dir.mkdir(parents=True,exist_ok=True); processed_dir.mkdir(parents=True,exist_ok=True)
     bundle=processed_dir/'runs'/run_id; bundle.mkdir(parents=True,exist_ok=True)
+    audit=AuditLog(bundle/'audit.jsonl',run_id)
+    audit.record('pipeline_started')
     config=dict(seed=RANDOM_SEED,orders=orders,purchase_orders=purchase_orders,start_date=START_DATE,as_of_date=AS_OF_DATE)
     generation_file=raw_dir/'generation_manifest.json'
     def hashes():return {p.name:hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted(raw_dir.glob('*.csv'))}
@@ -41,7 +46,7 @@ def run(generate=True, orders=NUM_SALES_ORDERS, purchase_orders=NUM_PURCHASE_ORD
             if orders<1 or purchase_orders<1:raise ValueError('Order counts must be positive')
             masters=create_master_data()
             for name,frame in {**masters,**build_transactions(masters,orders,purchase_orders)}.items():write_csv(frame,raw_dir/f'{name}.csv')
-            write_json(dict(configuration=config,input_sha256=hashes()),generation_file)
+            write_json(dict(configuration=config,input_sha256=hashes(),source_contract_version='1.0.0'),generation_file)
         input_hashes=hashes()
         generation=json.loads(generation_file.read_text(encoding='utf-8')) if generation_file.exists() else {}
         known=generation.get('input_sha256')==input_hashes
@@ -52,12 +57,19 @@ def run(generate=True, orders=NUM_SALES_ORDERS, purchase_orders=NUM_PURCHASE_ORD
         write_csv(pd.DataFrame(checks),processed_dir/'data_quality.csv')
         write_csv(pd.DataFrame(checks),bundle/'data_quality.csv')
         enforce_controls(checks,synthetic=True)
+        audit.record('source_validated')
+        stage='source_contracts'
+        contract_results=validate_sources(raw_dir,generation.get('source_contract_version','1.0.0'))
+        write_json(contract_results,bundle/'contracts.json')
+        enforce_contracts(contract_results)
+        audit.record('contracts_validated')
         write_csv(pd.DataFrame(checks),processed_dir/'data_quality.csv')
         stage='staging'
         for source in raw_dir.glob('*.csv'):clean_file(source,processed_dir)
         stage='warehouse'
         warehouse=processed_dir/'warehouse.sqlite'
         counts=load_warehouse(processed_dir,warehouse)
+        audit.record('warehouse_loaded')
         stage='analytics'
         data=build(processed_dir,processed_dir,warehouse)
         timings['validation_model_seconds']=round(time.perf_counter()-checkpoint,3);checkpoint=time.perf_counter()
@@ -66,6 +78,7 @@ def run(generate=True, orders=NUM_SALES_ORDERS, purchase_orders=NUM_PURCHASE_ORD
         payload['data_quality']={'results':checks,'summary':summarize(checks)}
         stage='reconciliation'
         rec=reconcile(raw_dir,warehouse,payload);payload['reconciliation']=rec.to_dict(orient='records')
+        audit.record('reconciliation_executed','PASS' if rec.Status.eq('PASS').all() else 'FAIL')
         write_csv(rec,processed_dir/'reconciliation.csv');write_csv(rec,bundle/'reconciliation.csv')
         _,peak=tracemalloc.get_traced_memory()
         timings['export_reconcile_seconds']=round(time.perf_counter()-checkpoint,3);timings['total_seconds']=round(time.perf_counter()-started,3)
@@ -85,8 +98,15 @@ def run(generate=True, orders=NUM_SALES_ORDERS, purchase_orders=NUM_PURCHASE_ORD
             dependencies={p:importlib.metadata.version(p) for p in ['pandas','numpy','Faker']},
             input_sha256=input_hashes,commit=commit,working_tree_dirty=dirty,
             workflow_run=os.getenv('GITHUB_RUN_ID'),deployment_identity='Recorded separately by GitHub Pages deployment')
+        stage='governance'
+        governance_started=time.perf_counter()
+        build_governance(payload,warehouse,contract_results,audit)
+        timings['governance_seconds']=round(time.perf_counter()-governance_started,3)
+        timings['total_seconds']=round(time.perf_counter()-started,3)
+        payload['pipeline_metadata']['peak_python_allocations_mb']=round(tracemalloc.get_traced_memory()[1]/1024**2,2)
         stage='publication_contract'
         validate_contract(payload)
+        audit.record('publication_approved')
         web_dir.mkdir(parents=True,exist_ok=True)
         candidate=web_dir/'dashboard.candidate.json';write_json(payload,candidate)
         validate_contract(json.loads(candidate.read_text(encoding='utf-8')))
@@ -101,6 +121,7 @@ def run(generate=True, orders=NUM_SALES_ORDERS, purchase_orders=NUM_PURCHASE_ORD
         print(f'APPROVED: {counts}; {timings}')
         return payload
     except Exception as error:
+        audit.record('publication_rejected','FAIL',stage)
         failure=dict(build_id=run_id,status='FAILED',stage=stage,error_type=type(error).__name__,message=str(error),as_of_date=AS_OF_DATE)
         write_json(failure,bundle/'failure.json');write_json(failure,processed_dir/'failure.json')
         raise

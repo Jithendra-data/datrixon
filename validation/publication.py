@@ -62,6 +62,8 @@ def validate_contract(payload):
     enforce_controls(payload.get('data_quality',{}).get('results',[]),synthetic=payload.get('pipeline_metadata',{}).get('dataset_type')=='synthetic')
     if payload['data_quality'].get('summary') != summarize(payload['data_quality']['results']):
         raise ValueError('Control summary/detail mismatch')
+    from governance.build import validate_governance
+    validate_governance(payload)
 
 def main():
     import json

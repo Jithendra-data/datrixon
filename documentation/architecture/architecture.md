@@ -1,5 +1,7 @@
 # Executing architecture and reference data model
 
+**V2 extension:** this document describes the preserved V1 pipeline and model. Read [the executing V2 architecture](v2.md) for contracts, semantic governance, trust, lineage, the OrderService reference table and governed analytical answers.
+
 ## Implemented deployment
 
 ```mermaid

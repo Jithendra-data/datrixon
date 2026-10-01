@@ -24,6 +24,7 @@ def load_warehouse(source: Path, target: Path) -> dict:
         }.items(): insert('Dim'+name, read(name)[columns])
         dates = pd.date_range('2020-01-01','2035-12-31')
         insert('DimDate', pd.DataFrame({'DateKey':dates.strftime('%Y-%m-%d'),'YearMonth':dates.strftime('%Y-%m')}))
+        insert('OrderService', read('SalesOrderHeader')[['SalesOrderID','OrderDate','ActualShipDate','RequestedShipDate','OrderStatus']])
         sales = read('InvoiceLine').merge(read('InvoiceHeader')[['InvoiceID','InvoiceDate','CustomerID','InvoiceStatus']], on='InvoiceID', validate='many_to_one')
         sales = sales.merge(read('SalesOrderHeader')[['SalesOrderID','WarehouseID','SalesRepID']], on='SalesOrderID', validate='many_to_one')
         insert('FactSales',sales.rename(columns={'InvoiceDate':'DateKey'})[['InvoiceID','LineNumber','DateKey','CustomerID','ProductID','WarehouseID','SalesRepID','SalesOrderID','InvoiceStatus','Quantity','Revenue','COGS','DiscountAmount','GrossProfit']])

@@ -6,8 +6,10 @@ function setupProjectPage(){
  const mobile=document.querySelector('#mobile-nav');mobile.innerHTML=[...document.querySelectorAll('.sidebar nav a')].map(a=>`<option value="${a.hash}">${a.textContent.slice(1).trim()}</option>`).join('');mobile.addEventListener('change',()=>location.hash=mobile.value);
  const sync=()=>{
   const isProject=projectHashes.includes(location.hash);
-  project.hidden=!isProject;overview.hidden=isProject;
-  document.querySelector('.period').hidden=isProject;
+  const isGovernance=Object.hasOwn(governanceRoutes,location.hash.slice(1));
+  project.hidden=!isProject;overview.hidden=isProject||isGovernance;
+  document.querySelectorAll('.governance-page').forEach(s=>s.hidden=location.hash!=='#'+s.id);
+  document.querySelector('.period').hidden=isProject||isGovernance;
   const scope={inventory:'Inventory snapshot',quality:'Publication controls',customers:'All available customer history',sales:'All available sales history',purchasing:'Purchasing snapshot and receipt history',operations:'All available operations history'};
   const period=document.querySelector('.period');
   if(!period.dataset.financial)period.dataset.financial=period.textContent;
@@ -17,7 +19,7 @@ function setupProjectPage(){
   document.querySelector('.executive-home').hidden=domain;
   document.querySelectorAll('#overview > .placeholder-section').forEach(section=>section.hidden=location.hash!==`#${section.id}`);
   document.querySelectorAll('#overview > .architecture-teaser').forEach(teaser=>teaser.hidden=domain);
-  const mobile=document.querySelector('#mobile-nav');if(mobile)mobile.value=isProject?'#project-story':domain?location.hash:'#overview';
+  const mobile=document.querySelector('#mobile-nav');if(mobile)mobile.value=isProject?'#project-story':domain||isGovernance?location.hash:'#overview';
   document.querySelectorAll('.sidebar nav a').forEach(a=>{const active=isProject?a.hash==='#project-story':a.hash===(location.hash||'#overview');a.classList.toggle('active',active);if(active)a.setAttribute('aria-current','location');else a.removeAttribute('aria-current')});
   const activeLink=document.querySelector('.sidebar nav a.active');document.querySelector('.crumb').textContent='Datrixon / '+(isProject?'Project & Architecture':activeLink?.textContent.slice(1).trim()||'Executive overview');
   requestAnimationFrame(()=>{const target=document.querySelector(projectHashes.includes(location.hash)?location.hash:location.hash&&/^#[a-z-]+$/.test(location.hash)?location.hash:'#overview');if(!location.hash||location.hash==='#overview')window.scrollTo({top:0,behavior:'instant'});else target?.scrollIntoView({behavior:'instant',block:'start'});if(!isProject)window.dispatchEvent(new Event('resize'))});
