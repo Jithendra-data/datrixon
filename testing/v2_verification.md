@@ -34,4 +34,6 @@ The credential scanner checks nonignored/tracked source files for selected priva
 
 ## Release artifact check
 
-The final local replay built from clean commit `379bcd032f2957ee9ed4b705f7aa2b275a11b447` completed in 134.182 seconds (5.519 seconds for governance), with a 2,012,095-byte JSON artifact. Publication and governance validators passed against that artifact. A separate scan of 307 historical text blobs found no configured credential-pattern matches; this is heuristic scanning, not proof against all secrets. Pinned dependencies and Playwright Chromium were installed using the README commands.
+The initial committed-release replay built from clean commit `379bcd032f2957ee9ed4b705f7aa2b275a11b447` completed in 134.182 seconds (5.519 seconds for governance), with a 2,012,095-byte JSON artifact. Publication and governance validators passed against that artifact. A separate scan of 307 historical text blobs found no configured credential-pattern matches; this is heuristic scanning, not proof against all secrets. Pinned dependencies and Playwright Chromium were installed using the README commands.
+
+The canonical LF release replay from clean commit `5ef8361233735d7eb5a66f2283a98beb1ed063c8` completed in 132.144 seconds (5.703 seconds for governance), producing 1,945,342 bytes. The local publication manifest SHA-256 matches the exact JSON bytes; JSON serialization and Git attributes preserve those bytes across Windows and Pages. The full Python suite passed 67 tests in 78.371 seconds after this change.
